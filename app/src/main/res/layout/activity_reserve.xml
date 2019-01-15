@@ -55,31 +55,19 @@
         <EditText
             android:id="@+id/edPeoplesReserve"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="2"
-            android:shadowColor="@color/colorAccent"
-            android:inputType="numberSigned"
-            android:textColor="#ffffff"
-            android:theme="@style/MyEditText"
-            app:layout_constraintEnd_toEndOf="@+id/edPhoneReserve"
-            app:layout_constraintTop_toBottomOf="@+id/edPhoneReserve" />
-
-        <EditText
-            android:id="@+id/edPhoneReserve"
-            android:theme="@style/MyEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="+7"
-            android:inputType="phone"
+            android:ems="2"
+            android:inputType="numberSigned"
+            android:shadowColor="@color/colorAccent"
             android:textColor="#ffffff"
+            android:theme="@style/MyEditText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView24"
             app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
         <CheckBox
@@ -103,47 +91,18 @@
             app:layout_constraintTop_toBottomOf="@+id/tvTimeReserve" />
 
         <TextView
-            android:id="@+id/textView24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Телефон"
-            app:layout_constraintStart_toStartOf="@+id/edPhoneReserve"
-            app:layout_constraintTop_toBottomOf="@+id/edNameReserve" />
-
-        <TextView
-            android:id="@+id/textView25"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Ваше имя"
-            app:layout_constraintStart_toStartOf="@+id/edNameReserve"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/edNameReserve"
+            android:id="@+id/textView26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="#ffffff"
-            android:theme="@style/MyEditText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView25" />
-
-        <TextView
-            android:id="@+id/textView26"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Количество гостей"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/edPeoplesReserve"
-            app:layout_constraintStart_toStartOf="@+id/edPhoneReserve"
+            app:layout_constraintEnd_toStartOf="@+id/edPeoplesReserve"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/edPeoplesReserve" />
 
         <TextView
@@ -187,6 +146,20 @@
             app:layout_constraintEnd_toEndOf="@+id/textView37"
             app:layout_constraintStart_toStartOf="@+id/textView37"
             app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

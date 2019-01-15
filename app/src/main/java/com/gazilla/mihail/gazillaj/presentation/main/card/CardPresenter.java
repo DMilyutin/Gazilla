@@ -160,8 +160,10 @@ public class CardPresenter {
     }
 
     private void myWinn(DragonWheel wheel){
-        if(wheel.getWinType().equals("point"))
+        if(wheel.getWinType().equals("point")){
+            Log.i("Loog", "Колесо дракона показ выиграша - point = " + wheel.getId());
            cardView.myWin("point", String.valueOf(wheel.getId()) + " баллов", null);
+        }
         else
         {
             winById(wheel.getId());
@@ -195,7 +197,7 @@ public class CardPresenter {
             for(int iItems = 0; iItems<categories.get(iCategorys).getItems().size(); iItems++){
                 if(categories.get(iCategorys).getItems().get(iItems).getId() == id){
                     MenuItem item = categories.get(iCategorys).getItems().get(iItems);
-
+                    Log.i("Loog", "Колесо дракона показ выиграша - gift = " + item.getName());
                     cardView.myWin("gift", item.getName(), null);
                 }
             }

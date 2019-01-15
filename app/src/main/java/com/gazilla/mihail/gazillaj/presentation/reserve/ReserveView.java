@@ -8,4 +8,5 @@ public interface ReserveView {
     void putReserve(Reserve reserve, Boolean preorder);
     void resultReserve(String result);
     void showErrorr(String error);
+    void unRegUser();
 }

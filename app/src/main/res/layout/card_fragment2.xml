@@ -9,6 +9,7 @@
     android:background="@color/colorPrimaryDark">
 
     <ScrollView
+        android:id="@+id/scCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -22,8 +23,8 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:clickable="true">
+            android:clickable="true"
+            android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout11"
@@ -208,7 +209,6 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout4"
-                android:translationZ="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -218,6 +218,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/grey_oval_background"
                 android:minHeight="250dp"
+                android:translationZ="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/miniProgressLayout">
@@ -261,9 +262,9 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/gold_oval_background"
+                android:text="Забронировать столик"
                 android:textColor="#000000"
                 android:translationZ="3dp"
-                android:text="Забронировать столик"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

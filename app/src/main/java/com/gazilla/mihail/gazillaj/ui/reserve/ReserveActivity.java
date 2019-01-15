@@ -5,10 +5,14 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -19,6 +23,7 @@ import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.ReserveInteractor;
 import com.gazilla.mihail.gazillaj.presentation.reserve.ReservePresentation;
 import com.gazilla.mihail.gazillaj.presentation.reserve.ReserveView;
+import com.gazilla.mihail.gazillaj.ui.account.AccountActivity;
 import com.gazilla.mihail.gazillaj.utils.ErrorDialog;
 
 import java.text.SimpleDateFormat;
@@ -28,10 +33,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
 
     private ReservePresentation reservePresentation;
 
-    private EditText edName;
-    private EditText edPhone;
     private EditText pioples;
-    //private EditText hourses;
     private CheckBox predzakaz;
     private TextView tvDate;
     private TextView tvTime;
@@ -46,6 +48,9 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     private AlertDialog alertDialog;
 
 
+    private String name;
+    private String phone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,15 +60,14 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
             reservePresentation = new ReservePresentation(this, new ReserveInteractor(), this);
         }
 
+        reservePresentation.checkUserInfo();
+
         errorDialog = new ErrorDialog(this);
         dateAndTime = Calendar.getInstance();
 
         Button newReserve = findViewById(R.id.btNewReserve);
 
-        edName =findViewById(R.id.edNameReserve);
-        edPhone =findViewById(R.id.edPhoneReserve);
         pioples=findViewById(R.id.edPeoplesReserve);
-        //hourses=findViewById(R.id.edHoursesReserve);
         tvDate=findViewById(R.id.tvDateReserve);
         tvTime=findViewById(R.id.tvTimeReserve);
         predzakaz=findViewById(R.id.cbPredzakazReserve);
@@ -71,30 +75,20 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         checkUserInfo();
 
         tvDate.setOnClickListener(v -> {
-
-
-
             alertDialog = new DatePickerDialog(ReserveActivity.this, R.style.TimePike, d,
                     dateAndTime.get(Calendar.YEAR),
                     dateAndTime.get(Calendar.MONTH),
                     dateAndTime.get(Calendar.DAY_OF_MONTH));
-
-                    //alertDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.rgb(254, 194, 15));
-                    //alertDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.rgb(254, 194, 15));
-
                     alertDialog.show();
 
         })
         ;
 
         tvTime.setOnClickListener(v -> {
-            //TimePickerDialog timePickerDialog = TimePickerDialog.newInstance()
-
             new TimePickerDialog(ReserveActivity.this,R.style.TimePike,  t,
                     dateAndTime.get(Calendar.HOUR_OF_DAY),
                     dateAndTime.get(Calendar.MINUTE), true)
                     .show();
-
         });
 
         newReserve.setOnClickListener(v -> {
@@ -104,22 +98,22 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
                 return;
             }
 
-            if (!pioples.getText().toString().equals("")&&!edPhone.getText().toString().equals("")&&!edName.getText().toString().equals("")) {
+            if (!pioples.getText().toString().equals("")) {
 
                 int qty = Integer.parseInt(pioples.getText().toString());
                 //int hours = Integer.parseInt(hourses.getText().toString());
                 int hours = 1;
                 @SuppressLint("SimpleDateFormat") String dateFroReserve = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
                         .format(dateAndTime.getTimeInMillis());
-                String phon = checkPhone(edPhone.getText().toString());
-                if (!phon.equals("")) {
-                    String nam = edName.getText().toString();
+
+                if (!phone.equals("")&&!name.equals("")) {
+
                     String comment = "";
                     Boolean preorder = false;
 
                     if (predzakaz.isChecked()) preorder = true;
                     if (!predzakaz.isChecked()) preorder = false;
-                    Reserve reserve = new Reserve(qty, hours, dateFroReserve, phon, nam, comment);
+                    Reserve reserve = new Reserve(qty, hours, dateFroReserve, phone, name, comment);
                     putReserve(reserve, preorder);
                 } else
                     errorDialog.detailTargetProgress("Все поля должны быть заполнены");
@@ -184,8 +178,8 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
 
     @Override
     public void inputUserInfo(String name, String phone) {
-            edName.setText(name);
-            edPhone.setText(phone);
+           this.name = name;
+           this.phone = phone;
     }
 
     @Override
@@ -210,5 +204,57 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     @Override
     public void showErrorr(String error) {
         errorDialog.detailTargetProgress(error);
+    }
+
+    @Override
+    public void unRegUser() {
+        android.support.v7.app.AlertDialog errorDialog;
+
+        // предложить зарегестрироваться или позвонить
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialog = inflater.inflate(R.layout.dialog_un_reg_user, null);
+
+       Button btCall = dialog.findViewById(R.id.btCallDialogUnRegUser);
+
+
+       btCall.setOnClickListener(v ->  callInCofe());
+
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.MyDialogTheme);
+        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                onBackPressed();
+            }
+        }).setPositiveButton("Регистрация", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setView(dialog);
+        errorDialog = builder.create();
+        errorDialog.show();
+
+        Button bt = errorDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        bt.setTextColor(Color.rgb(254, 194, 15));
+
+        Button bt2 = errorDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        bt2.setTextColor(Color.rgb(254, 194, 15));
+    }
+
+    private void callInCofe(){
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:89652662222"));
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        reservePresentation.checkUserInfo();
     }
 }

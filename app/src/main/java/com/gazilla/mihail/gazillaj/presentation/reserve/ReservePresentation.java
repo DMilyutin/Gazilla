@@ -5,11 +5,13 @@ import android.util.Log;
 
 import com.gazilla.mihail.gazillaj.POJO.Reserve;
 import com.gazilla.mihail.gazillaj.POJO.Success;
+import com.gazilla.mihail.gazillaj.POJO.User;
 import com.gazilla.mihail.gazillaj.model.interactor.ReserveInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;
 
 import java.util.Calendar;
 
@@ -117,6 +119,30 @@ public class ReservePresentation {
         reserveView.inputUserInfo(name, phone);
     }
 
+    public void checkUserInfo(){
+        Initialization.repositoryApi.userData(new UserCallBack() {
+            @Override
+            public void userCallBack(User user) {
+                if(user.getName().equals("")||
+                   user.getEmail().equals("")||
+                   user.getPhone().equals("")){
+                    reserveView.unRegUser();
+                }
+                else
+                    reserveView.inputUserInfo(user.getName(), user.getPhone());
+            }
 
+            @Override
+            public void errorUser(String error) {
+
+            }
+        }, new FailCallBack() {
+            @Override
+            public void setError(Throwable throwable) {
+
+            }
+        });
+
+    }
 
 }
