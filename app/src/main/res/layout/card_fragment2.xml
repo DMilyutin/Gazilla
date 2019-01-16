@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/layoutMain"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/refresh"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -46,7 +46,8 @@
                     app:layout_constraintEnd_toEndOf="@+id/imgRuletka"
                     app:layout_constraintStart_toStartOf="@+id/imgRuletka"
                     app:layout_constraintTop_toTopOf="@+id/imgRuletka"
-                    app:srcCompat="@drawable/white_circle" />
+                    app:srcCompat="@drawable/white_circle"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/imgRuletka"
@@ -272,4 +273,4 @@
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

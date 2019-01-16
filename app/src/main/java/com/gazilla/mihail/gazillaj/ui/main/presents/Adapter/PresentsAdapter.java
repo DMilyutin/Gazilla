@@ -39,44 +39,51 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     private List<MenuCategory> menuCategories;
     private List<ImgGazilla> imgGazillas;
 
-    @SuppressLint("UseSparseArrays")
-    private HashMap<Integer, Boolean> favoritt = new HashMap<>();
+    private int[] favorite;
 
 
     //private ImageView imgFavorit;
 
 
+    @SuppressLint("UseSparseArrays")
     public PresentsAdapter(Context context, List<MenuCategory> menuCategories, List<ImgGazilla> imgGazillas) {
         this.context = context;
         this.menuCategories = menuCategories;
         this.imgGazillas = imgGazillas;
-        initMap(menuCategories);
+        favorite = init2(menuCategories);
     }
 
-    private void initMap(List<MenuCategory> categories){
-        int[] favor = Initialization.userWithKeys.getFavorites();
 
 
-            for(int iCategories = 0; iCategories < categories.size(); iCategories++ ){
+    private int[] init2(List<MenuCategory> categories){
+        int[] favor = Initialization.userWithKeys.getFavorites();  // список id которые в любимом
 
-                for(int iItem = 0; iItem<categories.get(iCategories).getItems().size(); iItem++){
 
-                    Integer id = categories.get(iCategories).getItems().get(iItem).getId();
+        int max = categories.get(categories.size()-1).getItems().get(categories.get(categories.size()-1).getItems().size()-1).getId();
+        Log.i("Loog" ," max = categories - " + max);
+        int[] mapFavorit = new int[max+1];
 
-                    for (Integer aFavor : favor) {
+        for (int z = 0; z<max+1;z++)
+            mapFavorit[z]=0;
 
-                        if (id.equals(aFavor)){
 
-                            favoritt.put(id, true);
-                            Log.i("Loog", id +"!!! равны 2 !!! " + favoritt.get(2));
-                        }
-                        else{
-                            favoritt.put(id, false);
-                        }
-                    }
+        for(int iCategories = 0; iCategories < categories.size(); iCategories++ ){
+
+            for(int iItem = 0; iItem<categories.get(iCategories).getItems().size(); iItem++){
+
+                int id = categories.get(iCategories).getItems().get(iItem).getId();
+
+                for (int i = 0; i<favor.length;i++){
+                    if(favor[i]==id)
+                        mapFavorit[id]=1;
                 }
+
             }
-        Log.i("Loog", "favoritt.toString()" + favoritt.toString());
+        }
+        for (int it: mapFavorit) {
+            Log.i("Loog" ,"return mapFavorit " + it);
+        }
+        return mapFavorit;
     }
 
     @Override
@@ -141,9 +148,9 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         Log.i("Loog", "id menu item - " + menuItem.getId());
 
         int favor;
-        if (favoritt.get(menuItem.getId()))
-            favor = R.drawable.ic_grade_gold_24dp;
-        else
+        if (favorite[menuItem.getId()]==1)
+           favor = R.drawable.ic_grade_gold_24dp;
+       else
             favor = R.drawable.ic_grade_grey24dp;
 
         ((ImageView) convertView.findViewById(R.id.imgMiniItemMemu)).setImageResource(R.drawable.gaz);
@@ -153,9 +160,9 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         ((ImageView) convertView.findViewById(R.id.imgFavoritIcon)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Loog" , "Нажали на фаворит! сейчас статус - " + favoritt);
+                Log.i("Loog" , "Нажали на фаворит! сейчас статус - " + favorite);
                 //imgFavorit.setClickable(false);
-                if (favoritt.get(menuItem.getId())) {
+                if (favorite[menuItem.getId()]==1) {
                     // убрать из любимого
                     Log.i("Loog" , "из любимого" );
                     delFavoritMenu(menuItem.getId(), (ImageView) finalConvertView1.findViewById(R.id.imgFavoritIcon));
@@ -194,26 +201,6 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         ((TextView) convertView.findViewById(R.id.tvCoastChildPresentsExList)).setText(String.valueOf(menuItem.getPrice()));
 
 
-        /*View finalConvertView = convertView;
-        imgFavorit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("Loog" , "Нажали на фаворит! сейчас статус - " + favorit);
-                imgFavorit.setClickable(false);
-                if (favorit.get(menuItem.getId())) {
-                    // убрать из любимого
-                    Log.i("Loog" , "из любимого" );
-                    delFavoritMenu(menuItem.getId(), ((ImageView) finalConvertView.findViewById(R.id.imgFavoritIcon)));
-
-                }
-                else {
-                    // добавить в любимое
-                    Log.i("Loog" , "в любимое" );
-                    addFavoritMenu(menuItem.getId(), ((ImageView) finalConvertView.findViewById(R.id.imgFavoritIcon)));
-                }
-            }
-        });*/
-
         return convertView;
     }
 
@@ -224,41 +211,9 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
 
 
 
-   /* private int favoritItem(MenuItem menuItem){
-
-        Log.i("Loog" , "_________________________________");
-        Log.i("Loog" , "проверка на либимые товары");
-        Log.i("Loog" , "bool - " + favorit);
-        if(Initialization.userWithKeys.getFavorites()!=null) {
-            Log.i("Loog" , "товары любимые есть");
-            int[] favor = Initialization.userWithKeys.getFavorites();
-
-            for (int i = 0; i < favor.length; i++) {
-                if (favor[i] == menuItem.getId()){
-                    Log.i("Loog" , "***** это один из них ******");
-
-                }
-            }
-
-            if (favorit){
-                Log.i("Loog" , favorit + " - ставим голд звезду");
-                return R.drawable.ic_grade_gold_24dp;
-            }
-            else{
-            Log.i("Loog" , favorit + " - ставим серую звезду");
-                return R.drawable.ic_grade_grey24dp;
-            }
-        }
-        else{
-
-            return R.drawable.ic_grade_grey24dp;
-        }
-    }*/
-
-
     private void setRedCalor(int id, ImageView imageView) {
-        favoritt.remove(id);
-        favoritt.put(id, true);
+        favorite[id] = 1;
+
 
         imageView.setImageResource(R.drawable.ic_grade_gold_24dp);
         Toast.makeText(context, "Товар добавлен в избранное", Toast.LENGTH_LONG).show();
@@ -269,8 +224,7 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     private void setGreyColor(int id, ImageView imageView) {
 
 
-            favoritt.remove(id);
-            favoritt.put(id, false);
+        favorite[id] = 0;
 
         imageView.setImageResource(R.drawable.ic_grade_grey24dp);
         Toast.makeText(context, "Товар удален из избранного", Toast.LENGTH_LONG).show();

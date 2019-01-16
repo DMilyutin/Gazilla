@@ -47,7 +47,7 @@ public class Presents extends Fragment {
 
         tabMenuPresents = view.findViewById(R.id.tlMenuPresents);
         tabMenuPresents.addTab(tabMenuPresents.newTab().setText("За баллы"), 0);
-        tabMenuPresents.addTab(tabMenuPresents.newTab().setText("Подарки"), 1);
+        tabMenuPresents.addTab(tabMenuPresents.newTab().setText("Бесплатно"), 1);
 
         return view;
     }

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import java.util.Map;
+
+import static com.gazilla.mihail.gazillaj.ui.main.MainActivity.mainPresentation;
 
 
 public class CardFragment extends Fragment implements CardView {
@@ -68,7 +72,8 @@ public class CardFragment extends Fragment implements CardView {
 
     private Button btReserve;
 
-
+    private ScrollView scCard;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +91,8 @@ public class CardFragment extends Fragment implements CardView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_fragment2, null);
 
+        swipeRefreshLayout = view.findViewById(R.id.refresh);
+        scCard = view.findViewById(R.id.scCard);
         ruletka = view.findViewById(R.id.imgRuletka);
         imgWhiteCircle = view.findViewById(R.id.imgWhiteCircle);
         cardPresenter.initRuletca();
@@ -115,6 +122,15 @@ public class CardFragment extends Fragment implements CardView {
 
         upDateSpins();
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                mainPresentation.updateUserInfo();
+                cardPresenter.myProgress();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         ruletka.setOnClickListener(v -> {
             if(Integer.valueOf(spins.getText().toString())>0){
@@ -185,7 +201,7 @@ public class CardFragment extends Fragment implements CardView {
                 public void onAnimationEnd(Animation animation) {
                     if(onAnimationEndd){
                         showWin(winType, winBody);
-                        MainActivity.mainPresentation.updateUserInfo();
+                        mainPresentation.updateUserInfo();
                         cardPresenter.myProgress();
                         upDateSpins();
                         ruletka.setClickable(true);

@@ -41,16 +41,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private FragmentTransaction fragmentTransaction;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        swipeRefreshLayout = findViewById(R.id.refresh);
-        //swipeRefreshLayout.setColorScheme(Color.BLUE, R.color.green, R.color.yellow, R.color.red);
-        swipeRefreshLayout.canChildScrollUp();
 
         if(mainPresentation==null)
             mainPresentation = new MainPresentation(this);
@@ -89,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                     case R.id.menu_presents:
                         fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, presentsF);
                         imgOpenAccount.setVisibility(View.GONE);
-                        nameFragment.setText("Подарки за баллы");
+                        nameFragment.setText("Подарки");
                         mainPresentation.updateUserInfo();
                         break;
                     case R.id.menu_stock:
@@ -115,14 +112,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
             startActivity(intent);
         });
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        /*swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
                 mainPresentation.updateUserInfo();
                 swipeRefreshLayout.setRefreshing(false);
             }
-        });
+        });*/
 
     }
 
