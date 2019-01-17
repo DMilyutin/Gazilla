@@ -85,7 +85,7 @@ public class CardPresenter {
 
         //if(myLvl == 0){maxValue = 10000;}
         //if(myLvl == 1){maxValue = 30000;}
-        //if(myLvl == 2){maxValue = 100000;}
+        //if(myLvl == menu_id_2){maxValue = 100000;}
         //if(myLvl == 3){maxValue = 300000;}
         //if(myLvl == 4){maxValue = 300000;}
 

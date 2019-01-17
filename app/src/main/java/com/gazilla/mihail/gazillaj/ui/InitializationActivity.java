@@ -72,7 +72,7 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
         else {
             // ошибка регистрации
         }
-        //initPresentation.register(reg[0], reg[1], reg[2], reg[3]);
+        //initPresentation.register(reg[0], reg[1], reg[menu_id_2], reg[3]);
     }
 
     @Override

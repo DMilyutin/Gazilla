@@ -21,6 +21,7 @@ import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.presentation.detail.present.DetailPresentPresenter;
 import com.gazilla.mihail.gazillaj.presentation.detail.present.DetailPresentView;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
@@ -36,7 +37,7 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
     private Button btBuy;
 
     private DetailPresentPresenter presentPresenter;
-
+    private MenuImg menuImg;
 
     private MenuItem item;
     private String typeBuy;
@@ -62,12 +63,13 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
         TextView weightPresent = findViewById(R.id.tvWeightDetailPresent);
 
         imageView = findViewById(R.id.imgDetailItem);
-
-
-
         btBuy = findViewById(R.id.btBuyDetailPresent);
 
-        imgFromServer();
+        menuImg = new MenuImg();
+
+        int res = menuImg.getImg(item.getId());
+        if(res!=0)
+        imageView.setImageResource(res);
 
         namePresent.setText(item.getName());
         descriptionPresent.setText(item.getDescription());
@@ -95,25 +97,7 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
 
 
 
-    private void imgFromServer(){
-        Initialization.repositoryApi.getStaticFromServer("menu", String.valueOf(item.getId()), new StaticCallBack() {
-            @Override
-            public void myStatic(ResponseBody responseBody) {
-                        Bitmap bmp = BitmapFactory.decodeStream(responseBody.byteStream());
-                        imageView.setImageBitmap(bmp);
-            }
 
-            @Override
-            public void showError(int error) {
-                Log.i("Loog", "err - "+error);
-            }
-        }, new FailCallBack() {
-            @Override
-            public void setError(Throwable throwable) {
-                Log.i("Loog", "err - "+throwable.getMessage());
-            }
-        });
-    }
 
     @Override
     public void openFirstDialog() {

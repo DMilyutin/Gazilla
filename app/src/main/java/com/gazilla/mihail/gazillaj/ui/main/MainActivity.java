@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         imgOpenAccount.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AccountActivity.class);
             startActivity(intent);
+
         });
 
         /*swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

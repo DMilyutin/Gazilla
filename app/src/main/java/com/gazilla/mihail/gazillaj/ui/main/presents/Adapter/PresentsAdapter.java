@@ -3,6 +3,8 @@ package com.gazilla.mihail.gazillaj.ui.main.presents.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +23,15 @@ import com.gazilla.mihail.gazillaj.model.interactor.PresentsInteractor;
 import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentAdapterView;
 import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentsPresenter;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.ImgCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -38,9 +44,9 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     private Context context;
     private List<MenuCategory> menuCategories;
     private List<ImgGazilla> imgGazillas;
-
+    private MenuImg menuImg;
     private int[] favorite;
-
+    private ImageLoader imageLoader;
 
     //private ImageView imgFavorit;
 
@@ -51,6 +57,9 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         this.menuCategories = menuCategories;
         this.imgGazillas = imgGazillas;
         favorite = init2(menuCategories);
+        menuImg = new MenuImg();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
     }
 
 
@@ -176,25 +185,21 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
             }
         });
 
-        /*View finalConvertView = convertView;
+        /*for (ImgGazilla img: imgGazillas) {
+            if (menuItem.getId()==img.getId())
+                if (Initialization.imgGazillas.get(menuItem.getId()).getImage()!=null){
+                    byte[] b = Initialization.imgGazillas.get(menuItem.getId()).getImage();
+                    Bitmap bmp = BitmapFactory.decodeStream(new ByteArrayInputStream(b));
+                    ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)).setImageBitmap(bmp);
+                }
+        }*/
+        if(menuImg.getImg(menuItem.getId())!=0){
+        String res = "drawable://" + menuImg.getImg(menuItem.getId());
 
-        Initialization.repositoryApi.getStaticFromServer("menu", String.valueOf(menuItem.getId()), new StaticCallBack() {
-            @Override
-            public void myStatic(ResponseBody responseBody) throws IOException {
-                Bitmap bmp = BitmapFactory.decodeStream(responseBody.byteStream());
-                ((ImageView) finalConvertView.findViewById(R.id.imgMiniItemMemu)).setImageBitmap(bmp);
-            }
+        //((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)).setImageResource(res);
+        imageLoader.displayImage(res, ((ImageView)finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
+        }
 
-            @Override
-            public void showError(int error) {
-                Log.i("Loog" , "Нет картинки" + error);
-            }
-        }, new FailCallBack() {
-            @Override
-            public void setError(Throwable throwable) {
-
-            }
-        });*/
 
         ((TextView) convertView.findViewById(R.id.tvNameChildPresentsExList)).setText(menuItem.getName());
         ((TextView) convertView.findViewById(R.id.tvDescriptionChildPresentsExList)).setText(menuItem.getDescription());

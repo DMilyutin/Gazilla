@@ -55,15 +55,6 @@ public class PresentsFragment extends Fragment implements PresentsView {
     }
 
 
-    public static PresentsFragment newInstance(int page) {
-        Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, page);
-        PresentsFragment fragment = new PresentsFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
 
     @Nullable
     @Override
@@ -122,7 +113,7 @@ public class PresentsFragment extends Fragment implements PresentsView {
                     if (id.equals(aFavor)){
 
                         favoritt.put(id, true);
-                        Log.i("Loog", id +"!!! равны 2 !!! " + favoritt.get(2));
+                        Log.i("Loog", id +"!!! равны menu_id_2 !!! " + favoritt.get(2));
                     }
                     else{
                         favoritt.put(id, false);

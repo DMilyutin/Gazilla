@@ -8,27 +8,38 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.gazilla.mihail.gazillaj.BuildConfig;
+import com.gazilla.mihail.gazillaj.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.POJO.MenuDB;
 import com.gazilla.mihail.gazillaj.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.POJO.UserWithKeys;
 import com.gazilla.mihail.gazillaj.model.data.api.ServerApi;
 import com.gazilla.mihail.gazillaj.model.data.db.AppDatabase;
+import com.gazilla.mihail.gazillaj.model.repository.MenuAdapter.MenuAdapterApiDb;
 import com.gazilla.mihail.gazillaj.model.repository.RepositoryApi;
 import com.gazilla.mihail.gazillaj.model.repository.RepositoryDB;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
+import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.MenuDBCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.params.HttpParams;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -43,6 +54,8 @@ public class Initialization {
     public  static SharedPref sharedPref;
     public static RepositoryApi repositoryApi;
     public static RepositoryDB repositoryDB;
+
+    public static List<ImgGazilla> imgGazillas;
 
     public static UserWithKeys userWithKeys;
 
@@ -88,7 +101,18 @@ public class Initialization {
             Log.i("Loog", "appDatabase - null");
 
 
+        /*repositoryDB.menuFromDB(new MenuDBCallBack() {
+            @Override
+            public void ollMenu(List<MenuDB> menuDBList) {
+                MenuAdapterApiDb m = new MenuAdapterApiDb();
+                imgGazillas = imgMenu(m.fromMenuDB(menuDBList));
+            }
 
+            @Override
+            public void showError(int error) {
+
+            }
+        });*/
     }
 
     public static void setUserWithKeys(UserWithKeys userWithKeys) {
@@ -122,28 +146,45 @@ public class Initialization {
         return null;
     }
 
+    private List<ImgGazilla> imgMenu(List<MenuCategory> categories){
+        List<ImgGazilla> imgGazillas = new ArrayList<>();
+
+        int max = categories.get(categories.size()-1).getItems().get(categories.get(categories.size()-1).getItems().size()-1).getId();
+        Log.i("Loog" ," max = categories - " + max);
 
 
-    public static String signatur2( String secret, String str){
-        try {
-            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-            SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes("UTF-8"), "HmacSHA256");
-            sha256_HMAC.init(secretKey);
-            String hash1 = Base64.encodeToString(sha256_HMAC.doFinal(str.getBytes("UTF-8")), Base64.NO_WRAP);
-            return hash1;
 
-    } catch (NoSuchAlgorithmException e) {
-        e.printStackTrace();
-    } catch (InvalidKeyException e) {
-        e.printStackTrace();
-    } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
+        for(int iCategories = 0; iCategories < categories.size(); iCategories++ ){
+
+            for(int iItem = 0; iItem<categories.get(iCategories).getItems().size(); iItem++){
+
+                int id = categories.get(iCategories).getItems().get(iItem).getId();
+
+                Initialization.repositoryApi.getStaticFromServer("menu", String.valueOf(id), new StaticCallBack() {
+                    @Override
+                    public void myStatic(ResponseBody responseBody) throws IOException {
+                        //Bitmap bmp = BitmapFactory.decodeStream(responseBody.byteStream());
+                        //((ImageView) finalConvertView.findViewById(R.id.imgMiniItemMemu)).setImageResource();
+
+                        ImgGazilla imgGazilla = new ImgGazilla(id, "Present", responseBody.bytes());
+                        imgGazillas.add(imgGazilla);
+                    }
+
+                    @Override
+                    public void showError(int error) {
+                        Log.i("Loog" , "Нет картинки" + error);
+                    }
+                }, new FailCallBack() {
+                    @Override
+                    public void setError(Throwable throwable) {
+
+                    }
+                });
+
+            }
+        }
+
+       return imgGazillas;
     }
-
-        return null;
-
-    }
-
-
 
 }

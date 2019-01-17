@@ -56,16 +56,6 @@ public class PresentsPresenter {
             public void menuItem(List<MenuItem> menuItemList) {
                 presentsView.setAdapterGifts(menuItemList);
 
-                /*MenuItem menuItem = new MenuItem(0, "Жаркое", 100, "Жаркое в тарелке 500 г");
-                MenuItem menuItem1 = new MenuItem(1, "Калик", 200, "Фруктовый");
-
-                List<MenuItem> menuItemList1 = new ArrayList<>();
-                menuItemList1.add(menuItem);
-                menuItemList1.add(menuItem1);
-                menuItemList1.add(menuItem);
-                menuItemList1.add(menuItem1);
-
-                presentsView.setAdapterGifts(menuItemList1);*/
             }
 
             @Override
