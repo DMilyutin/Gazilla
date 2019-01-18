@@ -24,6 +24,7 @@ import com.gazilla.mihail.gazillaj.ui.main.card.CardFragment;
 import com.gazilla.mihail.gazillaj.ui.main.contacts.ContactsFragment;
 import com.gazilla.mihail.gazillaj.ui.main.presents.Presents;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockFragment;
+import com.gazilla.mihail.gazillaj.utils.Initialization;
 
 
 public class MainActivity extends AppCompatActivity implements MainView {
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         tvScore = findViewById(R.id.tvScoreMainActivity);
         imgOpenAccount = findViewById(R.id.imgAccount);
-
+        tvScore.setText(String.valueOf(Initialization.userWithKeys.getScore()));
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavMainMenu);
 
         nameFragment = findViewById(R.id.tvNameFragment);

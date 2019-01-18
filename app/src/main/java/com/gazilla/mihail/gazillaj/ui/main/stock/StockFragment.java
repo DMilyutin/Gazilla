@@ -21,6 +21,8 @@ import com.gazilla.mihail.gazillaj.presentation.main.stock.PromoPresenter;
 import com.gazilla.mihail.gazillaj.presentation.main.stock.PromoView;
 import com.gazilla.mihail.gazillaj.ui.main.stock.Adapter.StocksAdapter;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockDragonway.DragonwayActivity;
+import com.gazilla.mihail.gazillaj.ui.main.stock.StockHoax.StockHoaxActivity;
+import com.gazilla.mihail.gazillaj.ui.main.stock.StockNewFriend.StockNewFriendActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockSmokerpass.SmokerpassActivity;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 
@@ -30,12 +32,15 @@ public class StockFragment extends Fragment implements PromoView {
 
     private ListView lvStocks;
     private StocksAdapter stocksAdapter;
-    private ConstraintLayout constraintLayout;
-    private ConstraintLayout constraintLayout2;
+
+    private ConstraintLayout clPromoDragonWay;
+    private ConstraintLayout clPromoSmokerpass;
+    private ConstraintLayout clPromoHoax;
+    private ConstraintLayout clFriend;
 
     private PromoPresenter promoPresenter;
 
-    private TextView tvReferer;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,19 +55,19 @@ public class StockFragment extends Fragment implements PromoView {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.stock_fragment, null);
-        constraintLayout = view.findViewById(R.id.clPromoDragonWay);
-        constraintLayout2 = view.findViewById(R.id.clPromoSmokerpass);
 
-                lvStocks = view.findViewById(R.id.lvStocks);
+        clPromoDragonWay = view.findViewById(R.id.clPromoDragonWay);
+        clPromoSmokerpass = view.findViewById(R.id.clPromoSmokerpass);
+        clPromoHoax = view.findViewById(R.id.clPromoHoax);
+        clFriend = view.findViewById(R.id.clFriend);
 
-        tvReferer = view.findViewById(R.id.tvMyRefererLink);
+        lvStocks = view.findViewById(R.id.lvStocks);
 
 
-        if (Initialization.userWithKeys.getRefererLink()!=null)
-            tvReferer.setText(Initialization.userWithKeys.getRefererLink());
-        else
-            tvReferer.setText("Отсутсвует");
+
+
 
         return view;
     }
@@ -72,13 +77,23 @@ public class StockFragment extends Fragment implements PromoView {
         super.onActivityCreated(savedInstanceState);
        // promoPresenter.myPromo();
 
-        constraintLayout2.setOnClickListener(v -> {
+        clPromoSmokerpass.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), SmokerpassActivity.class );
             startActivity(intent);
         });
 
-        constraintLayout.setOnClickListener(v -> {
+        clPromoDragonWay.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), DragonwayActivity.class);
+            startActivity(intent);
+        });
+
+        clPromoHoax.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), StockHoaxActivity.class);
+            startActivity(intent);
+        });
+
+        clFriend.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), StockNewFriendActivity.class);
             startActivity(intent);
         });
     }

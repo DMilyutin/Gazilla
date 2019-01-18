@@ -30,7 +30,9 @@
         <activity android:name=".ui.reserve.ReserveActivity" />
         <activity android:name=".ui.account.AccountActivity" />
         <activity android:name=".ui.main.stock.StockDragonway.DragonwayActivity" />
-        <activity android:name=".ui.main.stock.StockSmokerpass.SmokerpassActivity"></activity>
+        <activity android:name=".ui.main.stock.StockSmokerpass.SmokerpassActivity" />
+        <activity android:name=".ui.main.stock.StockHoax.StockHoaxActivity" />
+        <activity android:name=".ui.main.stock.StockNewFriend.StockNewFriendActivity"></activity>
     </application>
 
 </manifest>

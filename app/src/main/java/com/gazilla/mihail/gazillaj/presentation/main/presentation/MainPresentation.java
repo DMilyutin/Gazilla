@@ -46,6 +46,6 @@ public class MainPresentation {
         Initialization.userWithKeys.setFavorites(user.getFavorites());
         Log.i("Loog", "update User getScore" + user.getScore());
         Log.i("Loog", "update User getSum" + user.getSum());
-        mainView.updateInfo(Initialization.userWithKeys.getScore());
+        mainView.updateInfo(user.getScore());
     }
 }
