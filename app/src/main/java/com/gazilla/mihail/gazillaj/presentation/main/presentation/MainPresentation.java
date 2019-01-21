@@ -16,6 +16,7 @@ public class MainPresentation {
     }
 
     public void updateUserInfo(){
+        Log.i("Loog", "Запрос на сервер User а");
         Initialization.repositoryApi.userData(new UserCallBack() {
             @Override
             public void userCallBack(User user) {

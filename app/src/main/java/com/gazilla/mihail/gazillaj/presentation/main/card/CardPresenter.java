@@ -74,6 +74,7 @@ public class CardPresenter {
     //_____________________________уровни и прогресс_______________________________________
 
     public void myProgress(){
+        Log.i("Loog", "начало обновления прогреса");
 
         int sum = Initialization.userWithKeys.getSum();
         int myLvl = Initialization.userWithKeys.getLevel();
@@ -162,7 +163,7 @@ public class CardPresenter {
     private void myWinn(DragonWheel wheel){
         if(wheel.getWinType().equals("point")){
             Log.i("Loog", "Колесо дракона показ выиграша - point = " + wheel.getId());
-           cardView.myWin("point", String.valueOf(wheel.getId()) + " баллов", null);
+           cardView.myWin("point", String.valueOf(wheel.getId()) + " баллов", 0, null);
         }
         else
         {
@@ -198,7 +199,7 @@ public class CardPresenter {
                 if(categories.get(iCategorys).getItems().get(iItems).getId() == id){
                     MenuItem item = categories.get(iCategorys).getItems().get(iItems);
                     Log.i("Loog", "Колесо дракона показ выиграша - gift = " + item.getName());
-                    cardView.myWin("gift", item.getName(), null);
+                    cardView.myWin("gift", item.getName(),id, null);
                 }
             }
         }

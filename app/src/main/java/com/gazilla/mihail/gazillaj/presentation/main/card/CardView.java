@@ -11,6 +11,6 @@ public interface CardView {
     void setQRcode(Bitmap bitmap);
     void showError(String error);
     void setSpins(int qty);
-    void myWin(String type, String win, Bitmap bitmap);
+    void myWin(String type, String win,int id, Bitmap bitmap);
     void initLvlForKoleso(int res);
 }

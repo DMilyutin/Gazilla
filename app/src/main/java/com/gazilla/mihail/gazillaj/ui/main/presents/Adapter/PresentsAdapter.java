@@ -44,10 +44,10 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     private Context context;
     private List<MenuCategory> menuCategories;
     private List<ImgGazilla> imgGazillas;
-    private MenuImg menuImg;
+
     private int[] favorite;
     private ImageLoader imageLoader;
-
+    private MenuImg menuImg;
     //private ImageView imgFavorit;
 
 
@@ -200,6 +200,10 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         imageLoader.displayImage(res, ((ImageView)finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
         }
 
+        else{
+            String res = "drawable://" + R.drawable.gaz;
+            imageLoader.displayImage(res, ((ImageView)finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
+        }
 
         ((TextView) convertView.findViewById(R.id.tvNameChildPresentsExList)).setText(menuItem.getName());
         ((TextView) convertView.findViewById(R.id.tvDescriptionChildPresentsExList)).setText(menuItem.getDescription());

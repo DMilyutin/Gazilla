@@ -252,12 +252,14 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
 
 
-    private String checkPhone(String s) {
+    public String checkPhone(String s) {
         if (s==null||s.equals("")) return "";
         if(s.charAt(0)=='8'&&s.length()==11){
-            return "+7"+s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
+            return ""+ s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
         }
         else if (s.charAt(0)=='+'&&s.charAt(1)=='7'&&s.length()==12)
+            return ""+ s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10)+s.charAt(11);
+        else if (s.charAt(0)=='9'&&s.length()==10)
             return s;
         selectEmptyText("phone");
         return "";

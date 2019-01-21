@@ -50,9 +50,9 @@ public class StockHoaxActivity extends AppCompatActivity {
         if (dFraiday>dNow){
             long dayY = dFraiday-dNow;
             long day = dayY/(86400000);
-            dayY = dayY - day;
+            dayY = dayY - day*86400000;
             long hh = dayY/(3600000);
-            dayY = dayY - hh;
+            dayY = dayY - hh*3600000;
             long mm = dayY/60000;
             Log.i("Loog", "DD: " + day + " HH: " + hh + " mm: " + mm);
             //String dat = day+"д. "+hh+":"+mm;

@@ -22,11 +22,12 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/grey_oval_background_prozrach"
+        android:layout_height="0dp"
+        android:background="@drawable/gradient_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView15">
 
         <TextView
             android:id="@+id/textView52"
@@ -85,14 +86,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:text="Пригласи друга"
             android:textColor="@color/colorAccent"
             android:textSize="35sp"
             app:layout_constraintBottom_toTopOf="@+id/textView50"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout

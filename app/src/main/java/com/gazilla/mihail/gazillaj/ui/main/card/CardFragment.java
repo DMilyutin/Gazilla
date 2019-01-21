@@ -12,6 +12,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +21,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.CardInteractor;
 
+import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.presentation.main.card.CardPresenter;
 import com.gazilla.mihail.gazillaj.presentation.main.card.CardView;
 import com.gazilla.mihail.gazillaj.ui.main.MainActivity;
 import com.gazilla.mihail.gazillaj.ui.main.card.adapter.AdapterLvlDracon;
 import com.gazilla.mihail.gazillaj.ui.reserve.ReserveActivity;
 import com.gazilla.mihail.gazillaj.utils.DialogDetailProgress;
+import com.gazilla.mihail.gazillaj.utils.MenuImg;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
 import android.view.animation.Animation;
@@ -45,9 +49,10 @@ import static com.gazilla.mihail.gazillaj.ui.main.MainActivity.mainPresentation;
 
 public class CardFragment extends Fragment implements CardView {
 
-    String winType;
-    String winBody;
-    Boolean onAnimationEndd;
+    private String winType;
+    private int winIdImg;
+    private String winBody;
+    private Boolean onAnimationEndd;
 
     private ImageView ruletka;
 
@@ -72,8 +77,17 @@ public class CardFragment extends Fragment implements CardView {
 
     private Button btReserve;
 
-    private ScrollView scCard;
+
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private Boolean first;
+    private ConstraintLayout clWheelTip;
+    private ConstraintLayout clBalanceTip;
+    private ConstraintLayout clNacopTip;
+    private ConstraintLayout clShowTipLvlDracon;
+
+    private Button btTipNext;
+    private SharedPref sharedPref;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +98,8 @@ public class CardFragment extends Fragment implements CardView {
         if(getContext()!=null)
         dialogDetailProgress = new DialogDetailProgress(getContext());
 
+
+
     }
 
     @Nullable
@@ -92,7 +108,7 @@ public class CardFragment extends Fragment implements CardView {
         View view = inflater.inflate(R.layout.card_fragment2, null);
 
         swipeRefreshLayout = view.findViewById(R.id.refresh);
-        scCard = view.findViewById(R.id.scCard);
+
         ruletka = view.findViewById(R.id.imgRuletka);
         imgWhiteCircle = view.findViewById(R.id.imgWhiteCircle);
         cardPresenter.initRuletca();
@@ -108,11 +124,20 @@ public class CardFragment extends Fragment implements CardView {
 
         btReserve = view.findViewById(R.id.btOpenReserve);
 
+        clWheelTip = view.findViewById(R.id.cl_wheel_tip);
+        clBalanceTip = view.findViewById(R.id.cl_balanse_tip);
+        clNacopTip = view.findViewById(R.id.cl_nacop_tip);
+        btTipNext = view.findViewById(R.id.btTipNext);
+        clShowTipLvlDracon = view.findViewById(R.id.clShowTipLvlDracon);
+
+        sharedPref = new SharedPref(getContext());
+        first = sharedPref.getFirstStart();
+
         cardPresenter.idClientForQRcode();
         cardPresenter.myProgress();
 
         upDateSpins();
-
+        Log.i("Loog", "Tip - " + first);
         return view;
     }
 
@@ -122,9 +147,15 @@ public class CardFragment extends Fragment implements CardView {
 
         upDateSpins();
 
+        if(MainActivity.cal==0)
+        openFirstDialog();
+
+
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.i("Loog", "Старт обновления");
                 swipeRefreshLayout.setRefreshing(true);
                 mainPresentation.updateUserInfo();
                 cardPresenter.myProgress();
@@ -134,6 +165,8 @@ public class CardFragment extends Fragment implements CardView {
 
         ruletka.setOnClickListener(v -> {
             if(Integer.valueOf(spins.getText().toString())>0){
+                if (clWheelTip.getVisibility()==View.VISIBLE)
+                    clWhillTip(false);
                 ruletka.setColorFilter(Color.TRANSPARENT);
                 tvPresentCard.setVisibility(View.GONE);
                 imgWhiteCircle.setVisibility(View.GONE);
@@ -144,9 +177,16 @@ public class CardFragment extends Fragment implements CardView {
         });
 
         miniProgress.setOnClickListener(v -> {
+            if (!first){
+                clNacopTip(false);
+            }
+
             int i = lvLvlDracon.getVisibility();
-            if (i==8)
+            if (i==8){
                 lvLvlDracon.setVisibility(View.VISIBLE);
+                if (!first)
+                    clShowTipLvlDracon(true);
+            }
             else
                 lvLvlDracon.setVisibility(View.GONE);
         });
@@ -154,6 +194,10 @@ public class CardFragment extends Fragment implements CardView {
         lvLvlDracon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(!first){
+                    clShowTipLvlDracon(false);
+                }
+
                 int scor = adapterLvlDracon.getItem(position+1);
 
                 int key = 0;
@@ -183,6 +227,11 @@ public class CardFragment extends Fragment implements CardView {
         btReserve.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ReserveActivity.class);
             startActivity(intent);
+        });
+
+        btTipNext.setOnClickListener(v -> {
+            clBalanceTip(false);
+            clNacopTip(true);
         });
     }
 
@@ -231,6 +280,7 @@ public class CardFragment extends Fragment implements CardView {
 
     @Override
     public void setValueProgressBar(int maxValue, int userValue) {
+        Log.i("Loog", "Обновление прогресс бара");
         String progress = userValue + "/" + maxValue;
         tvSum.setText(progress);
 
@@ -240,7 +290,7 @@ public class CardFragment extends Fragment implements CardView {
         pbCardFragment.setMax(maxValue);
         pbCardFragment.setProgress(userValue);
 
-
+        upDateSpins();
     }
 
     @Override
@@ -276,8 +326,8 @@ public class CardFragment extends Fragment implements CardView {
     }
 
     @Override
-    public void myWin(String type, String win, Bitmap bitmap) {
-
+    public void myWin(String type, String win, int id, Bitmap bitmap) {
+        winIdImg = id;
         winType = type;
         winBody = win;
         onAnimationEndd = true;
@@ -289,7 +339,11 @@ public class CardFragment extends Fragment implements CardView {
     }
 
     private void showWin(String type, String win){
+         ImageLoader imageLoader ;
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
 
+         MenuImg menuImg = new MenuImg();
 
            LayoutInflater inflater = LayoutInflater.from(getContext());
            View dialog = inflater.inflate(R.layout.dialog_win_wheel, null);
@@ -297,13 +351,26 @@ public class CardFragment extends Fragment implements CardView {
            ImageView winImg = dialog.findViewById(R.id.imgWinDialog);
            TextView tvWin= dialog.findViewById(R.id.tvWinDialog);
 
-           if (type.equals("point"))
+           if (type.equals("point")){
                winImg.setImageResource(R.drawable.gaz);
-           // else
-           // winImg.setImageBitmap(bitmap);
+               tvWin.setText(win);
+           }
+           else{
+               if(winIdImg!=0){
+                   String res = "drawable://" + menuImg.getImg(winIdImg);
+
+                   //((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)).setImageResource(res);
+                   imageLoader.displayImage(res, winImg);
+               }
+
+               else{
+                   String res = "drawable://" + R.drawable.gaz;
+                   imageLoader.displayImage(res, winImg);
+               }
+           }
 
 
-           tvWin.setText(win);
+
 
            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
 
@@ -313,6 +380,9 @@ public class CardFragment extends Fragment implements CardView {
                    winType = "";
                    winBody = "";
                    winWheelDialog.dismiss();
+                   if (!first){
+                       clBalanceTip(true);
+                   }
                }
            });
 
@@ -326,4 +396,66 @@ public class CardFragment extends Fragment implements CardView {
            upDateSpins();
        }
 
+       private void openFirstDialog(){
+
+           LayoutInflater inflater = LayoutInflater.from(getContext());
+           View dialog = inflater.inflate(R.layout.dialog_first_opennig, null);
+
+           AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
+
+           builder.setPositiveButton("Продолжить!", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   winWheelDialog.dismiss();
+                   winWheelDialog = null;
+                   firstStart();
+               }
+           });
+
+           builder.setView(dialog);
+           winWheelDialog = builder.create();
+           winWheelDialog.show();
+
+           MainActivity.cal++;
+
+           Button bt = winWheelDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+           bt.setTextColor(Color.rgb(254, 194, 15));
+       }
+
+       private void firstStart(){
+           if (!first){
+                clWhillTip(true);
+           }
+       }
+
+       private void clWhillTip(Boolean show){
+            if (show)
+                clWheelTip.setVisibility(View.VISIBLE);
+            else
+                clWheelTip.setVisibility(View.GONE);
+       }
+
+    private void clBalanceTip(Boolean show){
+        if (show)
+            clBalanceTip.setVisibility(View.VISIBLE);
+        else
+            clBalanceTip.setVisibility(View.GONE);
+    }
+
+    private void clNacopTip(Boolean show){
+        if (show)
+            clNacopTip.setVisibility(View.VISIBLE);
+        else{
+            clNacopTip.setVisibility(View.GONE);
+            }
+    }
+
+    private void clShowTipLvlDracon(Boolean show){
+        if (show)
+            clShowTipLvlDracon.setVisibility(View.VISIBLE);
+        else{
+            clShowTipLvlDracon.setVisibility(View.GONE);
+            sharedPref.saveFirstStart(true);
+            }
+    }
 }

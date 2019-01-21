@@ -30,7 +30,7 @@ import java.util.List;
 
 public class StockFragment extends Fragment implements PromoView {
 
-    private ListView lvStocks;
+
     private StocksAdapter stocksAdapter;
 
     private ConstraintLayout clPromoDragonWay;
@@ -63,7 +63,7 @@ public class StockFragment extends Fragment implements PromoView {
         clPromoHoax = view.findViewById(R.id.clPromoHoax);
         clFriend = view.findViewById(R.id.clFriend);
 
-        lvStocks = view.findViewById(R.id.lvStocks);
+
 
 
 
@@ -100,8 +100,8 @@ public class StockFragment extends Fragment implements PromoView {
 
     @Override
     public void setPromoAdapter(List<PromoItem> promoItems) {
-        stocksAdapter = new StocksAdapter(getContext(), promoItems);
-        lvStocks.setAdapter(stocksAdapter);
+        //stocksAdapter = new StocksAdapter(getContext(), promoItems);
+        //lvStocks.setAdapter(stocksAdapter);
     }
 
     @Override

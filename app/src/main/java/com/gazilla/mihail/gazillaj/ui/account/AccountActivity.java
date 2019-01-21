@@ -59,7 +59,7 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
             e = edEmail.getText().toString();
 
             sharedPref.saveName(n);
-            sharedPref.saveMyPhone(p);
+            sharedPref.saveMyPhone(checkPhone(p));
             sharedPref.saveMyEmail(e);
 
             accountPresentation.updateUserInfo(n,p,e);
@@ -96,5 +96,19 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
         ErrorDialog errorDialog = new ErrorDialog(this);
 
         errorDialog.detailTargetProgress(txt);
+    }
+
+    private String checkPhone(String s) {
+        if (s==null||s.equals("")) return "";
+        if(s.charAt(0)=='8'&&s.length()==11){
+            return ""+ s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
+        }
+        else if (s.charAt(0)=='+'&&s.charAt(1)=='7'&&s.length()==12)
+            return ""+ s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10)+s.charAt(11);
+        else if (s.charAt(0)=='9'&&s.length()==10)
+            return s;
+        ErrorDialog errorDialog = new ErrorDialog(this);
+        errorDialog.detailTargetProgress("Неверный формат номера");
+        return "";
     }
 }

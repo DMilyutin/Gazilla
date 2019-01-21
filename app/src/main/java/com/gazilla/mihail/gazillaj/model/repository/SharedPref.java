@@ -21,6 +21,7 @@ public class SharedPref {
     private static final String APP_PREF_VERSION_MENU_ITEM = "versionMenuItem";
     private static final String APP_PREF_VERSION_PROMO = "versionPromo";
 
+    private static final String FIRST_START = "firstStart";
 
     private SharedPreferences myPref;
     private SharedPreferences.Editor editor;
@@ -163,7 +164,18 @@ public class SharedPref {
     }
 
 
+    @SuppressLint("CommitPrefEdits")
+    public void saveFirstStart(Boolean first){
+        editor = myPref.edit();
+        editor.putBoolean(FIRST_START, first);
+        editor.commit();
+    }
 
+    public Boolean getFirstStart(){
+        if(myPref.contains(FIRST_START))
+            return myPref.getBoolean(FIRST_START, false);
+        return false;
+    }
 
 
 
