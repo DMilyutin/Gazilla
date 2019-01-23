@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.gazilla.mihail.gazillaj.POJO.ImgGazilla;
-import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
-import com.gazilla.mihail.gazillaj.POJO.MenuItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.PresentsInteractor;
 import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentsPresenter;

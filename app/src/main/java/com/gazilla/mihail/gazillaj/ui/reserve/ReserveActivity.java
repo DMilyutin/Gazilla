@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -18,13 +17,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.gazilla.mihail.gazillaj.POJO.Reserve;
+import com.gazilla.mihail.gazillaj.utils.POJO.Reserve;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.ReserveInteractor;
 import com.gazilla.mihail.gazillaj.presentation.reserve.ReservePresentation;
 import com.gazilla.mihail.gazillaj.presentation.reserve.ReserveView;
 import com.gazilla.mihail.gazillaj.ui.account.AccountActivity;
-import com.gazilla.mihail.gazillaj.utils.ErrorDialog;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,7 +37,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     private TextView tvDate;
     private TextView tvTime;
 
-    private ErrorDialog errorDialog;
+    private AppDialogs appDialogs;
 
     private Boolean bTime = false;
     private Boolean bDate = false;
@@ -62,7 +61,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
 
         reservePresentation.checkUserInfo();
 
-        errorDialog = new ErrorDialog(this);
+        appDialogs = new AppDialogs();
         dateAndTime = Calendar.getInstance();
 
         Button newReserve = findViewById(R.id.btNewReserve);
@@ -94,7 +93,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         newReserve.setOnClickListener(v -> {
 
             if(Calendar.getInstance().getTimeInMillis()>=dateAndTime.getTimeInMillis()){
-                errorDialog.detailTargetProgress("Дата указана неверно");
+                appDialogs.warningDialog(this, "Дата указана неверно", "repeat");
                 return;
             }
 
@@ -116,7 +115,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
                     Reserve reserve = new Reserve(qty, hours, dateFroReserve, phone, name, comment);
                     putReserve(reserve, preorder);
                 } else
-                    errorDialog.detailTargetProgress("Все поля должны быть заполнены");
+                appDialogs.warningDialog(this, "Все поля должны быть заполнен", "repeat");
 
             }
 
@@ -124,15 +123,6 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
 
     }
 
-    private String checkPhone(String s) {
-        if(s.charAt(0)=='8'&&s.length()==11){
-            return "+7"+s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
-        }
-        else if (s.charAt(0)=='+'&&s.charAt(1)=='7'&&s.length()==12)
-            return s;
-
-        return "";
-    }
 
     DatePickerDialog.OnDateSetListener d = (view, year, monthOfYear, dayOfMonth) -> {
         dateAndTime.set(Calendar.YEAR, year);
@@ -148,7 +138,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     TimePickerDialog.OnTimeSetListener t= (view, hourOfDay, minute) -> {
 
         if (hourOfDay>=0&&hourOfDay<12) {
-            errorDialog.detailTargetProgress("В это время бронирование столов невозможно");
+            appDialogs.warningDialog(this, "В это время бронирование столов невозможно", "repeat");
             return;
         }
 
@@ -187,7 +177,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         if(bTime&&bDate)
         reservePresentation.reservingPresenter(reserve, preorder);
         else
-            errorDialog.detailTargetProgress("Укажите время и дату");
+        appDialogs.warningDialog(this, "Укажите время и дату", "Повторить");
     }
 
     @Override
@@ -203,7 +193,8 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
 
     @Override
     public void showErrorr(String error) {
-        errorDialog.detailTargetProgress(error);
+
+        appDialogs.warningDialog(this, error, "Повторить");
     }
 
     @Override

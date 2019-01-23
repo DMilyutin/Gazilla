@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.User;
+import com.gazilla.mihail.gazillaj.utils.POJO.User;
 
 public interface UserCallBack {
     void userCallBack(User user);

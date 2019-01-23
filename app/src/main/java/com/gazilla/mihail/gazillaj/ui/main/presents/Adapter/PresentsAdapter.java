@@ -14,30 +14,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gazilla.mihail.gazillaj.POJO.ImgGazilla;
-import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
-import com.gazilla.mihail.gazillaj.POJO.MenuItem;
-import com.gazilla.mihail.gazillaj.POJO.Success;
-import com.gazilla.mihail.gazillaj.R;
-import com.gazilla.mihail.gazillaj.model.interactor.PresentsInteractor;
-import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentAdapterView;
-import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentsPresenter;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor.PhotoMemuInterator;
 import com.gazilla.mihail.gazillaj.utils.MenuImg;
+import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.Success;
+import com.gazilla.mihail.gazillaj.R;
+import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.ImgCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.ResponseBody;
 
 public class PresentsAdapter extends BaseExpandableListAdapter{
 
@@ -52,14 +43,15 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
 
 
     @SuppressLint("UseSparseArrays")
-    public PresentsAdapter(Context context, List<MenuCategory> menuCategories, List<ImgGazilla> imgGazillas) {
+    public PresentsAdapter(Context context, List<MenuCategory> menuCategories) {
         this.context = context;
         this.menuCategories = menuCategories;
-        this.imgGazillas = imgGazillas;
         favorite = init2(menuCategories);
         menuImg = new MenuImg();
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+        //setPhotoList();
+        imgGazillas = PhotoMemuInterator.imgGazillass;
     }
 
 
@@ -151,7 +143,7 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
             convertView = inflater.inflate(R.layout.for_exlist_name_child_group_presents, null);
         }
 
-
+        Log.i("Loog", " last proverca empty?" + imgGazillas.isEmpty());
 
         MenuItem menuItem = getChild(groupPosition, childPosition);
         Log.i("Loog", "id menu item - " + menuItem.getId());
@@ -185,30 +177,14 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
             }
         });
 
-        /*for (ImgGazilla img: imgGazillas) {
-            if (menuItem.getId()==img.getId())
-                if (Initialization.imgGazillas.get(menuItem.getId()).getImage()!=null){
-                    byte[] b = Initialization.imgGazillas.get(menuItem.getId()).getImage();
-                    Bitmap bmp = BitmapFactory.decodeStream(new ByteArrayInputStream(b));
-                    ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)).setImageBitmap(bmp);
-                }
-        }*/
-        if(menuImg.getImg(menuItem.getId())!=0){
-        String res = "drawable://" + menuImg.getImg(menuItem.getId());
-
-        //((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)).setImageResource(res);
-        imageLoader.displayImage(res, ((ImageView)finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
+        if (menuImg.getImg(menuItem.getId())!=0){
+            String res = "drawable://" + menuImg.getImg(menuItem.getId());
+            imageLoader.displayImage(res, ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
         }
-
         else{
             String res = "drawable://" + R.drawable.gaz;
-            imageLoader.displayImage(res, ((ImageView)finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
+            imageLoader.displayImage(res, ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
         }
-
-        ((TextView) convertView.findViewById(R.id.tvNameChildPresentsExList)).setText(menuItem.getName());
-        ((TextView) convertView.findViewById(R.id.tvDescriptionChildPresentsExList)).setText(menuItem.getDescription());
-        ((TextView) convertView.findViewById(R.id.tvCoastChildPresentsExList)).setText(String.valueOf(menuItem.getPrice()));
-
 
         return convertView;
     }
@@ -216,6 +192,38 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    private Bitmap photo(int id){
+        Log.i("Loog", "установка картинок ");
+
+        for (int i = 0; i<imgGazillas.size();i++) {
+            ImgGazilla img = imgGazillas.get(i);
+            if (img!=null) {
+                Log.i("Loog", "img!=null");
+                Log.i("Loog", "idItem - "+ id+"IdPhoto - " + img.getId());
+                if (id == img.getId()) {
+                    Log.i("Loog", "айди совпали");
+                    if (img.getImage() != null) {
+                        Log.i("Loog", "установка картинок img есть");
+                       return BitmapFactory.decodeByteArray(img.getImage(), 0, img.getImage().length);
+
+
+                    } else {
+                        Log.i("Loog", "установка картинок img нет");
+
+                        return null;
+                    }
+
+                }else
+                Log.i("Loog", "id не совпали");
+            }
+            else {
+
+                Log.i("Loog", "img!=null");
+            }
+        }
+        return null;
     }
 
 
@@ -288,3 +296,39 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         return Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),  dat);
     }
 }
+
+
+//------------------------ на потом -------------------------------
+//
+//
+
+
+/*Bitmap bitmap = photo(menuItem.getId());
+        if (bitmap==null){
+            String res = "drawable://" + R.drawable.gaz;
+            imageLoader.displayImage(res, ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
+        }
+        else
+            //imageLoader.displayImage(String.valueOf(bitmap), ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
+           ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)).setImageBitmap(bitmap);
+
+        ((TextView) convertView.findViewById(R.id.tvNameChildPresentsExList)).setText(menuItem.getName());
+        ((TextView) convertView.findViewById(R.id.tvDescriptionChildPresentsExList)).setText(menuItem.getDescription());
+        ((TextView) convertView.findViewById(R.id.tvCoastChildPresentsExList)).setText(String.valueOf(menuItem.getPrice()));*/
+
+
+
+//
+// /*private void setPhotoList(){
+//        Initialization.repositoryDB.imgFromBD(new ImgCallBack() {
+//            @Override
+//            public void ollImgFromDB(List<ImgGazilla> imgGazillaList) {
+//                imgGazillas = imgGazillaList;
+//            }
+//
+//            @Override
+//            public void imgById(ImgGazilla imgGazilla) {
+//
+//            }
+//        });
+//    }*/

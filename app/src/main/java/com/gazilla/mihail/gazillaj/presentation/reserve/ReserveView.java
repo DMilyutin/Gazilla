@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.presentation.reserve;
 
-import com.gazilla.mihail.gazillaj.POJO.Reserve;
+import com.gazilla.mihail.gazillaj.utils.POJO.Reserve;
 
 public interface ReserveView {
     void checkUserInfo();

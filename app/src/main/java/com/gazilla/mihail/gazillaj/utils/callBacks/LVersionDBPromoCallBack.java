@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.LatestVersion;
+import com.gazilla.mihail.gazillaj.utils.POJO.LatestVersion;
 
 public interface LVersionDBPromoCallBack {
 

@@ -33,6 +33,7 @@ import com.gazilla.mihail.gazillaj.presentation.main.card.CardView;
 import com.gazilla.mihail.gazillaj.ui.main.MainActivity;
 import com.gazilla.mihail.gazillaj.ui.main.card.adapter.AdapterLvlDracon;
 import com.gazilla.mihail.gazillaj.ui.reserve.ReserveActivity;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.DialogDetailProgress;
 import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -145,94 +146,103 @@ public class CardFragment extends Fragment implements CardView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        upDateSpins();
+        try {
+            upDateSpins();
 
-        if(MainActivity.cal==0)
-        openFirstDialog();
+            if(MainActivity.cal==0)
+                openFirstDialog();
 
 
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.i("Loog", "Старт обновления");
-                swipeRefreshLayout.setRefreshing(true);
-                mainPresentation.updateUserInfo();
-                cardPresenter.myProgress();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    Log.i("Loog", "Старт обновления");
+                    swipeRefreshLayout.setRefreshing(true);
+                    mainPresentation.updateUserInfo();
+                    cardPresenter.myProgress();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
 
-        ruletka.setOnClickListener(v -> {
-            if(Integer.valueOf(spins.getText().toString())>0){
-                if (clWheelTip.getVisibility()==View.VISIBLE)
-                    clWhillTip(false);
-                ruletka.setColorFilter(Color.TRANSPARENT);
-                tvPresentCard.setVisibility(View.GONE);
-                imgWhiteCircle.setVisibility(View.GONE);
-                ruletka.setClickable(false);
-                startWheeling();
-            }
-
-        });
-
-        miniProgress.setOnClickListener(v -> {
-            if (!first){
-                clNacopTip(false);
-            }
-
-            int i = lvLvlDracon.getVisibility();
-            if (i==8){
-                lvLvlDracon.setVisibility(View.VISIBLE);
-                if (!first)
-                    clShowTipLvlDracon(true);
-            }
-            else
-                lvLvlDracon.setVisibility(View.GONE);
-        });
-
-        lvLvlDracon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(!first){
-                    clShowTipLvlDracon(false);
+            ruletka.setOnClickListener(v -> {
+                if(Integer.valueOf(spins.getText().toString())>0){
+                    if (clWheelTip.getVisibility()==View.VISIBLE)
+                        clWhillTip(false);
+                    ruletka.setColorFilter(Color.TRANSPARENT);
+                    tvPresentCard.setVisibility(View.GONE);
+                    imgWhiteCircle.setVisibility(View.GONE);
+                    ruletka.setClickable(false);
+                    startWheeling();
                 }
 
-                int scor = adapterLvlDracon.getItem(position+1);
+            });
 
-                int key = 0;
-
-                if(scor == 0) {
-                    key = 1;
-
-                }
-                if(scor == 10000) {
-                    key = 2;
-                }
-                if(scor == 30000) {
-                    key = 3;
-                }
-                if(scor == 100000) {
-                    key = 4;
-                }
-                if(scor == 300000) {
-                    key = 5;
+            miniProgress.setOnClickListener(v -> {
+                if (!first){
+                    clNacopTip(false);
                 }
 
-                dialogDetailProgress.detailTargetProgress(key);
-            }
-        });
+                int i = lvLvlDracon.getVisibility();
+                if (i==8){
+                    lvLvlDracon.setVisibility(View.VISIBLE);
+                    if (!first)
+                        clShowTipLvlDracon(true);
+                }
+                else
+                    lvLvlDracon.setVisibility(View.GONE);
+            });
+
+            lvLvlDracon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if(!first){
+                        clShowTipLvlDracon(false);
+                    }
+
+                    int scor = adapterLvlDracon.getItem(position+1);
+
+                    int key = 0;
+
+                    if(scor == 0) {
+                        key = 1;
+
+                    }
+                    if(scor == 10000) {
+                        key = 2;
+                    }
+                    if(scor == 30000) {
+                        key = 3;
+                    }
+                    if(scor == 100000) {
+                        key = 4;
+                    }
+                    if(scor == 300000) {
+                        key = 5;
+                    }
+
+                    dialogDetailProgress.detailTargetProgress(key);
+                }
+            });
 
 
-        btReserve.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ReserveActivity.class);
-            startActivity(intent);
-        });
+            btReserve.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), ReserveActivity.class);
+                startActivity(intent);
+            });
 
-        btTipNext.setOnClickListener(v -> {
-            clBalanceTip(false);
-            clNacopTip(true);
-        });
+            btTipNext.setOnClickListener(v -> {
+                clBalanceTip(false);
+                clNacopTip(true);
+            });
+
+
+        }catch (NullPointerException ex){
+            new AppDialogs().errorDialog(getContext(), ex.getMessage(), "CardFragment.onActivityCreated");
+        }
+
+
+
     }
 
     private void startWheeling(){

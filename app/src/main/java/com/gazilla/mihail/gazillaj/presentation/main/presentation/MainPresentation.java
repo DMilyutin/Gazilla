@@ -2,7 +2,7 @@ package com.gazilla.mihail.gazillaj.presentation.main.presentation;
 
 import android.util.Log;
 
-import com.gazilla.mihail.gazillaj.POJO.User;
+import com.gazilla.mihail.gazillaj.utils.POJO.User;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;

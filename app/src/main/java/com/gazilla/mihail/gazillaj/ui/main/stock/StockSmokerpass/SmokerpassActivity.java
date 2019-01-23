@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.gazilla.mihail.gazillaj.POJO.PromoSmokerpass;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoSmokerpass;
 import com.gazilla.mihail.gazillaj.R;
-import com.gazilla.mihail.gazillaj.utils.ErrorDialog;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SmokerpassCallBack;
@@ -16,19 +16,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import io.reactivex.Observable;
-
 public class SmokerpassActivity extends AppCompatActivity {
 
-    ErrorDialog errorDialog;
-    TextView tvDate;
+    private AppDialogs appDialogs;
+    private TextView tvDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smokerpass);
 
-        errorDialog = new ErrorDialog(this);
+        appDialogs = new AppDialogs();
         tvDate = findViewById(R.id.tvDateStockSmokepass);
 
         mySmokerpass();
@@ -47,12 +45,13 @@ public class SmokerpassActivity extends AppCompatActivity {
                         if(!ex.equals(""))
                             setInfo(ex, promoSmokerpass.getLastTake());
                         else
-                           errorDialog.detailTargetProgress("Для приобретения абонимента обратитесь к работнику");
+                            appDialogs.errorDialog(getApplicationContext(), "Для приобретения абонимента обратитесь к работнику", "SmokerpassActivity");
+
                     }
 
                     @Override
                     public void errorTxt(String s) {
-
+                        appDialogs.errorDialog(getApplicationContext(), s, "SmokerpassActivity");
                     }
                 }, new FailCallBack() {
                     @Override

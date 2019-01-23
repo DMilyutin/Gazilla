@@ -3,9 +3,9 @@ package com.gazilla.mihail.gazillaj.model.data.db;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.gazilla.mihail.gazillaj.POJO.ImgGazilla;
-import com.gazilla.mihail.gazillaj.POJO.MenuDB;
-import com.gazilla.mihail.gazillaj.POJO.PromoItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuDB;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.model.data.db.DAO.ImgGazillaDao;
 import com.gazilla.mihail.gazillaj.model.data.db.DAO.MenuDBDao;
 import com.gazilla.mihail.gazillaj.model.data.db.DAO.PromoDao;

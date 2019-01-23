@@ -4,28 +4,24 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 
-import android.util.Base64;
+import android.media.Image;
 import android.util.Log;
 
 import com.gazilla.mihail.gazillaj.BuildConfig;
-import com.gazilla.mihail.gazillaj.POJO.ImgGazilla;
-import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
-import com.gazilla.mihail.gazillaj.POJO.MenuDB;
-import com.gazilla.mihail.gazillaj.POJO.PromoItem;
-import com.gazilla.mihail.gazillaj.POJO.UserWithKeys;
+import com.gazilla.mihail.gazillaj.R;
+import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
 import com.gazilla.mihail.gazillaj.model.data.api.ServerApi;
 import com.gazilla.mihail.gazillaj.model.data.db.AppDatabase;
-import com.gazilla.mihail.gazillaj.model.repository.MenuAdapter.MenuAdapterApiDb;
 import com.gazilla.mihail.gazillaj.model.repository.RepositoryApi;
 import com.gazilla.mihail.gazillaj.model.repository.RepositoryDB;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.MenuDBCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 
 
 import org.apache.commons.codec.binary.Hex;
-import org.apache.http.params.HttpParams;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -51,11 +47,11 @@ public class Initialization {
     private static final String URL = "https://admin.gazilla-lounge.ru/";
 
     private static ServerApi serverApi;
-    public  static SharedPref sharedPref;
+
     public static RepositoryApi repositoryApi;
     public static RepositoryDB repositoryDB;
 
-    public static List<ImgGazilla> imgGazillas;
+    //public static List<ImgGazilla> imgGazillas;
 
     public static UserWithKeys userWithKeys;
 
@@ -64,9 +60,6 @@ public class Initialization {
 
     public Initialization(Context instance) {
         this.instance = instance;
-
-        sharedPref = new SharedPref(instance);
-
         init();
     }
 
@@ -146,45 +139,6 @@ public class Initialization {
         return null;
     }
 
-    private List<ImgGazilla> imgMenu(List<MenuCategory> categories){
-        List<ImgGazilla> imgGazillas = new ArrayList<>();
 
-        int max = categories.get(categories.size()-1).getItems().get(categories.get(categories.size()-1).getItems().size()-1).getId();
-        Log.i("Loog" ," max = categories - " + max);
-
-
-
-        for(int iCategories = 0; iCategories < categories.size(); iCategories++ ){
-
-            for(int iItem = 0; iItem<categories.get(iCategories).getItems().size(); iItem++){
-
-                int id = categories.get(iCategories).getItems().get(iItem).getId();
-
-                Initialization.repositoryApi.getStaticFromServer("menu", String.valueOf(id), new StaticCallBack() {
-                    @Override
-                    public void myStatic(ResponseBody responseBody) throws IOException {
-                        //Bitmap bmp = BitmapFactory.decodeStream(responseBody.byteStream());
-                        //((ImageView) finalConvertView.findViewById(R.id.imgMiniItemMemu)).setImageResource();
-
-                        ImgGazilla imgGazilla = new ImgGazilla(id, "Present", responseBody.bytes());
-                        imgGazillas.add(imgGazilla);
-                    }
-
-                    @Override
-                    public void showError(int error) {
-                        Log.i("Loog" , "Нет картинки" + error);
-                    }
-                }, new FailCallBack() {
-                    @Override
-                    public void setError(Throwable throwable) {
-
-                    }
-                });
-
-            }
-        }
-
-       return imgGazillas;
-    }
 
 }

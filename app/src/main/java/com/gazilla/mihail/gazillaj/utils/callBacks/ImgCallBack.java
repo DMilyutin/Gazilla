@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
 
 import java.util.List;
 

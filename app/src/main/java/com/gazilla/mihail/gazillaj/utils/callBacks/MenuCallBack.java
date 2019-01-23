@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
 
 import java.util.List;
 

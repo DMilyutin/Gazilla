@@ -2,7 +2,7 @@ package com.gazilla.mihail.gazillaj.presentation.account;
 
 import android.util.Log;
 
-import com.gazilla.mihail.gazillaj.POJO.Success;
+import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.model.interactor.AccountInteractor;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
@@ -26,7 +26,7 @@ public class AccountPresentation {
                 "phone="+phone;
 
         String signatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),  dat);
-
+        Log.i("Loog", "udate phone - "+phone);
         accountInteractor.updateUser(name, phone, email, signatur, new SuccessCallBack() {
             @Override
             public void reservResponse(Success success) {

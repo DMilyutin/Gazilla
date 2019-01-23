@@ -3,11 +3,11 @@ package com.gazilla.mihail.gazillaj.presentation.main.card;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.gazilla.mihail.gazillaj.POJO.DragonWheel;
-import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
-import com.gazilla.mihail.gazillaj.POJO.MenuDB;
-import com.gazilla.mihail.gazillaj.POJO.MenuItem;
-import com.gazilla.mihail.gazillaj.POJO.QTY;
+import com.gazilla.mihail.gazillaj.utils.POJO.DragonWheel;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuDB;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.QTY;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.CardInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.MenuAdapter.MenuAdapterApiDb;

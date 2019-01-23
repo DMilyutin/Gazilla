@@ -2,19 +2,15 @@ package com.gazilla.mihail.gazillaj.ui.main.stock;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.gazilla.mihail.gazillaj.POJO.PromoItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.PromoInteractor;
 import com.gazilla.mihail.gazillaj.presentation.main.stock.PromoPresenter;
@@ -24,7 +20,6 @@ import com.gazilla.mihail.gazillaj.ui.main.stock.StockDragonway.DragonwayActivit
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockHoax.StockHoaxActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockNewFriend.StockNewFriendActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockSmokerpass.SmokerpassActivity;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 
 import java.util.List;
 

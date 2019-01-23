@@ -2,7 +2,7 @@ package com.gazilla.mihail.gazillaj.presentation.main.stock.StoksDragonWay;
 
 import android.util.Log;
 
-import com.gazilla.mihail.gazillaj.POJO.Levels;
+import com.gazilla.mihail.gazillaj.utils.POJO.Levels;
 import com.gazilla.mihail.gazillaj.model.interactor.PromoInteractor;
 import com.gazilla.mihail.gazillaj.utils.callBacks.DragonWeyCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;

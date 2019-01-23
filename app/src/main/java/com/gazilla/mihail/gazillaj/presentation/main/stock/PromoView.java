@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.presentation.main.stock;
 
-import com.gazilla.mihail.gazillaj.POJO.PromoItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 
 import java.util.List;
 

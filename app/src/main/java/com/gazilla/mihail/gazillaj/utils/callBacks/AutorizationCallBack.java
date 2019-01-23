@@ -1,8 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.UserWithKeys;
-
-import retrofit2.Response;
+import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
 
 public interface AutorizationCallBack {
 

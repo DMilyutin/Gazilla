@@ -1,20 +1,17 @@
 package com.gazilla.mihail.gazillaj.ui.account;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.gazilla.mihail.gazillaj.POJO.Success;
+import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.presentation.account.AccountPresentation;
 import com.gazilla.mihail.gazillaj.presentation.account.AccountView;
-import com.gazilla.mihail.gazillaj.utils.ErrorDialog;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 
 public class AccountActivity extends AppCompatActivity implements AccountView {
 
@@ -58,10 +55,13 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
             p = edPhone.getText().toString();
             e = edEmail.getText().toString();
 
+            p=checkPhone(p);
+
             sharedPref.saveName(n);
-            sharedPref.saveMyPhone(checkPhone(p));
+            sharedPref.saveMyPhone(p);
             sharedPref.saveMyEmail(e);
 
+            Log.i("Loog", "udate phone - "+p);
             accountPresentation.updateUserInfo(n,p,e);
         });
 
@@ -93,13 +93,14 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
             txt = "Произошла ошибка записи Ваших даннвх на сервер";
         }
 
-        ErrorDialog errorDialog = new ErrorDialog(this);
+        AppDialogs appDialogs = new AppDialogs();
 
-        errorDialog.detailTargetProgress(txt);
+        appDialogs.warningDialog(this, txt, "Готово");
     }
 
-    private String checkPhone(String s) {
+    public String checkPhone(String s) {
         if (s==null||s.equals("")) return "";
+
         if(s.charAt(0)=='8'&&s.length()==11){
             return ""+ s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
         }
@@ -107,8 +108,8 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
             return ""+ s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10)+s.charAt(11);
         else if (s.charAt(0)=='9'&&s.length()==10)
             return s;
-        ErrorDialog errorDialog = new ErrorDialog(this);
-        errorDialog.detailTargetProgress("Неверный формат номера");
+        AppDialogs appDialogs = new AppDialogs();
+        appDialogs.warningDialog(this, "Неверный формат номера", "Повторить");
         return "";
     }
 }

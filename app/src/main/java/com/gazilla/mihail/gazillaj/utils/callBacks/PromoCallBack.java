@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.PromoItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 
 import java.util.List;
 

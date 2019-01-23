@@ -1,8 +1,8 @@
 package com.gazilla.mihail.gazillaj.model.repository;
 
-import com.gazilla.mihail.gazillaj.POJO.ImgGazilla;
-import com.gazilla.mihail.gazillaj.POJO.MenuDB;
-import com.gazilla.mihail.gazillaj.POJO.PromoItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuDB;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.model.data.db.DAO.ImgGazillaDao;
 import com.gazilla.mihail.gazillaj.model.data.db.DAO.MenuDBDao;
 import com.gazilla.mihail.gazillaj.model.data.db.DAO.PromoDao;
@@ -70,6 +70,12 @@ public class RepositoryDB {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
 
+    }
+    public void loadOneImg(ImgGazilla imgGazilla){
+        Observable.fromCallable(new CallableLoadOneImg(imgGazillaDao, imgGazilla))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
     public void clearTableImg(){
@@ -174,7 +180,7 @@ class CallableImgMenuFromDB implements Callable<List<ImgGazilla>>{
 
     @Override
     public List<ImgGazilla> call() throws Exception {
-        return imgGazillaDao.getOllImgFromBD("menu");
+        return imgGazillaDao.getOllImgFromBD();
     }
 }
 
@@ -191,6 +197,23 @@ class CallableLoadImgOnDB implements Callable<Boolean>{
     @Override
     public Boolean call() throws Exception {
         imgGazillaDao.newImg(list);
+        return true;
+    }
+}
+
+class CallableLoadOneImg implements Callable<Boolean> {
+
+    private ImgGazillaDao imgGazillaDao;
+    private ImgGazilla imgGazilla;
+
+    public CallableLoadOneImg(ImgGazillaDao imgGazillaDao, ImgGazilla imgGazilla) {
+        this.imgGazillaDao = imgGazillaDao;
+        this.imgGazilla = imgGazilla;
+    }
+
+    @Override
+    public Boolean call() throws Exception {
+        imgGazillaDao.newOneImg(imgGazilla);
         return true;
     }
 }

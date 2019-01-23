@@ -3,9 +3,9 @@ package com.gazilla.mihail.gazillaj.presentation.reserve;
 import android.content.Context;
 import android.util.Log;
 
-import com.gazilla.mihail.gazillaj.POJO.Reserve;
-import com.gazilla.mihail.gazillaj.POJO.Success;
-import com.gazilla.mihail.gazillaj.POJO.User;
+import com.gazilla.mihail.gazillaj.utils.POJO.Reserve;
+import com.gazilla.mihail.gazillaj.utils.POJO.Success;
+import com.gazilla.mihail.gazillaj.utils.POJO.User;
 import com.gazilla.mihail.gazillaj.model.interactor.ReserveInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.utils.Initialization;

@@ -1,10 +1,8 @@
 package com.gazilla.mihail.gazillaj.model.repository.MenuAdapter;
 
-import android.util.Log;
-
-import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
-import com.gazilla.mihail.gazillaj.POJO.MenuDB;
-import com.gazilla.mihail.gazillaj.POJO.MenuItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuDB;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

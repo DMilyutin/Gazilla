@@ -3,7 +3,7 @@ package com.gazilla.mihail.gazillaj.model.repository;
 
 import android.util.Log;
 
-import com.gazilla.mihail.gazillaj.POJO.Balances;
+import com.gazilla.mihail.gazillaj.utils.POJO.Balances;
 import com.gazilla.mihail.gazillaj.model.data.api.ServerApi;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.AutorizationCallBack;

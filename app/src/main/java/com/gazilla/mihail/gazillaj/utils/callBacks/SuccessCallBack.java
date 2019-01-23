@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.Success;
+import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 
 public interface SuccessCallBack {
 

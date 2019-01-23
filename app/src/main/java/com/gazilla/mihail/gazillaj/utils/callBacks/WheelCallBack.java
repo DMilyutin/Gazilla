@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.DragonWheel;
+import com.gazilla.mihail.gazillaj.utils.POJO.DragonWheel;
 
 public interface WheelCallBack {
 

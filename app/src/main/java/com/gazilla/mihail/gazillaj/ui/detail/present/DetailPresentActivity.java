@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,21 +15,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.gazilla.mihail.gazillaj.POJO.MenuItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.presentation.detail.present.DetailPresentPresenter;
 import com.gazilla.mihail.gazillaj.presentation.detail.present.DetailPresentView;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
-import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
-import okhttp3.ResponseBody;
+import java.nio.ByteBuffer;
+import java.util.List;
 
 public class DetailPresentActivity extends AppCompatActivity implements DetailPresentView {
 
@@ -67,9 +67,24 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
 
         menuImg = new MenuImg();
 
-        int res = menuImg.getImg(item.getId());
+        /*int res = menuImg.getImg(item.getId());
         if(res!=0)
-        imageView.setImageResource(res);
+        imageView.setImageResource(res);*/
+
+        //List<ImgGazilla> photoMenu = Initialization.repositoryDB.imgFromBD();
+
+        /*for (ImgGazilla img : photoMenu) {
+            if(img.getId()==item.getId()){
+                //Image image = img.getImage();
+                ByteBuffer buffer = null;
+
+                byte[] bytes = new byte[buffer.capacity()];
+                buffer.get(bytes);
+                Bitmap bitmapImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
+                imageView.setImageBitmap(bitmapImage);
+            }
+
+        }*/
 
         namePresent.setText(item.getName());
         descriptionPresent.setText(item.getDescription());

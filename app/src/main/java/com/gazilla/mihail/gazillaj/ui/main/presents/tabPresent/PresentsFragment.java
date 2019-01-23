@@ -9,25 +9,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ListView;
 
-import com.gazilla.mihail.gazillaj.POJO.ImgGazilla;
-import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
-import com.gazilla.mihail.gazillaj.POJO.MenuItem;
-import com.gazilla.mihail.gazillaj.POJO.Success;
+import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.PresentsInteractor;
 import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentsPresenter;
 import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentsView;
 import com.gazilla.mihail.gazillaj.ui.detail.present.DetailPresentActivity;
-import com.gazilla.mihail.gazillaj.ui.main.presents.Adapter.GifsAdapter;
 import com.gazilla.mihail.gazillaj.ui.main.presents.Adapter.PresentsAdapter;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
-import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
 
 import java.util.HashMap;
 import java.util.List;
@@ -98,30 +91,8 @@ public class PresentsFragment extends Fragment implements PresentsView {
 
     @Override
     public void setAdapterPresents(List<MenuCategory> categories, List<ImgGazilla> imgGazillaList) {
-        HashMap<Integer, Boolean> favoritt = new HashMap<>();
-        int[] favor = Initialization.userWithKeys.getFavorites();
 
-
-        for(int iCategories = 0; iCategories < categories.size(); iCategories++ ){
-
-            for(int iItem = 0; iItem<categories.get(iCategories).getItems().size(); iItem++){
-
-                Integer id = categories.get(iCategories).getItems().get(iItem).getId();
-
-                for (Integer aFavor : favor) {
-
-                    if (id.equals(aFavor)){
-
-                        favoritt.put(id, true);
-                        Log.i("Loog", id +"!!! равны menu_id_2 !!! " + favoritt.get(2));
-                    }
-                    else{
-                        favoritt.put(id, false);
-                    }
-                }
-            }
-        }
-        presentAdapter = new PresentsAdapter(getContext(), categories, imgGazillaList);
+        presentAdapter = new PresentsAdapter(getContext(), categories);
         expandableListView.setAdapter(presentAdapter);
 
     }

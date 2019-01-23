@@ -1,17 +1,17 @@
 package com.gazilla.mihail.gazillaj.model.data.api;
 
-import com.gazilla.mihail.gazillaj.POJO.Balances;
-import com.gazilla.mihail.gazillaj.POJO.DragonWheel;
-import com.gazilla.mihail.gazillaj.POJO.LatestVersion;
-import com.gazilla.mihail.gazillaj.POJO.Levels;
-import com.gazilla.mihail.gazillaj.POJO.MenuCategory;
-import com.gazilla.mihail.gazillaj.POJO.MenuItem;
-import com.gazilla.mihail.gazillaj.POJO.PromoItem;
-import com.gazilla.mihail.gazillaj.POJO.PromoSmokerpass;
-import com.gazilla.mihail.gazillaj.POJO.QTY;
-import com.gazilla.mihail.gazillaj.POJO.Success;
-import com.gazilla.mihail.gazillaj.POJO.User;
-import com.gazilla.mihail.gazillaj.POJO.UserWithKeys;
+import com.gazilla.mihail.gazillaj.utils.POJO.Balances;
+import com.gazilla.mihail.gazillaj.utils.POJO.DragonWheel;
+import com.gazilla.mihail.gazillaj.utils.POJO.LatestVersion;
+import com.gazilla.mihail.gazillaj.utils.POJO.Levels;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoSmokerpass;
+import com.gazilla.mihail.gazillaj.utils.POJO.QTY;
+import com.gazilla.mihail.gazillaj.utils.POJO.Success;
+import com.gazilla.mihail.gazillaj.utils.POJO.User;
+import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
 
 import java.util.List;
 import java.util.Map;
@@ -20,14 +20,12 @@ import java.util.Map;
 import io.reactivex.Observable;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;

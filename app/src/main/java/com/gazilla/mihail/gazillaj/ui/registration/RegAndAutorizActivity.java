@@ -1,6 +1,5 @@
 package com.gazilla.mihail.gazillaj.ui.registration;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
@@ -15,14 +14,9 @@ import android.widget.TextView;
 
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.RegAndAutorizInteractor;
-import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.presentation.registration.RegAndAutorizPresenter;
 import com.gazilla.mihail.gazillaj.presentation.registration.RegAndAutorizView;
-import com.gazilla.mihail.gazillaj.ui.main.MainActivity;
-import com.gazilla.mihail.gazillaj.utils.ErrorDialog;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
-
-import java.util.zip.Inflater;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 
 public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAutorizView {
 
@@ -48,7 +42,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
     private EditText refererCode;
     private EditText promocode;
 
-    private ErrorDialog errorDialog;
+    private AppDialogs appDialogs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,8 +219,8 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
     @Override
     public void showErrorr(String error) {
-        errorDialog = new ErrorDialog(this);
-        errorDialog.detailTargetProgress(error);
+        appDialogs = new AppDialogs();
+        appDialogs.warningDialog(this, error, "Ок");
         if (loginDialog!=null)
             loginDialog.dismiss();
     }

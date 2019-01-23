@@ -1,6 +1,6 @@
 package com.gazilla.mihail.gazillaj.utils.callBacks;
 
-import com.gazilla.mihail.gazillaj.POJO.PromoSmokerpass;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoSmokerpass;
 
 public interface SmokerpassCallBack {
 

@@ -10,10 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gazilla.mihail.gazillaj.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.R;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
+import com.gazilla.mihail.gazillaj.utils.Initialization;
 
-import java.util.List;
 import java.util.Map;
 
 public class AdapterLvlDracon extends BaseAdapter {
@@ -25,7 +25,7 @@ public class AdapterLvlDracon extends BaseAdapter {
 
     public AdapterLvlDracon(Context context, int lvl, Map<Integer, Integer> mapLvl) {
         this.context = context;
-        this.lvl = lvl;
+        this.lvl = Initialization.userWithKeys.getLevel();
         this.mapLvl = mapLvl;
     }
 
@@ -36,69 +36,51 @@ public class AdapterLvlDracon extends BaseAdapter {
 
     @Override
     public Integer getItem(int position) {
-        return mapLvl.get(position);
+        return mapLvl.get(position+1);
     }
 
     @Override
     public long getItemId(int position) {
-        return lvl;
+        return position+1;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView==null){
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.for_list_lvl_user, null);
-        }
-        ImageView imgDracon = convertView.findViewById(R.id.imgDragonLvl);
-        TextView txtName = convertView.findViewById(R.id.tvNameLvlForList);
-        TextView txtDeckription = convertView.findViewById(R.id.tvDicriptionLvlForList);
 
-        Log.i("Loog", "posiz - " + mapLvl.get(position+1));
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.for_list_lvl_user, null);
+            }
+            ImageView imgDracon = convertView.findViewById(R.id.imgDragonLvl);
+            TextView txtName = convertView.findViewById(R.id.tvNameLvlForList);
+            TextView txtDeckription = convertView.findViewById(R.id.tvDicriptionLvlForList);
 
-         int scor = mapLvl.get(position+1);
-             key = 0;
+            Log.i("Loog", "posiz - " + mapLvl.get(position + 1));
 
-        if(scor == 0) {
-           key = 1;
+            key = (int) getItemId(position);
 
-        }
-        if(scor == 10000) {
-            key = 2;
-        }
-        if(scor == 30000) {
-            key = 3;
-        }
-        if(scor == 100000) {
-            key = 4;
-        }
-        if(scor == 300000) {
-            key = 5;
-        }
+            Log.i("Loog", "key pos - " + key);
 
-        Log.i("Loog", "key pos - " + key);
+            String names = getName((int) getItemId(position));
+            String deckr = getDescription((int) getItemId(position));
+            int rDrawable = getImage((int) getItemId(position));
 
-        String names = getName(key);
-        String deckr = getDescription(key);
-        int rDrawable = getImage(key);
+            txtName.setText(names);
+            txtDeckription.setText(deckr);
 
+            imgDracon.setImageResource(rDrawable);
 
-        txtName.setText(names);
-        txtDeckription.setText(deckr);
+            if (lvl != key) {
+                imgDracon.setColorFilter(0x99000000);
+                txtName.setTextColor(Color.rgb(151, 151, 151));
+                txtDeckription.setTextColor(Color.rgb(151, 151, 151));
+            } else {
+                imgDracon.setColorFilter(Color.TRANSPARENT);
+                txtName.setTextColor(Color.WHITE);
+                txtDeckription.setTextColor(Color.WHITE);
+            }
+            return convertView;
 
-        imgDracon.setImageResource(rDrawable);
-
-        if(lvl!=key){
-            imgDracon.setColorFilter(0x99000000);
-            txtName.setTextColor(Color.rgb(151,151,151));
-            txtDeckription.setTextColor(Color.rgb(151,151,151));
-        }
-        else{
-            imgDracon.setColorFilter(Color.TRANSPARENT);
-            txtName.setTextColor(Color.WHITE);
-            txtDeckription.setTextColor(Color.WHITE);
-        }
-        return convertView;
     }
 
     private String getName(int lvl){
@@ -114,15 +96,23 @@ public class AdapterLvlDracon extends BaseAdapter {
     }
 
     private String getDescription(int lvl){
-        switch (lvl){
-            case 1: return "Начальный";
-            case 2: return "от " + mapLvl.get(2).toString()+" р";
-            case 3: return "от " + mapLvl.get(3).toString()+"р ";
-            case 4: return "от " + mapLvl.get(4).toString()+"р ";
-            case 5: return "от " + mapLvl.get(5).toString()+"р ";
 
+        try {
+            switch (lvl){
+                case 1: return "Начальный";
+                case 2: return "от " + mapLvl.get(2).toString()+"р";
+                case 3: return "от " + mapLvl.get(3).toString()+"р ";
+                case 4: return "от " + mapLvl.get(4).toString()+"р ";
+                case 5: return "от " + mapLvl.get(5).toString()+"р ";
+
+            }
+            return "Нет описания";
+        }catch (NullPointerException ex){
+            new AppDialogs().errorDialog(context, ex.getMessage(), "AdapterLvlDracon.getDescription");
+            return "Нет описания";
         }
-        return "Нет описания";
+
+
     }
 
     private int getImage(int lvl){

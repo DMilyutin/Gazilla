@@ -1,14 +1,10 @@
 package com.gazilla.mihail.gazillaj.presentation.main.stock;
 
-import android.util.Log;
-
-import com.gazilla.mihail.gazillaj.POJO.PromoItem;
-import com.gazilla.mihail.gazillaj.model.interactor.PresentsInteractor;
+import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.model.interactor.PromoInteractor;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.PromoCallBack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PromoPresenter {
