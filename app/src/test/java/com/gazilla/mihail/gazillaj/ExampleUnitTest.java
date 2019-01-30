@@ -23,4 +23,10 @@ public class ExampleUnitTest {
         AccountActivity activity = new AccountActivity();
         assertEquals(activity.checkPhone("+79251459197"), "9251459197");
     }
+
+    @Test
+    public void checkePromoTxt(){
+
+        //assertEquals(new RegAndAutorizActivity().poromoORrefer("123456"), "Refer");
+    }
 }

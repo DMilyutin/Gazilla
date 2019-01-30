@@ -55,7 +55,7 @@
         <EditText
             android:id="@+id/edPeoplesReserve"
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
@@ -68,7 +68,7 @@
             android:theme="@style/MyEditText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView24"
-            app:layout_constraintTop_toBottomOf="@+id/textView24" />
+            app:layout_constraintTop_toBottomOf="@+id/edPhoneReserve" />
 
         <CheckBox
 
@@ -160,6 +160,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edPhoneReserve"
+            android:layout_width="212dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="phone"
+            android:textColor="#ffffff"
+            android:theme="@style/MyEditText"
+            app:layout_constraintEnd_toEndOf="@+id/edPeoplesReserve"
+            app:layout_constraintTop_toBottomOf="@+id/etNameReserve" />
+
+        <TextView
+            android:id="@+id/textView79"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="+7"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/edPhoneReserve"
+            app:layout_constraintEnd_toStartOf="@+id/edPhoneReserve"
+            app:layout_constraintTop_toTopOf="@+id/edPhoneReserve" />
+
+        <EditText
+            android:id="@+id/etNameReserve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Имя"
+            android:inputType="textPersonName"
+            android:textColor="#ffffff"
+            android:theme="@style/MyEditText"
+            app:layout_constraintEnd_toEndOf="@+id/edPhoneReserve"
+            app:layout_constraintTop_toTopOf="@+id/textView24" />
 
     </android.support.constraint.ConstraintLayout>
 

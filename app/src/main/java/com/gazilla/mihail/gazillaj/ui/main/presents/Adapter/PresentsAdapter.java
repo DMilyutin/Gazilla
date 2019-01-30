@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor.PhotoMemuInterator;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
@@ -24,6 +25,7 @@ import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.ImgCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.MenuCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -34,7 +36,6 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
 
     private Context context;
     private List<MenuCategory> menuCategories;
-    private List<ImgGazilla> imgGazillas;
 
     private int[] favorite;
     private ImageLoader imageLoader;
@@ -51,40 +52,58 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
         //setPhotoList();
-        imgGazillas = PhotoMemuInterator.imgGazillass;
+
     }
 
 
 
     private int[] init2(List<MenuCategory> categories){
+        if (categories.isEmpty()||categories==null){
+            return null;
+        }
+
+
         int[] favor = Initialization.userWithKeys.getFavorites();  // список id которые в любимом
 
+        try {
+            int max = categories.get(categories.size()-1).getItems().get(categories.get(categories.size()-1).getItems().size()-1).getId();
 
-        int max = categories.get(categories.size()-1).getItems().get(categories.get(categories.size()-1).getItems().size()-1).getId();
-        Log.i("Loog" ," max = categories - " + max);
-        int[] mapFavorit = new int[max+1];
+            Log.i("Loog" ," max = categories - " + max);
+            int[] mapFavorit = new int[max+1];
 
-        for (int z = 0; z<max+1;z++)
-            mapFavorit[z]=0;
+            for (int z = 0; z<max+1;z++)
+                mapFavorit[z]=0;
 
 
-        for(int iCategories = 0; iCategories < categories.size(); iCategories++ ){
+            for(int iCategories = 0; iCategories < categories.size(); iCategories++ ){
 
-            for(int iItem = 0; iItem<categories.get(iCategories).getItems().size(); iItem++){
+                for(int iItem = 0; iItem<categories.get(iCategories).getItems().size(); iItem++){
 
-                int id = categories.get(iCategories).getItems().get(iItem).getId();
+                    int id = categories.get(iCategories).getItems().get(iItem).getId();
 
-                for (int i = 0; i<favor.length;i++){
-                    if(favor[i]==id)
-                        mapFavorit[id]=1;
+                    for (int i = 0; i<favor.length;i++){
+                        if(favor[i]==id)
+                            mapFavorit[id]=1;
+                    }
+
                 }
-
             }
+            for (int it: mapFavorit) {
+                Log.i("Loog" ,"return mapFavorit " + it);
+            }
+            return mapFavorit;
+
         }
-        for (int it: mapFavorit) {
-            Log.i("Loog" ,"return mapFavorit " + it);
+        catch (ArrayIndexOutOfBoundsException indexEx){
+            new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение", "Ок");
+            menuFromServer();
         }
-        return mapFavorit;
+        catch (IndexOutOfBoundsException indexEx){
+            new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение", "Ок");
+            menuFromServer();
+        }
+
+        return null;
     }
 
     @Override
@@ -143,16 +162,22 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
             convertView = inflater.inflate(R.layout.for_exlist_name_child_group_presents, null);
         }
 
-        Log.i("Loog", " last proverca empty?" + imgGazillas.isEmpty());
+
 
         MenuItem menuItem = getChild(groupPosition, childPosition);
         Log.i("Loog", "id menu item - " + menuItem.getId());
 
-        int favor;
-        if (favorite[menuItem.getId()]==1)
+        ((TextView) convertView.findViewById(R.id.tvNameChildPresentsExList)).setText(menuItem.getName());
+        ((TextView) convertView.findViewById(R.id.tvDescriptionChildPresentsExList)).setText(menuItem.getDescription());
+        ((TextView) convertView.findViewById(R.id.tvCoastChildPresentsExLists)).setText(String.valueOf(menuItem.getPrice()));
+
+
+        int favor= R.drawable.ic_grade_grey24dp;
+
+        if (favorite!=null&&favorite[menuItem.getId()]==1)
            favor = R.drawable.ic_grade_gold_24dp;
-       else
-            favor = R.drawable.ic_grade_grey24dp;
+
+
 
         ((ImageView) convertView.findViewById(R.id.imgMiniItemMemu)).setImageResource(R.drawable.gaz);
         ((ImageView) convertView.findViewById(R.id.imgFavoritIcon)).setImageResource(favor);
@@ -177,14 +202,11 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
             }
         });
 
-        if (menuImg.getImg(menuItem.getId())!=0){
-            String res = "drawable://" + menuImg.getImg(menuItem.getId());
-            imageLoader.displayImage(res, ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
-        }
-        else{
-            String res = "drawable://" + R.drawable.gaz;
-            imageLoader.displayImage(res, ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
-        }
+        String res = "drawable://" + R.drawable.gaz;
+        if (menuImg.getImg(menuItem.getId())!=0)
+            res = "drawable://" + menuImg.getImg(menuItem.getId());
+        imageLoader.displayImage(res, ((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)));
+
 
         return convertView;
     }
@@ -192,38 +214,6 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
-    }
-
-    private Bitmap photo(int id){
-        Log.i("Loog", "установка картинок ");
-
-        for (int i = 0; i<imgGazillas.size();i++) {
-            ImgGazilla img = imgGazillas.get(i);
-            if (img!=null) {
-                Log.i("Loog", "img!=null");
-                Log.i("Loog", "idItem - "+ id+"IdPhoto - " + img.getId());
-                if (id == img.getId()) {
-                    Log.i("Loog", "айди совпали");
-                    if (img.getImage() != null) {
-                        Log.i("Loog", "установка картинок img есть");
-                       return BitmapFactory.decodeByteArray(img.getImage(), 0, img.getImage().length);
-
-
-                    } else {
-                        Log.i("Loog", "установка картинок img нет");
-
-                        return null;
-                    }
-
-                }else
-                Log.i("Loog", "id не совпали");
-            }
-            else {
-
-                Log.i("Loog", "img!=null");
-            }
-        }
-        return null;
     }
 
 
@@ -295,7 +285,30 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
 
         return Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),  dat);
     }
+
+    private void menuFromServer(){
+        String publicKey = Initialization.userWithKeys.getPublickey();
+        String signanure = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),"");
+        Initialization.repositoryApi.ollMenu(publicKey, signanure, new MenuCallBack() {
+            @Override
+            public void ollMenu(List<MenuCategory> menuCategoryList) {
+                menuCategories=menuCategoryList;
+            }
+
+            @Override
+            public void showError(int error) {
+
+            }
+        }, new FailCallBack() {
+            @Override
+            public void setError(Throwable throwable) {
+
+            }
+        });
+    }
 }
+
+
 
 
 //------------------------ на потом -------------------------------

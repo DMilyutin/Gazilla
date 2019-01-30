@@ -44,6 +44,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Initialization {
 
+    //private static Initialization instans;
+
     private static final String URL = "https://admin.gazilla-lounge.ru/";
 
     private static ServerApi serverApi;
@@ -51,15 +53,14 @@ public class Initialization {
     public static RepositoryApi repositoryApi;
     public static RepositoryDB repositoryDB;
 
-    //public static List<ImgGazilla> imgGazillas;
-
     public static UserWithKeys userWithKeys;
 
     public static AppDatabase appDatabase;
-    private Context instance;
+    private Context context;
 
-    public Initialization(Context instance) {
-        this.instance = instance;
+    public Initialization(Context context) {
+        //if (instance==null)
+        this.context = context;
         init();
     }
 
@@ -84,7 +85,7 @@ public class Initialization {
         serverApi = retrofit.create(ServerApi.class);
 
         repositoryApi = new RepositoryApi(serverApi);
-        appDatabase = Room.databaseBuilder(instance, AppDatabase.class, "database")
+        appDatabase = Room.databaseBuilder(context, AppDatabase.class, "database")
                 .fallbackToDestructiveMigration()
                 .build();
 

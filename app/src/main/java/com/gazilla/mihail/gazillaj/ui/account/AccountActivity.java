@@ -90,7 +90,7 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
         else{
 
             Log.i("Loog", "Success account " +success.isSuccess() +" mess "+ success.getMessage());
-            txt = "Произошла ошибка записи Ваших даннвх на сервер";
+            txt = "Произошла ошибка записи Ваших данных на сервер";
         }
 
         AppDialogs appDialogs = new AppDialogs();

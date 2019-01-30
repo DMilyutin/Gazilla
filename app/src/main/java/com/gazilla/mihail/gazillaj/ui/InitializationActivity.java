@@ -14,6 +14,7 @@ import com.gazilla.mihail.gazillaj.presentation.Initialization.InitPresentation;
 import com.gazilla.mihail.gazillaj.presentation.Initialization.InnitView;
 import com.gazilla.mihail.gazillaj.ui.main.MainActivity;
 import com.gazilla.mihail.gazillaj.ui.registration.RegAndAutorizActivity;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 
@@ -21,8 +22,10 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
 
     private InitPresentation initPresentation;
     private Context context;
+
     private Initialization init;
-    private int CODE = 5;
+
+    private final int CODE = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +35,14 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
         if(initPresentation==null)
             initPresentation = new InitPresentation(this,this);
 
-        ImageView startLogo = findViewById(R.id.imageView4);
-        startLogo.setImageResource(R.drawable.logo_startr_page1);
 
-        //if(Build.VERSION.SDK_INT<=Build.VERSION_CODES.M){
-        //
-        //}
+        ((ImageView) findViewById(R.id.imageView4)).setImageResource(R.drawable.logo_startr_page1);
 
         context = getApplicationContext();
         init = new Initialization(context);
         new QRcode();
 
-        initPresentation.startInitialization();
-
+        initPresentation.checkUserDate();
     }
 
 
@@ -56,8 +54,18 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
 
     @Override
     public void startRegistrationActivity() {
-     Intent intent = new Intent(InitializationActivity.this, RegAndAutorizActivity.class);
-     startActivityForResult(intent, CODE);
+        Intent intent = new Intent(InitializationActivity.this, RegAndAutorizActivity.class);
+        startActivityForResult(intent, CODE);
+    }
+
+    @Override
+    public void startProgressBar() {
+
+    }
+
+    @Override
+    public void stopProgressBar() {
+
     }
 
     @Override
@@ -66,19 +74,13 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
         Boolean response = data.getBooleanExtra("REG", false);
         Log.i("Loog" ,"respon bool - " + response);
         if (response){
-            initPresentation.registerNext();
+            initPresentation.checkUserDate();
             // продолжение инициализации
         }
         else {
-            // ошибка регистрации
+            new AppDialogs().warningDialog(this, "Ошибка регистрации\nПерезапустите приложение", "Ок");
         }
         //initPresentation.register(reg[0], reg[1], reg[menu_id_2], reg[3]);
     }
 
-    @Override
-    protected void onResume() {
-        init = null;
-        init = new Initialization(context);
-        super.onResume();
-    }
 }

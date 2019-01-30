@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.R;
@@ -37,7 +38,7 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
     private Button btBuy;
 
     private DetailPresentPresenter presentPresenter;
-    private MenuImg menuImg;
+
 
     private MenuItem item;
     private String typeBuy;
@@ -56,35 +57,17 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
 
         if(presentPresenter==null)
             presentPresenter = new DetailPresentPresenter(this);
+        presentPresenter.getImgItem(String.valueOf(item.getId()));
 
+        imageView = findViewById(R.id.imgDetailItem);
         TextView namePresent = findViewById(R.id.tvNameDetailPresent);
         TextView descriptionPresent = findViewById(R.id.tvDescriptionDetailPresent);
         TextView coastPresent = findViewById(R.id.tvCoastDetailPresent);
         TextView weightPresent = findViewById(R.id.tvWeightDetailPresent);
 
-        imageView = findViewById(R.id.imgDetailItem);
+
         btBuy = findViewById(R.id.btBuyDetailPresent);
 
-        menuImg = new MenuImg();
-
-        /*int res = menuImg.getImg(item.getId());
-        if(res!=0)
-        imageView.setImageResource(res);*/
-
-        //List<ImgGazilla> photoMenu = Initialization.repositoryDB.imgFromBD();
-
-        /*for (ImgGazilla img : photoMenu) {
-            if(img.getId()==item.getId()){
-                //Image image = img.getImage();
-                ByteBuffer buffer = null;
-
-                byte[] bytes = new byte[buffer.capacity()];
-                buffer.get(bytes);
-                Bitmap bitmapImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
-                imageView.setImageBitmap(bitmapImage);
-            }
-
-        }*/
 
         namePresent.setText(item.getName());
         descriptionPresent.setText(item.getDescription());
@@ -95,10 +78,6 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
             coastPresent.setText("0");
 
         Log.i("Loog" , "id item -" + item.getId());
-
-
-
-
 
         btBuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +109,15 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
         onBackPressed();
     }
 
+    @Override
+    public void setImgItem(Bitmap bitmap) {
+        imageView.setImageBitmap(bitmap);
+    }
 
+    @Override
+    public void errorDialog(String error) {
+        new AppDialogs().warningDialog(DetailPresentActivity.this, error, "Ок");
+    }
 
 
     private void dialogWithQRCode(){

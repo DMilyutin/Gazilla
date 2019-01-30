@@ -5,10 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
@@ -18,10 +22,15 @@ public class GifsAdapter extends BaseAdapter {
 
     private Context context;
     private List<MenuItem> menuItems;
+    private MenuImg menuImg ;
+    private ImageLoader imageLoader;
 
     public GifsAdapter(Context context, List<MenuItem> menuItems) {
         this.context = context;
         this.menuItems = menuItems;
+        menuImg = new MenuImg();
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(context));
     }
 
     @Override
@@ -49,6 +58,13 @@ public class GifsAdapter extends BaseAdapter {
 
         ((TextView) convertView.findViewById(R.id.tvNameGift)).setText(menuItem.getName());
         ((TextView) convertView.findViewById(R.id.tvDecriptionGift)).setText(menuItem.getDescription());
+
+
+        String res = "drawable://" + R.drawable.gaz;
+        if (menuImg.getImg(menuItem.getId())!=0)
+            res = "drawable://" + menuImg.getImg(menuItem.getId());
+        imageLoader.displayImage(res, ((ImageView) convertView.findViewById(R.id.imgPhotoPresent)));
+
         return convertView;
     }
 

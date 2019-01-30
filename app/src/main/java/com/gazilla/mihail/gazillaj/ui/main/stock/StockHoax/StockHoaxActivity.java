@@ -1,13 +1,16 @@
 package com.gazilla.mihail.gazillaj.ui.main.stock.StockHoax;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.gazilla.mihail.gazillaj.R;
+import com.gazilla.mihail.gazillaj.ui.reserve.ReserveActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,6 +33,13 @@ public class StockHoaxActivity extends AppCompatActivity {
         tvMin = findViewById(R.id.tvMinStockHoax);
         t();
 
+
+        Button btReserve = findViewById(R.id.btReserveFromHuax);
+
+        btReserve.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ReserveActivity.class);
+            startActivity(intent);
+        });
     }
 
 

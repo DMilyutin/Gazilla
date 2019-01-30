@@ -7,7 +7,7 @@
     android:background="@drawable/grey_oval_background">
 
     <ImageView
-        android:id="@+id/imageView13"
+        android:id="@+id/imgPhotoPresent"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="8dp"
@@ -31,7 +31,7 @@
         android:text="Название"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView13"
+        app:layout_constraintStart_toEndOf="@+id/imgPhotoPresent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -46,7 +46,7 @@
         android:text="Описание"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView13"
+        app:layout_constraintStart_toEndOf="@+id/imgPhotoPresent"
         app:layout_constraintTop_toBottomOf="@+id/tvNameGift" />
 
     <TextView

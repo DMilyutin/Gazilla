@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        Log.i("Loog", "MainActivity создана");
 
         if(mainPresentation==null)
             mainPresentation = new MainPresentation(this);

@@ -36,6 +36,8 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     private CheckBox predzakaz;
     private TextView tvDate;
     private TextView tvTime;
+    private EditText etPhone;
+    private EditText etName;
 
     private AppDialogs appDialogs;
 
@@ -70,6 +72,14 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         tvDate=findViewById(R.id.tvDateReserve);
         tvTime=findViewById(R.id.tvTimeReserve);
         predzakaz=findViewById(R.id.cbPredzakazReserve);
+        etPhone=findViewById(R.id.edPhoneReserve);
+        etName=findViewById(R.id.etNameReserve);
+
+        if (name!=null&&!name.equals(""))
+            etName.setText(name);
+
+        if (phone!=null&&!phone.equals(""))
+            etPhone.setText(phone);
 
         checkUserInfo();
 
@@ -105,8 +115,9 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
                 @SuppressLint("SimpleDateFormat") String dateFroReserve = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
                         .format(dateAndTime.getTimeInMillis());
 
-                if (!phone.equals("")&&!name.equals("")) {
-
+                if (!etName.getText().toString().equals("")&&!etPhone.getText().toString().equals("")) {
+                    phone = etPhone.getText().toString();
+                    name = etName.getText().toString();
                     String comment = "";
                     Boolean preorder = false;
 
@@ -115,10 +126,11 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
                     Reserve reserve = new Reserve(qty, hours, dateFroReserve, phone, name, comment);
                     putReserve(reserve, preorder);
                 } else
-                appDialogs.warningDialog(this, "Все поля должны быть заполнен", "repeat");
+                appDialogs.warningDialog(this, "Все поля должны быть заполнен", "Повторить");
 
             }
-
+            else
+                appDialogs.warningDialog(this, "Все поля должны быть заполнен", "Повторить");
         });
 
     }

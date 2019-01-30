@@ -48,7 +48,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView24"
+                    android:id="@+id/imgNewFrendStockPromo"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
@@ -58,7 +58,7 @@
                     app:layout_constraintStart_toEndOf="@+id/textView45"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/photo_new_friend" />
+                    app:srcCompat="@drawable/gaz" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
@@ -81,6 +81,7 @@
                     android:text="Пригласи друга"
                     android:textColor="#f4d044"
                     android:textSize="25sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/textView70"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -96,7 +97,7 @@
                     android:text="И получи баллы"
                     android:textColor="#ffffff"
                     android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView24"
+                    app:layout_constraintBottom_toBottomOf="@+id/imgNewFrendStockPromo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -120,7 +121,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/clPromoSmokerpass">
 
                 <ImageView
-                    android:id="@+id/imageView23"
+                    android:id="@+id/imgDragonwayStockPromo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="125dp"
@@ -129,7 +130,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/dragon_hoax" />
+                    app:srcCompat="@drawable/gaz" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
@@ -152,6 +153,7 @@
                     android:text="Розыгрыш"
                     android:textColor="#f4d044"
                     android:textSize="25sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/textView77"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -226,7 +228,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/clFriend">
 
                 <ImageView
-                    android:id="@+id/imageView20"
+                    android:id="@+id/imgSmokerpassStockPromo"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
@@ -234,7 +236,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/photo_smoke" />
+                    app:srcCompat="@drawable/gaz" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -254,11 +256,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Дымный
-абонемент "
+                    android:text="Дымный\nабонемент "
                     android:textColor="#f4d044"
                     android:textSize="25sp"
-
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/textView78"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -280,6 +281,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/clKitchen"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_marginStart="16dp"
@@ -293,7 +295,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/clPromoHoax">
 
                 <ImageView
-                    android:id="@+id/imageView26"
+                    android:id="@+id/imgKitchenStockPromo"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
@@ -301,7 +303,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/appetizer" />
+                    app:srcCompat="@drawable/gaz" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -324,6 +326,7 @@
                     android:text="Кухня"
                     android:textColor="#f4d044"
                     android:textSize="25sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/textView65"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -336,13 +339,90 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="8dp"
-                    android:text=" 15% дополнительных
-баллов на кухню"
+                    android:text=" 15% дополнительных\nбаллов на кухню"
                     android:textColor="#ffffff"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="    Новости:"
+                android:textColor="#979797"
+                android:textSize="18sp" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clPlayStation"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:translationZ="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clPromoHoax">
+
+                <ImageView
+                    android:id="@+id/imgPlayStationStockPromo"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/gaz" />
+
+                <android.support.constraint.ConstraintLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/gradient_shape"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Отдыхай, играя!"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Play Station 4"
+                    android:textColor="#ff0000"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,6 +1,7 @@
 package com.gazilla.mihail.gazillaj.presentation.detail.present;
 
 
+import android.graphics.Bitmap;
 
 public interface DetailPresentView {
 
@@ -10,6 +11,7 @@ public interface DetailPresentView {
 
     void acsessBuy();
 
+    void setImgItem(Bitmap bitmap);
 
-
+    void errorDialog(String error);
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.gazilla.mihail.gazillaj.utils.POJO.Balances;
 import com.gazilla.mihail.gazillaj.model.data.api.ServerApi;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.POJO.LatestVersion;
 import com.gazilla.mihail.gazillaj.utils.callBacks.AutorizationCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.BalanceCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.DragonWeyCallBack;
@@ -24,6 +25,7 @@ import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.WheelCallBack;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -184,7 +186,7 @@ public class RepositoryApi {
 
 
     public void lastVersionMenu(String publickey, String signature, LVersionDBMenuCallBack menuCallBack,
-                                   FailCallBack failCallBack){
+                                                     FailCallBack failCallBack){
         serverApi.lastVersionDBMenu(publickey, signature)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

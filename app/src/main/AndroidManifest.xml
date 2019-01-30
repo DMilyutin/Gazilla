@@ -16,7 +16,9 @@
         android:roundIcon="@drawable/dragon1"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".ui.InitializationActivity">
+        <activity
+            android:name=".ui.InitializationActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,7 +34,9 @@
         <activity android:name=".ui.main.stock.StockDragonway.DragonwayActivity" />
         <activity android:name=".ui.main.stock.StockSmokerpass.SmokerpassActivity" />
         <activity android:name=".ui.main.stock.StockHoax.StockHoaxActivity" />
-        <activity android:name=".ui.main.stock.StockNewFriend.StockNewFriendActivity"></activity>
+        <activity android:name=".ui.main.stock.StockNewFriend.StockNewFriendActivity" />
+        <activity android:name=".ui.main.stock.StockKitchen.StockKitchenActivity" />
+        <activity android:name=".ui.main.stock.StockPlayStation.StoakPlayStationActivity"></activity>
     </application>
 
 </manifest>

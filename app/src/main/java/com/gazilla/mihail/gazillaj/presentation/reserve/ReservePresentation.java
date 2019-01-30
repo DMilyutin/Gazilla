@@ -120,28 +120,11 @@ public class ReservePresentation {
     }
 
     public void checkUserInfo(){
-        Initialization.repositoryApi.userData(new UserCallBack() {
-            @Override
-            public void userCallBack(User user) {
-                if(user.getName().equals("")||
-                   user.getEmail().equals("")||
-                   user.getPhone().equals("")){
-                    reserveView.unRegUser();
-                }
-                else
-                    reserveView.inputUserInfo(user.getName(), user.getPhone());
-            }
 
-            @Override
-            public void errorUser(String error) {
 
-            }
-        }, new FailCallBack() {
-            @Override
-            public void setError(Throwable throwable) {
+        reserveView.inputUserInfo(sharedPref.getNameFromPref(), sharedPref.getPhoneFromPref());
 
-            }
-        });
+
 
     }
 

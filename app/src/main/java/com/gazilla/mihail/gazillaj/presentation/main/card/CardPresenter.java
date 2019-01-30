@@ -204,4 +204,9 @@ public class CardPresenter {
             }
         }
     }
+
+    public void testShowWin(){
+        DragonWheel wheel = new DragonWheel(4, "gift");
+        myWinn(wheel);
+    }
 }

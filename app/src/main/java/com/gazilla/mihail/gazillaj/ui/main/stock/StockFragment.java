@@ -9,7 +9,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.gazilla.mihail.gazillaj.model.data.db.AppDatabase;
+import com.gazilla.mihail.gazillaj.ui.main.stock.StockKitchen.StockKitchenActivity;
+import com.gazilla.mihail.gazillaj.ui.main.stock.StockPlayStation.StoakPlayStationActivity;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.PromoInteractor;
@@ -20,18 +25,27 @@ import com.gazilla.mihail.gazillaj.ui.main.stock.StockDragonway.DragonwayActivit
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockHoax.StockHoaxActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockNewFriend.StockNewFriendActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockSmokerpass.SmokerpassActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
 public class StockFragment extends Fragment implements PromoView {
 
-
-    private StocksAdapter stocksAdapter;
+    private ImageLoader imageLoader;
 
     private ConstraintLayout clPromoDragonWay;
     private ConstraintLayout clPromoSmokerpass;
     private ConstraintLayout clPromoHoax;
     private ConstraintLayout clFriend;
+    private ConstraintLayout clKitchen;
+    private ConstraintLayout clPlayStation;
+
+    private ImageView imgNewFrendStockPromo;
+    private ImageView imgDragonwayStockPromo;
+    private ImageView imgSmokerpassStockPromo;
+    private ImageView imgKitchenStockPromo;
+
 
     private PromoPresenter promoPresenter;
 
@@ -40,9 +54,15 @@ public class StockFragment extends Fragment implements PromoView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imageLoader = ImageLoader.getInstance();
 
         if(promoPresenter == null)
             promoPresenter = new PromoPresenter(this, new PromoInteractor());
+        try {
+            imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
+        }catch (NullPointerException ex){
+            new AppDialogs().warningDialog(getContext(), "Ошибка загрузки картинок", "Ок");
+        }
 
 
     }
@@ -57,6 +77,25 @@ public class StockFragment extends Fragment implements PromoView {
         clPromoSmokerpass = view.findViewById(R.id.clPromoSmokerpass);
         clPromoHoax = view.findViewById(R.id.clPromoHoax);
         clFriend = view.findViewById(R.id.clFriend);
+        clKitchen = view.findViewById(R.id.clKitchen);
+        clPlayStation = view.findViewById(R.id.clPlayStation);
+
+        imgNewFrendStockPromo   = view.findViewById(R.id.imgNewFrendStockPromo);
+        imgDragonwayStockPromo  = view.findViewById(R.id.imgDragonwayStockPromo);
+        imgSmokerpassStockPromo = view.findViewById(R.id.imgSmokerpassStockPromo);
+        imgKitchenStockPromo    = view.findViewById(R.id.imgKitchenStockPromo);
+
+        String res = "drawable://" + R.drawable.photo_new_friend;
+        imageLoader.displayImage(res, imgNewFrendStockPromo);
+
+        res = "drawable://" + R.drawable.dragon_hoax;
+        imageLoader.displayImage(res, imgDragonwayStockPromo);
+
+        res = "drawable://" + R.drawable.photo_smoke;
+        imageLoader.displayImage(res, imgSmokerpassStockPromo);
+
+        res = "drawable://" + R.drawable.appetizer;
+        imageLoader.displayImage(res, imgKitchenStockPromo);
 
 
 
@@ -89,6 +128,16 @@ public class StockFragment extends Fragment implements PromoView {
 
         clFriend.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), StockNewFriendActivity.class);
+            startActivity(intent);
+        });
+
+        clKitchen.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), StockKitchenActivity.class);
+            startActivity(intent);
+        });
+
+        clPlayStation.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), StoakPlayStationActivity.class);
             startActivity(intent);
         });
     }

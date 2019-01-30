@@ -51,11 +51,7 @@ public class AppDialogs {
         textView.setText(warningMess);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
-        builder.setPositiveButton(txtPosBt, (dialog, which) -> {
-            //отправка отчета об ошибке
-            // Нужно отправить место ошибки, тест ошибки
-
-        }).setNegativeButton("Закрыть", (dialog1, which) -> {
+        builder.setNegativeButton("Закрыть", (dialog1, which) -> {
             alertDialog.dismiss();
             alertDialog=null;
         });
@@ -66,6 +62,9 @@ public class AppDialogs {
 
         Button bt = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         bt.setTextColor(Color.rgb(254, 194, 15));
+
+        Button bt2 = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        bt2.setTextColor(Color.rgb(254, 194, 15));
     }
 
 

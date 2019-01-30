@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,17 +79,25 @@ public class CardFragment extends Fragment implements CardView {
 
     private Button btReserve;
 
-
     private SwipeRefreshLayout swipeRefreshLayout;
 
+
+    private SharedPref sharedPref;
+
+    private ScrollView scCard;
+
+    //------------------------ Подсказки----------------------------------------------
     private Boolean first;
     private ConstraintLayout clWheelTip;
     private ConstraintLayout clBalanceTip;
     private ConstraintLayout clNacopTip;
     private ConstraintLayout clShowTipLvlDracon;
+    private ConstraintLayout clRegistrTip;
+    private ConstraintLayout clReserveTip;
 
-    private Button btTipNext;
-    private SharedPref sharedPref;
+    private TextView tvTipNext;
+    private TextView tvRegistrTipNext;
+    private TextView tvReserveTipNext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,6 +117,7 @@ public class CardFragment extends Fragment implements CardView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_fragment2, null);
 
+        scCard = view.findViewById(R.id.scCard);
         swipeRefreshLayout = view.findViewById(R.id.refresh);
 
         ruletka = view.findViewById(R.id.imgRuletka);
@@ -125,17 +135,31 @@ public class CardFragment extends Fragment implements CardView {
 
         btReserve = view.findViewById(R.id.btOpenReserve);
 
-        clWheelTip = view.findViewById(R.id.cl_wheel_tip);
-        clBalanceTip = view.findViewById(R.id.cl_balanse_tip);
-        clNacopTip = view.findViewById(R.id.cl_nacop_tip);
-        btTipNext = view.findViewById(R.id.btTipNext);
+
+
         clShowTipLvlDracon = view.findViewById(R.id.clShowTipLvlDracon);
 
         sharedPref = new SharedPref(getContext());
-        first = sharedPref.getFirstStart();
+
 
         cardPresenter.idClientForQRcode();
         cardPresenter.myProgress();
+
+        // -------------------------------------подсказки -------------------------------
+        first = sharedPref.getFirstStart();
+        //first = false;
+
+        clWheelTip = view.findViewById(R.id.cl_wheel_tip);
+        clBalanceTip = view.findViewById(R.id.cl_balanse_tip);
+        clNacopTip = view.findViewById(R.id.cl_nacop_tip);
+        clRegistrTip = view.findViewById(R.id.clRegistrTip);
+        clReserveTip = view.findViewById(R.id.clReserveTip);
+
+        tvTipNext = view.findViewById(R.id.btTipNext);
+        tvRegistrTipNext = view.findViewById(R.id.tvRegistrTipNext);
+        tvReserveTipNext = view.findViewById(R.id.tvReserveTipNext);
+
+        //---------------------------------------------------------------------------------
 
         upDateSpins();
         Log.i("Loog", "Tip - " + first);
@@ -149,7 +173,7 @@ public class CardFragment extends Fragment implements CardView {
         try {
             upDateSpins();
 
-            if(MainActivity.cal==0)
+            if(!first)
                 openFirstDialog();
 
 
@@ -188,6 +212,7 @@ public class CardFragment extends Fragment implements CardView {
                     lvLvlDracon.setVisibility(View.VISIBLE);
                     if (!first)
                         clShowTipLvlDracon(true);
+
                 }
                 else
                     lvLvlDracon.setVisibility(View.GONE);
@@ -198,29 +223,12 @@ public class CardFragment extends Fragment implements CardView {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if(!first){
                         clShowTipLvlDracon(false);
-                    }
-
-                    int scor = adapterLvlDracon.getItem(position+1);
-
-                    int key = 0;
-
-                    if(scor == 0) {
-                        key = 1;
+                        registTip(true);
 
                     }
-                    if(scor == 10000) {
-                        key = 2;
-                    }
-                    if(scor == 30000) {
-                        key = 3;
-                    }
-                    if(scor == 100000) {
-                        key = 4;
-                    }
-                    if(scor == 300000) {
-                        key = 5;
-                    }
 
+                    int key = (int) adapterLvlDracon.getItemId(position);
+                    scCard.scrollBy(0,-2000);
                     dialogDetailProgress.detailTargetProgress(key);
                 }
             });
@@ -231,9 +239,19 @@ public class CardFragment extends Fragment implements CardView {
                 startActivity(intent);
             });
 
-            btTipNext.setOnClickListener(v -> {
+            tvTipNext.setOnClickListener(v -> {
                 clBalanceTip(false);
                 clNacopTip(true);
+            });
+
+            tvRegistrTipNext.setOnClickListener(v -> {
+                registTip(false);
+                reserveTip(true);
+                scCard.scrollBy(0,2000);
+            });
+
+            tvReserveTipNext.setOnClickListener(v -> {
+                reserveTip(false);
             });
 
 
@@ -254,6 +272,7 @@ public class CardFragment extends Fragment implements CardView {
                 public void onAnimationStart(Animation animation) {
                     onAnimationEndd = false;
                     cardPresenter.wheeling();
+                    //cardPresenter.testShowWin();
                 }
 
                 @Override
@@ -371,12 +390,15 @@ public class CardFragment extends Fragment implements CardView {
 
                    //((ImageView) finalConvertView1.findViewById(R.id.imgMiniItemMemu)).setImageResource(res);
                    imageLoader.displayImage(res, winImg);
+
                }
 
                else{
                    String res = "drawable://" + R.drawable.gaz;
                    imageLoader.displayImage(res, winImg);
                }
+
+               tvWin.setText(win);
            }
 
 
@@ -434,13 +456,18 @@ public class CardFragment extends Fragment implements CardView {
 
        private void firstStart(){
            if (!first){
+
                 clWhillTip(true);
            }
        }
 
        private void clWhillTip(Boolean show){
-            if (show)
+            if (show){
                 clWheelTip.setVisibility(View.VISIBLE);
+
+            }
+
+
             else
                 clWheelTip.setVisibility(View.GONE);
        }
@@ -453,8 +480,12 @@ public class CardFragment extends Fragment implements CardView {
     }
 
     private void clNacopTip(Boolean show){
-        if (show)
+        if (show){
+            int[] location = new int[2];
             clNacopTip.setVisibility(View.VISIBLE);
+                clNacopTip.getLocationOnScreen(location);
+             scCard.scrollBy(0, location[1]);
+        }
         else{
             clNacopTip.setVisibility(View.GONE);
             }
@@ -467,5 +498,25 @@ public class CardFragment extends Fragment implements CardView {
             clShowTipLvlDracon.setVisibility(View.GONE);
             sharedPref.saveFirstStart(true);
             }
+    }
+
+    private void registTip(Boolean show){
+        if (show)
+            clRegistrTip.setVisibility(View.VISIBLE);
+        else{
+            clRegistrTip.setVisibility(View.GONE);
+            scCard.scrollBy(0, 2000);
+        }
+
+    }
+
+    private void reserveTip(Boolean show){
+        if (show)
+            clReserveTip.setVisibility(View.VISIBLE);
+        else{
+            clReserveTip.setVisibility(View.GONE);
+            first=true;
+            sharedPref.saveFirstStart(true);
+        }
     }
 }

@@ -38,12 +38,13 @@
             android:text="ДД/ММ/ГГ"
             android:textColor="#ffffff"
             android:textSize="25sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/textView43"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView47"
+            android:id="@+id/tvHelpSmokePress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -53,6 +54,7 @@
             android:text="Действителен до:"
             android:textColor="#ffffff"
             android:textSize="25sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/tvDateStockSmokepass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -68,12 +70,12 @@
             android:layout_marginBottom="16dp"
             android:text="*Стоимость и сроки абонимента уточняйте у администраторов"
             android:textColor="@color/colorAccent"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
+            app:layout_constraintBottom_toTopOf="@+id/btByuSmokerpass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btByuSmokerpass"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -82,7 +84,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/gold_oval_background"
-            android:text="Предъявить"
+            android:text="Приобрести"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +119,8 @@
             android:text="Дымный абонемент"
             android:textColor="@color/colorAccent"
             android:textSize="40sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView47"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvHelpSmokePress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>

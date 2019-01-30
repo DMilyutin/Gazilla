@@ -7,69 +7,6 @@
     tools:context=".ui.registration.RegAndAutorizActivity"
     android:background="#252525">
 
-    <Button
-        android:id="@+id/btRegistrationSave"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/gold_oval_background"
-        android:text="Сохранить"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:translationZ="3sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView18" />
-
-    <Button
-        android:id="@+id/btRegistrationIgnore"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/grey_oval_background"
-        android:text="Пропустить"
-        android:textColor="@color/colorAccent"
-        android:textSize="12sp"
-        android:translationZ="3sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView18"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
-        android:text="Регистрация"
-        android:textColor="#ffffff"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:text="В случае необходимости, регистарция поможет нам восстановить Ваши баллы или перенести их на Ваш новый телефон"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
@@ -89,168 +26,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:clickable="true"
-        android:text="Войти"
+        android:text="Восстановить аккаунт"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:translationZ="3dp"
-        app:layout_constraintBottom_toTopOf="@+id/btRegistrationIgnore"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:background="@drawable/grey_oval_background"
-        android:orientation="vertical"
-        android:translationZ="3dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17">
-
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Имя"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/edNameRegistration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="Имя"
-            android:inputType="textPersonName"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            android:theme="@style/MyEditText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvName" />
-
-        <TextView
-            android:id="@+id/tvPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Телефон"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edNameRegistration" />
-
-        <EditText
-            android:id="@+id/edPhoneRegistration"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="(ХХХ)ХХХХХХХ"
-            android:inputType="phone"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            android:theme="@style/MyEditText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView62"
-            app:layout_constraintTop_toBottomOf="@+id/tvPhone" />
-
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Эл. почта"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edPhoneRegistration" />
-
-        <EditText
-            android:id="@+id/edEmailRegistration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:ems="10"
-            android:hint="Ваша почта"
-            android:inputType="textEmailAddress"
-            android:textSize="14sp"
-            android:theme="@style/MyEditText"
-            android:textColor="#ffffff"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
-
-        <TextView
-            android:id="@+id/textView62"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="+7"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvEmail"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPhone" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tvErrorRegistration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-
-        android:textAlignment="center"
-        android:textColor="@color/errorEmptyTextColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout5"
@@ -258,41 +45,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/grey_oval_background"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvErrorRegistration">
-
-        <EditText
-            android:id="@+id/etRefererCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:ems="10"
-            android:hint="Если есть в наличии"
-            android:inputType="text"
-            android:textSize="14sp"
-            android:theme="@style/MyEditText"
-            android:textColor="#ffffff"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Реферал"
-            app:layout_constraintStart_toStartOf="@+id/etRefererCode"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView17">
 
         <TextView
             android:id="@+id/textView21"
@@ -301,8 +61,9 @@
 
             android:layout_marginTop="8dp"
             android:text="Промокод"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/etPromoReg"
-            app:layout_constraintTop_toBottomOf="@+id/etRefererCode" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/etPromoReg"
@@ -314,15 +75,79 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
-            android:hint="Если есть в наличии"
+            android:hint="ввести код"
             android:inputType="text"
+            android:textColor="#ffffff"
             android:textSize="14sp"
             android:theme="@style/MyEditText"
-            android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvDontHavePromo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:clickable="true"
+        android:text="У меня нет промокода"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btRegWithPromo" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:text="Приветствуем!"
+        android:textColor="#ffffff"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:text="Введите промокод, если он у вас есть"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <Button
+        android:id="@+id/btRegWithPromo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/gold_oval_background"
+        android:text="Продолжить"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
 </android.support.constraint.ConstraintLayout>

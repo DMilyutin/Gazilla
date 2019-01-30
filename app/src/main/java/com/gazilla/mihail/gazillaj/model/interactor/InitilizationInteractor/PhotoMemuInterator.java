@@ -17,11 +17,12 @@ import okhttp3.ResponseBody;
 
 public class PhotoMemuInterator {
 
-    public static List<ImgGazilla> imgGazillass = new ArrayList<>();
+    private List<ImgGazilla> imgGazillass;
     private int count = 0;
 
     void startInitPhotoMenu(List<MenuCategory> categories){
         Log.i("Loog", "hasConnection");
+        imgGazillass = new ArrayList<>();
         donloadPhotoFromServer(categories);
     }
 

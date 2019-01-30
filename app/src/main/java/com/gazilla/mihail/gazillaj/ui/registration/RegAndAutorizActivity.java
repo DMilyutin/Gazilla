@@ -22,27 +22,18 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
     private RegAndAutorizPresenter presenter;
 
-    private ProgressBar pbSendCodeOnMail;
+    //private ProgressBar pbSendCodeOnMail;
 
-    private Button ignore;
-    private Button saveDate;
+    // ------------------------- Восстановление аккаунта-----------------------------------
     private TextView tvTxtWithCode;
     private EditText code;
     private Button btLogin;
     private AlertDialog loginDialog;
+    //-------------------------------------------------------------------------------------
 
-    private TextView name;
-    private TextView phone;
-    private TextView enami;
-    private TextView tvError;
+    // ---------------------------Регистрация----------------------------------------------
+    private EditText etPromocode;
 
-    private EditText newName;
-    private EditText newPhone;
-    private EditText newEmail;
-    private EditText refererCode;
-    private EditText promocode;
-
-    private AppDialogs appDialogs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,71 +42,57 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         if (presenter == null)
             presenter = new RegAndAutorizPresenter(this, new RegAndAutorizInteractor(), this);
 
-
         TextView tvLogind = findViewById(R.id.tvLoginRegActivity);
 
+        Button btRegWithPromo = findViewById(R.id.btRegWithPromo);
+        TextView tvDontHavePromo = findViewById(R.id.tvDontHavePromo);
+        etPromocode = findViewById(R.id.etPromoReg);
 
-
-        name = findViewById(R.id.tvName);
-        phone = findViewById(R.id.tvPhone);
-        enami = findViewById(R.id.tvEmail);
-        tvError = findViewById(R.id.tvErrorRegistration);
-
-        newName = findViewById(R.id.edNameRegistration);
-        newPhone = findViewById(R.id.edPhoneRegistration);
-        newEmail = findViewById(R.id.edEmailRegistration);
-        refererCode = findViewById(R.id.etRefererCode);
-        promocode = findViewById(R.id.etPromoReg);
-
-        saveDate = findViewById(R.id.btRegistrationSave);
-        ignore = findViewById(R.id.btRegistrationIgnore);
-
-
-
-        saveDate.setOnClickListener(v -> {
-            String name="";
-            String phone="";
-            String email="";
-            String refererLink="";
-            String promo = "";
-            if (newName.getText()!=null)
-            name = newName.getText().toString();
-
-            if (newPhone.getText()!=null)
-            phone = newPhone.getText().toString();
-            if (newEmail.getText()!=null)
-            email = newEmail.getText().toString();
-            if (refererCode.getText()!=null)
-            refererLink = refererCode.getText().toString();
-            if(promocode.getText()!=null)
-                promo = promocode.getText().toString();
-
-            registrationRegActivity(name, phone,email, refererLink, true, promo);
+        btRegWithPromo.setOnClickListener(v -> {
+            if (etPromocode.getText()!=null) {
+                String type = poromoORrefer(etPromocode.getText().toString());
+                if (type.equals("Refer"))
+                    regNewUser(false, etPromocode.getText().toString());
+                else if (type.equals("Promo"))
+                    regNewUser(true, etPromocode.getText().toString());
+            }
+            else
+                new AppDialogs().warningDialog(this, "Промокод не может быть пустым", "Повторить");
         });
+
+        tvDontHavePromo.setOnClickListener(v -> {
+            regNewUser(true, "");
+        });
+
 
         tvLogind.setOnClickListener(v -> {
             loginDialog();
         });
 
-        ignore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String referer="";
-                String code="";
-
-                if (refererCode.getText()!=null){
-                    referer = refererCode.getText().toString();
-
-                if(promocode.getText()!=null)
-                    code = promocode.getText().toString();
-
-                registrationRegActivity("", "", "", referer, false, code);
-                }
-
-            }
-        });
     }
 
+    public String poromoORrefer(String text){
+        if (text.contains("0")||text.contains("1")||text.contains("2")||text.contains("3")||
+                    text.contains("4")||text.contains("5")||text.contains("6")||text.contains("7")||
+                    text.contains("8")||text.contains("9"))
+            return "Refer";
+        else
+            return "Promo";
+
+    }
+
+    // Регистрация нового пользователя
+    private void regNewUser(Boolean isPromo, String txtPromo){
+        if (isPromo)
+            presenter.registrationApi("", "", "", "", txtPromo);
+        else
+            presenter.registrationApi("", "", "",  txtPromo, "");
+
+    }
+
+
+
+    // -------------------------восстановление аккаунта-------------------------------------
     private void loginDialog(){
         View dialog = getLayoutInflater().inflate(R.layout.dialog_recover_account, null);
 
@@ -123,7 +100,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         tvTxtWithCode = dialog.findViewById(R.id.textView42);
         code = dialog.findViewById(R.id.etCodeForLoginRecoverDialog);
         btLogin = dialog.findViewById(R.id.btLoging);
-        pbSendCodeOnMail = dialog.findViewById(R.id.pbRecoverAcc);
+
 
         tvTxtWithCode.setVisibility(View.GONE);
         code.setVisibility(View.GONE);
@@ -131,7 +108,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         btLogin.setOnClickListener(v -> {
             if (btLogin.getText().equals("Получить код")){
                 btLogin.setClickable(false);
-                pbSendCodeOnMail.setVisibility(View.VISIBLE);
+
                 // проверка на нал
                 if (login.getText()!=null){
                     sendCodeOnMail(login.getText().toString());
@@ -159,6 +136,8 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         loginDialog.setCanceledOnTouchOutside(false);
 
     }
+
+    //---------------------------------------------------------------------------------------------
 
     private void sendCodeOnMail(String s) {
         if (!s.equals("")){
@@ -205,12 +184,10 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
         switch (pole){
             case "name" :
-                tvError.setText(error);
-                name.setTextColor(Color.rgb(255,16,16));
+
             break;
             case "phone" :
-                tvError.setText(error);
-                phone.setTextColor(Color.rgb(255,16,16));
+
                 break;
 
 
@@ -219,7 +196,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
     @Override
     public void showErrorr(String error) {
-        appDialogs = new AppDialogs();
+        AppDialogs appDialogs = new AppDialogs();
         appDialogs.warningDialog(this, error, "Ок");
         if (loginDialog!=null)
             loginDialog.dismiss();
@@ -229,7 +206,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
     @Override
     public void visibleETCode() {
         btLogin.setClickable(true);
-        pbSendCodeOnMail.setVisibility(View.GONE);
+
         code.setVisibility(View.VISIBLE);
         tvTxtWithCode.setVisibility(View.VISIBLE);
         btLogin.setText("Войти");
@@ -237,7 +214,6 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
     @Override
     public void startProgramm(Boolean response) {
-
         Intent intent = new Intent();
         intent.putExtra("REG", response);
         setResult(RESULT_OK, intent);
@@ -246,7 +222,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
 
 
-    public String checkPhone(String s) {
+    private String checkPhone(String s) {
         if (s==null||s.equals("")) return "";
         if(s.charAt(0)=='8'&&s.length()==11){
             return ""+ s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);

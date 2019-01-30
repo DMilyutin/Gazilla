@@ -1,5 +1,6 @@
 package com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.gazilla.mihail.gazillaj.model.interactor.PresentsInteractor;
@@ -14,17 +15,18 @@ import com.gazilla.mihail.gazillaj.utils.callBacks.MenuCallBack;
 
 import java.util.List;
 
+
 public class MenuInteractor {
 
-    private SharedPref sharedPref;
     private PresentsInteractor presentsInteractor;
+    private Context context;
 
-    public MenuInteractor(SharedPref sharedPref) {
-        this.sharedPref = sharedPref;
+    public MenuInteractor(Context context) {
+        this.context = context;
         this.presentsInteractor = new PresentsInteractor();
     }
 
-    public Boolean checVersion(){
+    public void checVersion(String latestVersionDB){
         Log.i("Loog", "checVersion menu");
 
         String publickey = Initialization.userWithKeys.getPublickey();
@@ -34,9 +36,9 @@ public class MenuInteractor {
             @Override
             public void versionDBMenu(LatestVersion latestVersion) {
                 Log.i("Loog", "latestVersion -"+ latestVersion.getDate());
-                Log.i("Loog", "shared latestVersion -"+ sharedPref.getVersionMenuCategory());
+                Log.i("Loog", "shared latestVersion -"+ latestVersionDB);
 
-                if(!(sharedPref.getVersionMenuCategory().equals(latestVersion.getDate()))){
+                if(!(latestVersionDB.equals(latestVersion.getDate()))){
                     clearMenuTable();
                     upDateMenu();
                     upDateLatestVersion(latestVersion);
@@ -53,11 +55,12 @@ public class MenuInteractor {
                 Log.i("Loog", "throwable menu - " + throwable.getMessage());
             }
         });
-        return true;
+
     }
 
     private void upDateLatestVersion(LatestVersion latestVersion) {
-        Log.i("Loog", "hasConnection");
+        Log.i("Loog", "upDateLatestVersion");
+        SharedPref sharedPref = new SharedPref(context);
         sharedPref.saveVersionMenuCategory(latestVersion.getDate());
     }
 
@@ -67,12 +70,12 @@ public class MenuInteractor {
     }
 
     private void upDateMenu(){
-        Log.i("Loog", "hasConnection");
+        Log.i("Loog", "upDateMenu");
         presentsInteractor.menuServer(new MenuCallBack() {
             @Override
             public void ollMenu(List<MenuCategory> menuCategoryList) {
                 Initialization.repositoryDB.newMenuFromServer(new MenuAdapterApiDb().fromMenuCategory(menuCategoryList));
-                new PhotoMemuInterator().startInitPhotoMenu(menuCategoryList);
+                //new PhotoMemuInterator().startInitPhotoMenu(menuCategoryList);
             }
 
             @Override
