@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.ui.main.presents.tabPresent.GiftsFragment;
 import com.gazilla.mihail.gazillaj.ui.main.presents.tabPresent.PresentsFragment;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 
 public class Presents extends Fragment {
@@ -35,7 +37,13 @@ public class Presents extends Fragment {
         giftsFragment = new GiftsFragment();
         presentsFragment = new PresentsFragment();
 
-        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        try {
+            fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        }catch (NullPointerException ex){
+            new AppDialogs().warningDialog(getContext(), "Ошибка! Перезапустите пожалуйста приложение");
+            new BugReport().sendBugInfo(ex.getMessage(), "Presents.onCreate.getSupportFragmentManager");
+        }
+
         fragmentTransaction.add(R.id.viewpager, presentsFragment);
         fragmentTransaction.commit();
     }

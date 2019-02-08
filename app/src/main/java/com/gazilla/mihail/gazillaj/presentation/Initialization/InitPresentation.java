@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor.InitInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.POJO.User;
 import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
@@ -101,7 +102,7 @@ public class InitPresentation {
             case "11" : {
                 Log.i("Loog", "checkUserDate - есть интернет и прошлые данные");
                 getUserOnline();
-                Observable.just(initInteractor.checkVersionMemu(ver, innitView, context))
+                Observable.just(initInteractor.checkVersionMenu(ver, innitView, context))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(aBoolean -> {}, throwable -> {});
@@ -113,7 +114,7 @@ public class InitPresentation {
             }
             case "00" : {
                 Log.i("Loog", "checkUserDate - нет интернет и нет прошлых данных");
-                // ошибка
+                new AppDialogs().warningDialog(context, "Для первого запуска необходим доступ в интернет");
                 break;
             }
             case "01" : {

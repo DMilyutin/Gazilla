@@ -65,9 +65,6 @@ public class PresentsFragment extends Fragment implements PresentsView {
 
         presentsPresenter.initMenu();
 
-
-
-
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -85,14 +82,10 @@ public class PresentsFragment extends Fragment implements PresentsView {
 
     }
 
-
-
-
-
     @Override
     public void setAdapterPresents(List<MenuCategory> categories, List<ImgGazilla> imgGazillaList) {
 
-        presentAdapter = new PresentsAdapter(getContext(), categories);
+        presentAdapter = new PresentsAdapter(getActivity(), categories);
         expandableListView.setAdapter(presentAdapter);
 
     }

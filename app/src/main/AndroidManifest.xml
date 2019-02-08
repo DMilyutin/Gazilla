@@ -18,25 +18,37 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
             android:name=".ui.InitializationActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.progress.ProgressActivity" />
-        <activity android:name=".ui.detail.present.DetailPresentActivity" />
-        <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.registration.RegAndAutorizActivity" />
-        <activity android:name=".ui.reserve.ReserveActivity" />
+        <activity android:name=".ui.progress.ProgressActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.detail.present.DetailPresentActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.registration.RegAndAutorizActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.reserve.ReserveActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.account.AccountActivity" />
-        <activity android:name=".ui.main.stock.StockDragonway.DragonwayActivity" />
-        <activity android:name=".ui.main.stock.StockSmokerpass.SmokerpassActivity" />
-        <activity android:name=".ui.main.stock.StockHoax.StockHoaxActivity" />
-        <activity android:name=".ui.main.stock.StockNewFriend.StockNewFriendActivity" />
-        <activity android:name=".ui.main.stock.StockKitchen.StockKitchenActivity" />
-        <activity android:name=".ui.main.stock.StockPlayStation.StoakPlayStationActivity"></activity>
+        <activity android:name=".ui.main.stock.StockDragonway.DragonwayActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.stock.StockSmokerpass.SmokerpassActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.stock.StockHoax.StockHoaxActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.stock.StockNewFriend.StockNewFriendActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.stock.StockKitchen.StockKitchenActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.stock.StockPlayStation.StoakPlayStationActivity"
+            android:screenOrientation="portrait"/>/>
     </application>
 
 </manifest>

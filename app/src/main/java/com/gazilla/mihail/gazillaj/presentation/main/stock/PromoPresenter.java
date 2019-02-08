@@ -1,5 +1,6 @@
 package com.gazilla.mihail.gazillaj.presentation.main.stock;
 
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.model.interactor.PromoInteractor;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;

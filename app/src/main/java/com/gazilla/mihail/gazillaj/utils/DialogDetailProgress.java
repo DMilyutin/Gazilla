@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.gazilla.mihail.gazillaj.R;
+import com.gazilla.mihail.gazillaj.presentation.main.card.CardView;
 
 public class DialogDetailProgress {
 
@@ -49,7 +50,7 @@ public class DialogDetailProgress {
         }
     }
 
-    public void detailTargetProgress(int lvl){
+    public void detailTargetProgress(int lvl, Boolean showRegTip, CardView cardView){
 
         init(lvl);
 
@@ -74,7 +75,8 @@ public class DialogDetailProgress {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 detailProgressDialog.dismiss();
-
+                if (showRegTip)
+                    cardView.nextTip();
             }
         });
         builder.setView(dialog);

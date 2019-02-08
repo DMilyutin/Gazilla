@@ -2,6 +2,7 @@ package com.gazilla.mihail.gazillaj.presentation.main.presents;
 
 import android.util.Log;
 
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuDB;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
@@ -38,8 +39,8 @@ public class PresentsPresenter {
             }
 
             @Override
-            public void showError(int error) {
-
+            public void showError(String error) {
+                new BugReport().sendBugInfo(error, "PresentsPresenter.initMenu.showError");
             }
         });
 
@@ -54,12 +55,13 @@ public class PresentsPresenter {
             }
 
             @Override
-            public void showError(int error) {
-                Log.i("Loog", "Error - " + error);
+            public void showError(String error) {
+                new BugReport().sendBugInfo(error, "PresentsPresenter.initGifts.showError");
             }
         }, new FailCallBack() {
             @Override
             public void setError(Throwable throwable) {
+                new BugReport().sendBugInfo(throwable.getMessage(), "PresentsPresenter.initGifts.setError.Throwable");
                 Log.i("Loog", "Errort - " + throwable.getMessage());
             }
         });

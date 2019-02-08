@@ -6,6 +6,7 @@ import android.util.Log;
 import com.gazilla.mihail.gazillaj.model.interactor.PresentsInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.MenuAdapter.MenuAdapterApiDb;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.POJO.LatestVersion;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
@@ -46,12 +47,15 @@ public class MenuInteractor {
             }
 
             @Override
-            public void showError(int error) {
+            public void showError(String error) {
+
+                new BugReport().sendBugInfo(error, "MenuInteractor.checkVersion.showError");
                 Log.i("Loog", "error menu - " + error);
             }
         }, new FailCallBack() {
             @Override
             public void setError(Throwable throwable) {
+                new BugReport().sendBugInfo(throwable.getMessage(), "MenuInteractor.checkVersion.setError.Throwable");
                 Log.i("Loog", "throwable menu - " + throwable.getMessage());
             }
         });
@@ -79,13 +83,13 @@ public class MenuInteractor {
             }
 
             @Override
-            public void showError(int error) {
-
+            public void showError(String error) {
+                new BugReport().sendBugInfo(error, "MenuInteractor.upDateMenu.showError");
             }
         }, new FailCallBack() {
             @Override
             public void setError(Throwable throwable) {
-
+                new BugReport().sendBugInfo(throwable.getMessage(), "MenuInteractor.upDateMenu.setError.Throwable");
             }
         });
     }

@@ -6,5 +6,5 @@ import io.reactivex.Observable;
 
 public interface LVersionDBMenuCallBack {
     void versionDBMenu(LatestVersion latestVersion);
-    void showError(int error);
+    void showError(String error);
 }

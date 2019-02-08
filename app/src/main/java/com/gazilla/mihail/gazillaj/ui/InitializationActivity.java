@@ -15,14 +15,13 @@ import com.gazilla.mihail.gazillaj.presentation.Initialization.InnitView;
 import com.gazilla.mihail.gazillaj.ui.main.MainActivity;
 import com.gazilla.mihail.gazillaj.ui.registration.RegAndAutorizActivity;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 
 public class InitializationActivity extends AppCompatActivity implements InnitView {
 
     private InitPresentation initPresentation;
-    private Context context;
-
     private Initialization init;
 
     private final int CODE = 5;
@@ -38,11 +37,12 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
 
         ((ImageView) findViewById(R.id.imageView4)).setImageResource(R.drawable.logo_startr_page1);
 
-        context = getApplicationContext();
-        init = new Initialization(context);
+
+        init = new Initialization(this);
         new QRcode();
 
         initPresentation.checkUserDate();
+
     }
 
 
@@ -78,9 +78,9 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
             // продолжение инициализации
         }
         else {
-            new AppDialogs().warningDialog(this, "Ошибка регистрации\nПерезапустите приложение", "Ок");
+            new AppDialogs().warningDialog(this, "Ошибка регистрации\nПерезапустите приложение");
         }
-        //initPresentation.register(reg[0], reg[1], reg[menu_id_2], reg[3]);
+
     }
 
 }

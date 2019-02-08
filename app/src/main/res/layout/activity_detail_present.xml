@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textColor="@color/colorAccent"
@@ -95,7 +95,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:text="Описание"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,8 +103,8 @@
 
         <ImageView
             android:id="@+id/imageView19"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvCoastDetailPresent"
@@ -119,6 +119,17 @@
             android:text="Вес"
             app:layout_constraintStart_toStartOf="@+id/tvDescriptionDetailPresent"
             app:layout_constraintTop_toBottomOf="@+id/tvNameDetailPresent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/gradient_down_to_up_grey">
+
     </android.support.constraint.ConstraintLayout>
 
 

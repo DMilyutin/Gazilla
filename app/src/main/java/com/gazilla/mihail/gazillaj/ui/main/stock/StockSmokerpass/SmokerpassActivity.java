@@ -51,7 +51,7 @@ public class SmokerpassActivity extends AppCompatActivity {
                 dialogWithQRCode();
             }
             else
-                appDialogs.warningDialog(this, "Для того чтобы приобрести дымный абонемент, обратитесь пожалуйста к нашему сотруднику", "SmokerpassActivity");
+                appDialogs.warningDialog(this, "Для того чтобы приобрести дымный абонемент, обратитесь пожалуйста к нашему сотруднику");
 
         });
         mySmokerpass();

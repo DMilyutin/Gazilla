@@ -92,7 +92,7 @@ public class GiftsFragment extends Fragment implements PresentsView {
 
     @Override
     public void setAdapterGifts(List<MenuItem> gifts) {
-        gifsAdapter = new GifsAdapter(getContext() , gifts);
+        gifsAdapter = new GifsAdapter(getActivity() , gifts);
         giftsList.setAdapter(gifsAdapter);
     }
 

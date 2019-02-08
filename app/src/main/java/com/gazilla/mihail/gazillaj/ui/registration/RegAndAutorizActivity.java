@@ -22,7 +22,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
     private RegAndAutorizPresenter presenter;
 
-    //private ProgressBar pbSendCodeOnMail;
+   private AppDialogs appDialogs;
 
     // ------------------------- Восстановление аккаунта-----------------------------------
     private TextView tvTxtWithCode;
@@ -42,6 +42,8 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         if (presenter == null)
             presenter = new RegAndAutorizPresenter(this, new RegAndAutorizInteractor(), this);
 
+        appDialogs = new AppDialogs();
+
         TextView tvLogind = findViewById(R.id.tvLoginRegActivity);
 
         Button btRegWithPromo = findViewById(R.id.btRegWithPromo);
@@ -50,18 +52,12 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
         btRegWithPromo.setOnClickListener(v -> {
             if (etPromocode.getText()!=null) {
-                String type = poromoORrefer(etPromocode.getText().toString());
-                if (type.equals("Refer"))
-                    regNewUser(false, etPromocode.getText().toString());
-                else if (type.equals("Promo"))
-                    regNewUser(true, etPromocode.getText().toString());
+                presenter.regNewUser(true, etPromocode.getText().toString());
             }
-            else
-                new AppDialogs().warningDialog(this, "Промокод не может быть пустым", "Повторить");
         });
 
         tvDontHavePromo.setOnClickListener(v -> {
-            regNewUser(true, "");
+            presenter.regNewUser(false, "");
         });
 
 
@@ -70,26 +66,6 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         });
 
     }
-
-    public String poromoORrefer(String text){
-        if (text.contains("0")||text.contains("1")||text.contains("2")||text.contains("3")||
-                    text.contains("4")||text.contains("5")||text.contains("6")||text.contains("7")||
-                    text.contains("8")||text.contains("9"))
-            return "Refer";
-        else
-            return "Promo";
-
-    }
-
-    // Регистрация нового пользователя
-    private void regNewUser(Boolean isPromo, String txtPromo){
-        if (isPromo)
-            presenter.registrationApi("", "", "", "", txtPromo);
-        else
-            presenter.registrationApi("", "", "",  txtPromo, "");
-
-    }
-
 
 
     // -------------------------восстановление аккаунта-------------------------------------
@@ -108,8 +84,6 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         btLogin.setOnClickListener(v -> {
             if (btLogin.getText().equals("Получить код")){
                 btLogin.setClickable(false);
-
-                // проверка на нал
                 if (login.getText()!=null){
                     sendCodeOnMail(login.getText().toString());
 
@@ -121,13 +95,11 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
                     checkCodeFromServer(code.getText().toString());
                     loginDialog.dismiss();
                 }
-
-
             }
 
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
 
         builder.setView(dialog);
 
@@ -142,10 +114,10 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
     private void sendCodeOnMail(String s) {
         if (!s.equals("")){
             if (s.contains("@")){
-                presenter.detCodeForLogin("", s);
+                presenter.getCodeForLogin("", s);
             }
             else
-                presenter.detCodeForLogin(s, "");
+                presenter.getCodeForLogin(s, "");
         }
 
     }
@@ -154,53 +126,10 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         if(!code.equals(""))
             presenter.sendCodeForLogin(code);
         else {
-            // неверный код
+            new AppDialogs().warningDialog(this, "Неверный код активации");
         }
     }
 
-
-    @Override
-    public void registrationRegActivity(String name, String phone, String email, String refererLink,  boolean save, String promo) {
-        Log.i("Loog", "registrationRegActivity");
-
-        if(save){
-            if(name.equals("")||name.isEmpty()){
-                selectEmptyText("name");
-                return;}
-            if(phone.equals("")||phone.isEmpty()){
-                selectEmptyText("phone");
-                return;
-            }
-        }
-
-        phone = checkPhone(phone);
-
-        presenter.registrationApi(name, phone, email, refererLink, promo);
-
-    }
-
-    public void selectEmptyText(String pole) {
-        String error = "*Это поле обязательно для заполнения";
-
-        switch (pole){
-            case "name" :
-
-            break;
-            case "phone" :
-
-                break;
-
-
-        }
-    }
-
-    @Override
-    public void showErrorr(String error) {
-        AppDialogs appDialogs = new AppDialogs();
-        appDialogs.warningDialog(this, error, "Ок");
-        if (loginDialog!=null)
-            loginDialog.dismiss();
-    }
 
 
     @Override
@@ -220,19 +149,24 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         finish();
     }
 
+    @Override
+    public void showLoadingDialog() {
+        appDialogs.loadingDialog(this);
+    }
 
+    @Override
+    public void showWarningDialog(String err) {
+        appDialogs.warningDialog(this, err);
+    }
 
-    private String checkPhone(String s) {
-        if (s==null||s.equals("")) return "";
-        if(s.charAt(0)=='8'&&s.length()==11){
-            return ""+ s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
-        }
-        else if (s.charAt(0)=='+'&&s.charAt(1)=='7'&&s.length()==12)
-            return ""+ s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10)+s.charAt(11);
-        else if (s.charAt(0)=='9'&&s.length()==10)
-            return s;
-        selectEmptyText("phone");
-        return "";
+    @Override
+    public void showErrorDialog(String err, String location) {
+        appDialogs.errorDialog(this, err, location);
+    }
+
+    @Override
+    public void clouaeAppDialog() {
+        appDialogs.clouseDialog();
     }
 
 

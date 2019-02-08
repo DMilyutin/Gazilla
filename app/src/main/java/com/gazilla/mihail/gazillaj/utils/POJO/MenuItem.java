@@ -8,7 +8,6 @@ public class MenuItem implements Parcelable   {
 
 
     private int id;
-
     private String name;
     private int price;
     private String description;

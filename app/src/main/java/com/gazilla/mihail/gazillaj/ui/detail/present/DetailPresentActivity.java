@@ -39,7 +39,6 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
 
     private DetailPresentPresenter presentPresenter;
 
-
     private MenuItem item;
     private String typeBuy;
     private ImageView imageView;
@@ -90,9 +89,6 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
     }
 
 
-
-
-
     @Override
     public void openFirstDialog() {
         dialogWithQRCode();
@@ -111,12 +107,16 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
 
     @Override
     public void setImgItem(Bitmap bitmap) {
-        imageView.setImageBitmap(bitmap);
+
+        if (bitmap!=null)
+            imageView.setImageBitmap(bitmap);
+        else
+            imageView.setImageResource(R.drawable.gaz);
     }
 
     @Override
     public void errorDialog(String error) {
-        new AppDialogs().warningDialog(DetailPresentActivity.this, error, "Ок");
+        new AppDialogs().warningDialog(DetailPresentActivity.this, error);
     }
 
 

@@ -19,6 +19,10 @@ import com.gazilla.mihail.gazillaj.model.repository.RepositoryDB;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
+import com.gazilla.mihail.gazillaj.utils.dagger2.DaggerInitializationComponent;
+import com.gazilla.mihail.gazillaj.utils.dagger2.InitializationComponent;
+import com.gazilla.mihail.gazillaj.utils.dagger2.Modules.ContextModule;
+import com.gazilla.mihail.gazillaj.utils.dagger2.Modules.RepositoriApiModule;
 
 
 import org.apache.commons.codec.binary.Hex;
@@ -44,27 +48,63 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Initialization {
 
-    //private static Initialization instans;
-
-    private static final String URL = "https://admin.gazilla-lounge.ru/";
-
-    private static ServerApi serverApi;
+    private Context context;
 
     public static RepositoryApi repositoryApi;
     public static RepositoryDB repositoryDB;
+    public static AppDatabase appDatabase;
 
     public static UserWithKeys userWithKeys;
 
-    public static AppDatabase appDatabase;
-    private Context context;
-
     public Initialization(Context context) {
-        //if (instance==null)
         this.context = context;
-        init();
+        daggerInit();
     }
 
-    private void init(){
+    private void daggerInit(){
+        InitializationComponent daggerInitializationComponent = DaggerInitializationComponent
+                .builder()
+                .contextModule(new ContextModule(context))
+                .build();
+
+        repositoryApi = daggerInitializationComponent.repositoryApiComponent();
+        appDatabase = daggerInitializationComponent.getAppDatabase();
+        repositoryDB = new RepositoryDB();
+    }
+
+    public static void setUserWithKeys(UserWithKeys userWithKeys) {
+        Initialization.userWithKeys = userWithKeys;
+    }
+
+
+    public static String signatur(String key, String data){
+        try {
+
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            return new String(Hex.encodeHex(sha256_HMAC.doFinal(data.getBytes("UTF-8"))));
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+    /*private void init(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
 
@@ -95,50 +135,10 @@ public class Initialization {
             Log.i("Loog", "appDatabase - null");
 
 
-        /*repositoryDB.menuFromDB(new MenuDBCallBack() {
-            @Override
-            public void ollMenu(List<MenuDB> menuDBList) {
-                MenuAdapterApiDb m = new MenuAdapterApiDb();
-                imgGazillas = imgMenu(m.fromMenuDB(menuDBList));
-            }
 
-            @Override
-            public void showError(int error) {
-
-            }
-        });*/
-    }
-
-    public static void setUserWithKeys(UserWithKeys userWithKeys) {
-        Initialization.userWithKeys = userWithKeys;
-    }
+    }*/
 
 
-    public static String signatur(String key, String data){
-        try {
-
-            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-            SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
-            sha256_HMAC.init(secret_key);
-
-
-            //String hash1 = Base64.encodeToString(sha256_HMAC.doFinal(data.getBytes("UTF-8")), 0);
-
-            //String hash2 = String.valueOf(Base64.encode(data.getBytes("UTF-8"), Base64.NO_WRAP));
-            //return hash2;
-
-            return new String(Hex.encodeHex(sha256_HMAC.doFinal(data.getBytes("UTF-8"))));
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
 
 

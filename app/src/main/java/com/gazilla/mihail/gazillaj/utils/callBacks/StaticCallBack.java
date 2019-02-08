@@ -6,5 +6,5 @@ import okhttp3.ResponseBody;
 
 public interface StaticCallBack {
     void myStatic(ResponseBody responseBody) throws IOException;
-    void showError(int error);
+    void showError(String error);
 }

@@ -5,5 +5,5 @@ import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
 public interface AutorizationCallBack {
 
     void AutorizCallBack(UserWithKeys userWithKeys);
-    void shouError(String error);
+    void showError(String error);
 }

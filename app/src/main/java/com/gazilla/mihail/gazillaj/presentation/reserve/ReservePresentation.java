@@ -3,6 +3,7 @@ package com.gazilla.mihail.gazillaj.presentation.reserve;
 import android.content.Context;
 import android.util.Log;
 
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.POJO.Reserve;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.utils.POJO.User;
@@ -31,6 +32,9 @@ public class ReservePresentation {
 
     public void reservingPresenter(Reserve reserve, Boolean preorder){
 
+        reserve.setPhone(checkFormatPhone(reserve.getPhone()));
+        if (reserve.getPhone().equals("")) return;
+
         String dat = "comment="+reserve.getCommentL()+"&"+
                     "date="+reserve.getDate()+"&"+
                     "hours="+reserve.getHours()+"&"+
@@ -42,19 +46,20 @@ public class ReservePresentation {
         String signatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),  dat);
 
         reserve.setDate(zamenaPlusa(reserve.getDate()));
-        reserve.setPhone(zamenaPlusa(reserve.getPhone()));
+
 
         reserveInteractor.setReserve(reserve.getQty(), reserve.getHours(), reserve.getDate(),
                 reserve.getName(), reserve.getPhone(), reserve.getCommentL(), preorder,  signatur,
                 new SuccessCallBack() {
                     @Override
                     public void reservResponse(Success success) {
+                        reserveView.clouseAppDialog();
                         if (success.isSuccess()){
-                        String mess = "Стол успешно забронирован! \n Ждем Вас в назначенное время";
+                        String mess = "Стол успешно забронирован!\n\nЖдем Вас в назначенное время";
                         reserveView.resultReserve(mess);
                         }
                         else {
-
+                          new BugReport().sendBugInfo(success.getMessage(), "ReservePresentation.reservingPresenter.reservResponse");
                             Log.i("Loog", "success mes " + success.getMessage());
                             String mess = "Произошло недорозуменее :( \n Позвоните нам пожалуйста";
                             reserveView.resultReserve(mess);
@@ -66,66 +71,66 @@ public class ReservePresentation {
 
                     @Override
                     public void errorResponse(String error) {
+                        reserveView.clouseAppDialog();
                         if (error.contains("qty required")){
-                            reserveView.showErrorr("Ошибка кол-ва гостей");
+                            reserveView.showWorningDialog("Ошибка кол-ва гостей");
                         }
                         else if (error.contains("hours required")){
-                            reserveView.showErrorr("Ошибка кол-ва часов");
+                            reserveView.showWorningDialog("Ошибка кол-ва часов");
                         }
                         else if (error.contains("invalid date")){
-                            reserveView.showErrorr("Ошибка выбранной даты");
+                            reserveView.showWorningDialog("Ошибка выбранной даты");
                         }
                         else if (error.contains("invalid preorder")){
-                            reserveView.showErrorr("Ошибка предзаказа");
+                            reserveView.showWorningDialog("Ошибка предзаказа");
                         }
                         else if (error.contains("invalid reserve time")){
-                            reserveView.showErrorr("Ошибка времени брони");
+                            reserveView.showWorningDialog("Ошибка времени брони");
                         }
                         else if (error.contains("name and phone required")){
-                            reserveView.showErrorr("Ошибка данных пользователя");
+                            reserveView.showWorningDialog("Ошибка данных пользователя");
                         }
+                        else {
+                            new BugReport().sendBugInfo(error, "ReservePresentation.reservingPresenter.errorResponse");
+                            reserveView.showWorningDialog("Ошибка \n" + error);
 
-                        reserveView.resultReserve("Ошибка \n" + error);
+                        }
                         Log.i("Loog", "errorReserve - " + error);
                     }
                 }, new FailCallBack() {
                     @Override
                     public void setError(Throwable throwable) {
-                        reserveView.resultReserve("Ошибка \n" + throwable);
+                        new BugReport().sendBugInfo(throwable.getMessage(), "ReservePresentation.reservingPresenter.setError.Throwable");
+                        reserveView.clouseAppDialog();
+                        reserveView.showErrorDialog("Ошибка \n" + throwable, "ReservePresentation.reservingPresenter.errorResponse");
                         Log.i("Loog", "errorReserveT - " + throwable.getMessage());
                     }
                 });
     }
 
-    private Boolean checkDateAndTime(Reserve reserve) {
-        //Todo
+    private String checkFormatPhone(String s) {
+        if (s==null||s.equals("")) return ""; // пусте поле
 
-        Calendar thisDataAndTime = Calendar.getInstance();
-
-        Calendar userTime;
-        Calendar userDate;
-
-        return false;
+        if(s.charAt(0)=='8'&&s.length()==11){ // 8 ххх ххх хх хх
+            return ""+ s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
+        }
+        else if (s.charAt(0)=='+'&&s.charAt(1)=='7'&&s.length()==12) // +7 ххх ххх хх хх
+            return ""+ s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10)+s.charAt(11);
+        else if (s.charAt(0)=='9'&&s.length()==10) // 9хх ххх хх хх
+            return s;
+        else {
+            reserveView.showWorningDialog("Неверный формат номера");
+            return "";
+        }
     }
 
     private String zamenaPlusa(String dat) {
-
         return dat.replace("+", "%2B");
     }
 
-    public void checkUserInfoOnDB(){
-        String name = sharedPref.getNameFromPref();
-        String phone = sharedPref.getPhoneFromPref();
-        reserveView.inputUserInfo(name, phone);
-    }
 
     public void checkUserInfo(){
-
-
         reserveView.inputUserInfo(sharedPref.getNameFromPref(), sharedPref.getPhoneFromPref());
-
-
-
     }
 
 }

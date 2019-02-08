@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor.PhotoMemuInterator;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
@@ -95,11 +96,13 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
 
         }
         catch (ArrayIndexOutOfBoundsException indexEx){
-            new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение", "Ок");
+            new BugReport().sendBugInfo(indexEx.getMessage(), "PresentsAdapter.init2.ArrayIndexOutOfBoundsException");
+            new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение");
             menuFromServer();
         }
         catch (IndexOutOfBoundsException indexEx){
-            new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение", "Ок");
+            new BugReport().sendBugInfo(indexEx.getMessage(), "PresentsAdapter.init2.IndexOutOfBoundsException");
+            new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение");
             menuFromServer();
         }
 
@@ -168,7 +171,7 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         Log.i("Loog", "id menu item - " + menuItem.getId());
 
         ((TextView) convertView.findViewById(R.id.tvNameChildPresentsExList)).setText(menuItem.getName());
-        ((TextView) convertView.findViewById(R.id.tvDescriptionChildPresentsExList)).setText(menuItem.getDescription());
+        ((TextView) convertView.findViewById(R.id.tvDescriptionChildPresentsExList)).setText(menuItem.getWeight());
         ((TextView) convertView.findViewById(R.id.tvCoastChildPresentsExLists)).setText(String.valueOf(menuItem.getPrice()));
 
 
@@ -296,13 +299,13 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
             }
 
             @Override
-            public void showError(int error) {
-
+            public void showError(String error) {
+                new BugReport().sendBugInfo(error, "PresentsAdapter.menuFromServer.showError");
             }
         }, new FailCallBack() {
             @Override
             public void setError(Throwable throwable) {
-
+                new BugReport().sendBugInfo(throwable.getMessage(), "PresentsAdapter.menuFromServer.setError.Throwable");
             }
         });
     }

@@ -15,16 +15,14 @@ import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 
 public class AccountActivity extends AppCompatActivity implements AccountView {
 
-    AccountPresentation accountPresentation;
+    private AccountPresentation accountPresentation;
 
     private EditText edName;
     private EditText edPhone;
     private EditText edEmail;
-    private Button btSave;
 
-   //
+    private AppDialogs appDialogs;
 
-    private SharedPref sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,84 +30,68 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
         setContentView(R.layout.activity_account);
 
         if (accountPresentation==null)
-            accountPresentation = new AccountPresentation(this);
+            accountPresentation = new AccountPresentation(this, this);
 
-        sharedPref = new SharedPref(this);
 
         edName  = findViewById(R.id.etNameAccoun);
         edPhone = findViewById(R.id.etPhoneAccoun);
         edEmail = findViewById(R.id.etEmailAccoun);
-        //
-        btSave    = findViewById(R.id.btSaveAccoun);
 
-        checkUserInfo();
+        Button btSave = findViewById(R.id.btSaveAccoun);
 
+        appDialogs = new AppDialogs();
 
+        accountPresentation.checkUserInfo();
 
         btSave.setOnClickListener(v -> {
             String n="";
             String p="";
             String e="";
+            if (edName.getText()!=null)
+            n += edName.getText().toString();
+            if (edPhone.getText()!=null)
+            p += edPhone.getText().toString();
+            if (edEmail.getText()!=null)
+            e += edEmail.getText().toString();
 
-            n = edName.getText().toString();
-            p = edPhone.getText().toString();
-            e = edEmail.getText().toString();
 
-            p=checkPhone(p);
+            //Log.
 
-            sharedPref.saveName(n);
-            sharedPref.saveMyPhone(p);
-            sharedPref.saveMyEmail(e);
-
-            Log.i("Loog", "udate phone - "+p);
-            accountPresentation.updateUserInfo(n,p,e);
+            accountPresentation.newUserInfo(n,p,e);
         });
 
     }
 
-    private void checkUserInfo(){
 
-        if(sharedPref.myPreff()){
-            String n = sharedPref.getNameFromPref();
-            String p = sharedPref.getPhoneFromPref();
-           String e = sharedPref.getEmailFromPref();
-            if(n!= null)
-                edName.setText(n);
-            if(p!=null)
-                edPhone.setText(p);
-           if(e!=null)
-                edEmail.setText(e);
-        }
+    @Override
+    public void setUserInfo(String name, String phone, String email) {
+        if(name!= null)
+            edName.setText(name);
+        if(phone!=null)
+            edPhone.setText(phone);
+        if(email!=null)
+            edEmail.setText(email);
     }
 
     @Override
-    public void responseUpdate(Success success) {
-        String txt = "";
-        if(success.isSuccess())
-            txt = "Ваши данные успешно сохранены";
-        else{
-
-            Log.i("Loog", "Success account " +success.isSuccess() +" mess "+ success.getMessage());
-            txt = "Произошла ошибка записи Ваших данных на сервер";
-        }
-
-        AppDialogs appDialogs = new AppDialogs();
-
-        appDialogs.warningDialog(this, txt, "Готово");
+    public void showWorningDialog(String txt) {
+        appDialogs.warningDialog(this, txt);
     }
 
-    public String checkPhone(String s) {
-        if (s==null||s.equals("")) return "";
-
-        if(s.charAt(0)=='8'&&s.length()==11){
-            return ""+ s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
-        }
-        else if (s.charAt(0)=='+'&&s.charAt(1)=='7'&&s.length()==12)
-            return ""+ s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10)+s.charAt(11);
-        else if (s.charAt(0)=='9'&&s.length()==10)
-            return s;
-        AppDialogs appDialogs = new AppDialogs();
-        appDialogs.warningDialog(this, "Неверный формат номера", "Повторить");
-        return "";
+    @Override
+    public void showLoadingDialog() {
+        appDialogs.loadingDialog(this);
     }
+
+    @Override
+    public void showErrorDialog(String err, String locatoin) {
+        appDialogs.errorDialog(this, err, locatoin);
+    }
+
+    @Override
+    public void clouseAppDialog() {
+        appDialogs.clouseDialog();
+    }
+
+
 }

@@ -130,6 +130,7 @@ public class MenuImg {
 
 
         }
-        return 0;
+        return R.drawable.gaz;
+
     }
 }

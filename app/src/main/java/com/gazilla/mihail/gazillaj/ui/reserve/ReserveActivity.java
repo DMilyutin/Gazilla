@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,10 +49,6 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
 
     private AlertDialog alertDialog;
 
-
-    private String name;
-    private String phone;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +58,10 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
             reservePresentation = new ReservePresentation(this, new ReserveInteractor(), this);
         }
 
-        reservePresentation.checkUserInfo();
-
         appDialogs = new AppDialogs();
         dateAndTime = Calendar.getInstance();
 
-        Button newReserve = findViewById(R.id.btNewReserve);
+        Button btNewReserve = findViewById(R.id.btNewReserve);
 
         pioples=findViewById(R.id.edPeoplesReserve);
         tvDate=findViewById(R.id.tvDateReserve);
@@ -75,13 +70,8 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         etPhone=findViewById(R.id.edPhoneReserve);
         etName=findViewById(R.id.etNameReserve);
 
-        if (name!=null&&!name.equals(""))
-            etName.setText(name);
-
-        if (phone!=null&&!phone.equals(""))
-            etPhone.setText(phone);
-
-        checkUserInfo();
+        reservePresentation.checkUserInfo();
+        //checkUserInfo();
 
         tvDate.setOnClickListener(v -> {
             alertDialog = new DatePickerDialog(ReserveActivity.this, R.style.TimePike, d,
@@ -100,24 +90,25 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
                     .show();
         });
 
-        newReserve.setOnClickListener(v -> {
+        btNewReserve.setOnClickListener(v -> {
 
             if(Calendar.getInstance().getTimeInMillis()>=dateAndTime.getTimeInMillis()){
-                appDialogs.warningDialog(this, "Дата указана неверно", "repeat");
+                appDialogs.warningDialog(this, "Дата указана неверно");
                 return;
             }
+
+            appDialogs.loadingDialog(this);
 
             if (!pioples.getText().toString().equals("")) {
 
                 int qty = Integer.parseInt(pioples.getText().toString());
-                //int hours = Integer.parseInt(hourses.getText().toString());
                 int hours = 1;
                 @SuppressLint("SimpleDateFormat") String dateFroReserve = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
                         .format(dateAndTime.getTimeInMillis());
 
                 if (!etName.getText().toString().equals("")&&!etPhone.getText().toString().equals("")) {
-                    phone = etPhone.getText().toString();
-                    name = etName.getText().toString();
+                    String phone = etPhone.getText().toString();
+                    String name = etName.getText().toString();
                     String comment = "";
                     Boolean preorder = false;
 
@@ -125,12 +116,16 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
                     if (!predzakaz.isChecked()) preorder = false;
                     Reserve reserve = new Reserve(qty, hours, dateFroReserve, phone, name, comment);
                     putReserve(reserve, preorder);
-                } else
-                appDialogs.warningDialog(this, "Все поля должны быть заполнен", "Повторить");
+                } else{
+                    clouseAppDialog();
+                    appDialogs.warningDialog(this, "Все поля должны быть заполнен");
+                }
 
             }
-            else
-                appDialogs.warningDialog(this, "Все поля должны быть заполнен", "Повторить");
+            else{
+                clouseAppDialog();
+                appDialogs.warningDialog(this, "Все поля должны быть заполнен");
+            }
         });
 
     }
@@ -150,7 +145,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     TimePickerDialog.OnTimeSetListener t= (view, hourOfDay, minute) -> {
 
         if (hourOfDay>=0&&hourOfDay<12) {
-            appDialogs.warningDialog(this, "В это время бронирование столов невозможно", "repeat");
+            appDialogs.warningDialog(this, "В это время бронирование столов невозможно");
             return;
         }
 
@@ -173,91 +168,54 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         return minute;
     }
 
-    @Override
-    public void checkUserInfo() {
-        reservePresentation.checkUserInfoOnDB();
-    }
+
 
     @Override
     public void inputUserInfo(String name, String phone) {
-           this.name = name;
-           this.phone = phone;
+        if (name==null||name.equals(""))
+            etName.setText("");
+        else
+            etName.setText(name);
+        if (phone==null||phone.equals(""))
+            etPhone.setText("");
+        else
+            etPhone.setText(phone);
     }
 
     @Override
     public void putReserve(Reserve reserve, Boolean preorder) {
-        if(bTime&&bDate)
-        reservePresentation.reservingPresenter(reserve, preorder);
+        if(bTime&&bDate){
+
+            reservePresentation.reservingPresenter(reserve, preorder);
+        }
         else
-        appDialogs.warningDialog(this, "Укажите время и дату", "Повторить");
+        appDialogs.warningDialog(this, "Укажите время и дату");
     }
 
     @Override
     public void resultReserve(String result) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(result);
-        builder.setNegativeButton("Ок", (dialog, which) -> {
-            // закрытие
-            onBackPressed();
-        });
-        builder.create().show();
+        appDialogs.warningDialog(this, result);
+        onBackPressed();
     }
 
     @Override
-    public void showErrorr(String error) {
-
-        appDialogs.warningDialog(this, error, "Повторить");
+    public void showWorningDialog(String err) {
+        appDialogs.warningDialog(this, err);
     }
 
     @Override
-    public void unRegUser() {
-        android.support.v7.app.AlertDialog errorDialog;
-
-        // предложить зарегестрироваться или позвонить
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View dialog = inflater.inflate(R.layout.dialog_un_reg_user, null);
-
-       Button btCall = dialog.findViewById(R.id.btCallDialogUnRegUser);
-
-
-       btCall.setOnClickListener(v ->  callInCofe());
-
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                onBackPressed();
-            }
-        }).setPositiveButton("Регистрация", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        builder.setView(dialog);
-        errorDialog = builder.create();
-        errorDialog.show();
-
-        Button bt = errorDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        bt.setTextColor(Color.rgb(254, 194, 15));
-
-        Button bt2 = errorDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        bt2.setTextColor(Color.rgb(254, 194, 15));
-    }
-
-    private void callInCofe(){
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:89652662222"));
-        startActivity(intent);
+    public void showLoadingDialog() {
+        appDialogs.loadingDialog(this);
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        reservePresentation.checkUserInfo();
+    public void clouseAppDialog() {
+        appDialogs.clouseDialog();
     }
+
+    @Override
+    public void showErrorDialog(String err, String locatoin) {
+        appDialogs.errorDialog(this, err, locatoin);
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.gazilla.mihail.gazillaj;
 
 import com.gazilla.mihail.gazillaj.ui.account.AccountActivity;
-import com.gazilla.mihail.gazillaj.ui.registration.RegAndAutorizActivity;
 
 import org.junit.Test;
 
@@ -21,12 +20,9 @@ public class ExampleUnitTest {
     @Test
     public void checkPhone(){
         AccountActivity activity = new AccountActivity();
-        assertEquals(activity.checkPhone("+79251459197"), "9251459197");
+        //assertEquals(activity.checkPhone("+79251459197"), "9251459197");
     }
 
-    @Test
-    public void checkePromoTxt(){
 
-        //assertEquals(new RegAndAutorizActivity().poromoORrefer("123456"), "Refer");
-    }
+
 }

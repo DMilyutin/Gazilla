@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
@@ -53,14 +54,16 @@ public class DetailPresentPresenter {
                     }
 
                     @Override
-                    public void showError(int error) {
+                    public void showError(String error) {
                         Log.i("Loog", "Загрузка showError " + error);
-                        presentView.errorDialog("Ошибка загрузки фото - " + error);
+                        presentView.setImgItem(null);
+                        presentView.errorDialog("Фото времененно недоступно");
+                       // new BugReport().sendBugInfo(error, "DetailPresentPresenter.getImgItem.showError");
                     }
                 }, new FailCallBack() {
                     @Override
                     public void setError(Throwable throwable) {
-                        Log.i("Loog", "Загрузка throwable " + throwable.getMessage());
+                        new BugReport().sendBugInfo(throwable.getMessage(), "DetailPresentPresenter.getImgItem.setError.Throwable");
                     }
                 });
     }

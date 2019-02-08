@@ -50,7 +50,7 @@ public class PhotoMemuInterator {
                     }
 
                     @Override
-                    public void showError(int error) {
+                    public void showError(String error) {
                         Log.i("Loog", "Нет картинки id - "+ id +" err -" + error);
                         addCount();
                     }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MenuItemCallBack {
     void menuItem(List<MenuItem> menuItemList);
-    void showError(int error);
+    void showError(String error);
 }

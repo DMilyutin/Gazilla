@@ -45,6 +45,7 @@ public class StockFragment extends Fragment implements PromoView {
     private ImageView imgDragonwayStockPromo;
     private ImageView imgSmokerpassStockPromo;
     private ImageView imgKitchenStockPromo;
+    private ImageView imgPlayStationStockPromo;
 
 
     private PromoPresenter promoPresenter;
@@ -59,9 +60,9 @@ public class StockFragment extends Fragment implements PromoView {
         if(promoPresenter == null)
             promoPresenter = new PromoPresenter(this, new PromoInteractor());
         try {
-            imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
+            imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         }catch (NullPointerException ex){
-            new AppDialogs().warningDialog(getContext(), "Ошибка загрузки картинок", "Ок");
+            new AppDialogs().warningDialog(getContext(), "Ошибка загрузки картинок");
         }
 
 
@@ -84,6 +85,7 @@ public class StockFragment extends Fragment implements PromoView {
         imgDragonwayStockPromo  = view.findViewById(R.id.imgDragonwayStockPromo);
         imgSmokerpassStockPromo = view.findViewById(R.id.imgSmokerpassStockPromo);
         imgKitchenStockPromo    = view.findViewById(R.id.imgKitchenStockPromo);
+        imgPlayStationStockPromo    = view.findViewById(R.id.imgPlayStationStockPromo);
 
         String res = "drawable://" + R.drawable.photo_new_friend;
         imageLoader.displayImage(res, imgNewFrendStockPromo);
@@ -97,9 +99,8 @@ public class StockFragment extends Fragment implements PromoView {
         res = "drawable://" + R.drawable.appetizer;
         imageLoader.displayImage(res, imgKitchenStockPromo);
 
-
-
-
+        res = "drawable://" + R.drawable.stock_play_station_photo;
+        imageLoader.displayImage(res, imgPlayStationStockPromo);
 
 
 

@@ -2,6 +2,7 @@ package com.gazilla.mihail.gazillaj.presentation.main.presentation;
 
 import android.util.Log;
 
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.POJO.User;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
@@ -20,17 +21,18 @@ public class MainPresentation {
         Initialization.repositoryApi.userData(new UserCallBack() {
             @Override
             public void userCallBack(User user) {
+
                 setUserwithUserKey(user);
             }
 
             @Override
             public void errorUser(String error) {
-
+                new BugReport().sendBugInfo(error, "MainPresentation.updateUserInfo.errorUser");
             }
         }, new FailCallBack() {
             @Override
             public void setError(Throwable throwable) {
-
+                new BugReport().sendBugInfo(throwable.getMessage(), "MainPresentation.updateUserInfo.setError.Throwable");
             }
         });
 

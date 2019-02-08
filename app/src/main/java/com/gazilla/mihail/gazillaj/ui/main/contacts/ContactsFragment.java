@@ -77,16 +77,7 @@ public class ContactsFragment extends Fragment {
             startActivity(intent);
         });
 
-        //openLink(getActivity(), "https://www.instagram.com/gazilla_gz");
-
         return view;
-
-        //vk - openLink(this, "https://vk.com/gazilla_gz");
-        // insta - https://www.instagram.com/gazilla_gz/
-        // address -  Нижний Сусальный переулок 5с1, 3 этаж
-        // сайт https://gazilla-lounge.ru
-        // телефон +7 965 266-22-22
-        //
 
     }
 

@@ -9,6 +9,7 @@ import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoSmokerpass;
 import com.gazilla.mihail.gazillaj.utils.POJO.QTY;
+import com.gazilla.mihail.gazillaj.utils.POJO.Song;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.utils.POJO.User;
 import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
@@ -135,4 +136,25 @@ public interface ServerApi {
 
     @GET("api/client/promos/smokerpass")
     Observable<Response<PromoSmokerpass>> getPromoSmokerpass(@Header("publickey")String publickey, @Query("signature") String signature);
+
+    // отправка отчета об ошибке
+    @FormUrlEncoded
+    @POST("api/client/bug")
+    Observable<Response<Success>> sendBugReport(@Field("message") String message,
+                                                @Header("publickey")String publickey,
+                                                @Field("signature") String signature);
+
+    // гусли
+    @GET("api/client/songs")
+    Observable<Response<String[]>> getOllSongs(@Header("publickey")String publickey,
+                                               @Field("signature") String signature);
+
+    @GET("api/client/playlist")
+    Observable<Response<Song[]>> getPlaylist(@Header("publickey")String publickey,
+                                             @Field("signature") String signature);
+
+    @POST("api/client/playlist")
+    Observable<Response<Success>> sendMyNextSond(@Header("publickey")String publickey,
+                                                 @Field("next") String next,
+                                                 @Field("signature") String signature);
 }

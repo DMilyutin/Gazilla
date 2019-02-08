@@ -27,14 +27,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="TextView"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toStartOf="@+id/imgFavoritIcon"
             app:layout_constraintStart_toEndOf="@+id/imgMiniItemMemu"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/imgMiniItemMemu" />
 
         <ImageView
             android:id="@+id/imgMiniItemMemu"
@@ -54,14 +53,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:text="TextView"
             android:textColor="@color/colorAccent"
             android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgMiniItemMemu"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescriptionChildPresentsExList" />
+            app:layout_constraintBottom_toBottomOf="@+id/imgMiniItemMemu"
+            app:layout_constraintStart_toEndOf="@+id/imgMiniItemMemu" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -69,11 +65,9 @@
             android:layout_height="20dp"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCoastChildPresentsExLists"
             app:layout_constraintStart_toEndOf="@+id/tvCoastChildPresentsExLists"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescriptionChildPresentsExList"
+            app:layout_constraintTop_toTopOf="@+id/tvCoastChildPresentsExLists"
             app:srcCompat="@drawable/gaz" />
 
         <TextView
@@ -82,25 +76,35 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginRight="1dp"
+            android:layout_marginTop="8dp"
             android:text="400 гр"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgMiniItemMemu"
-            app:layout_constraintTop_toBottomOf="@+id/imgFavoritIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNameChildPresentsExList" />
 
         <ImageView
             android:id="@+id/imgFavoritIcon"
-            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_grade_grey24dp" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient_down_to_up_gold"
+            app:layout_constraintBottom_toBottomOf="@+id/imgMiniItemMemu"
+            app:layout_constraintEnd_toEndOf="@+id/imgMiniItemMemu"
+            app:layout_constraintStart_toStartOf="@+id/imgMiniItemMemu"
+            app:layout_constraintTop_toTopOf="@+id/imgMiniItemMemu">
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

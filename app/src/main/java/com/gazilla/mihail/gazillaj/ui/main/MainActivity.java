@@ -98,13 +98,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
                         fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, stockFragment);
                         imgOpenAccount.setVisibility(View.GONE);
                         nameFragment.setText("Акции и новости");
-                        mainPresentation.updateUserInfo();
                         break;
                     case R.id.menu_contacts:
                         fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, contactsFragment);
                         imgOpenAccount.setVisibility(View.GONE);
                         nameFragment.setText("О нас");
-                        mainPresentation.updateUserInfo();
                         break;
                 }
                 //fragmentTransaction.addToBackStack(null);
@@ -117,15 +115,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
             startActivity(intent);
 
         });
-
-        /*swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                mainPresentation.updateUserInfo();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });*/
 
     }
 

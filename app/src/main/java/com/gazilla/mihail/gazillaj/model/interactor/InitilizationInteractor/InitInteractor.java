@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.gazilla.mihail.gazillaj.presentation.Initialization.InnitView;
+import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.POJO.Balances;
 import com.gazilla.mihail.gazillaj.utils.POJO.User;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
@@ -22,9 +23,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class InitInteractor {
 
-    InnitView innitView;
+    private InnitView innitView;
 
-    public boolean checkVersionMemu(String latestVersionDB, InnitView innitView, Context context){
+    public boolean checkVersionMenu(String latestVersionDB, InnitView innitView, Context context){
         this.innitView = innitView;
         MenuInteractor menuInteractor = new MenuInteractor(context);
         menuInteractor.checVersion(latestVersionDB);
@@ -59,13 +60,13 @@ public class InitInteractor {
             }
 
             @Override
-            public void showError(int error) {
-                Log.i("Loog", "myBalances err -" + error);
+            public void showError(String error) {
+                new BugReport().sendBugInfo(error, "InitInteractor.myBalances.showError");
             }
         }, new FailCallBack() {
             @Override
             public void setError(Throwable throwable) {
-                Log.i("Loog", "myBalances t -"+throwable.getMessage());
+                new BugReport().sendBugInfo(throwable.getMessage(), "InitInteractor.myBalances.setError.Throwable");
             }
         });
     }
@@ -82,12 +83,12 @@ public class InitInteractor {
 
             @Override
             public void errorUser(String error) {
-
+                new BugReport().sendBugInfo(error, "InitInteractor.userData.errorUser");
             }
         }, new FailCallBack() {
             @Override
             public void setError(Throwable throwable) {
-
+                new BugReport().sendBugInfo(throwable.getMessage(), "InitInteractor.userData.setError.Throwable");
             }
         });
     }

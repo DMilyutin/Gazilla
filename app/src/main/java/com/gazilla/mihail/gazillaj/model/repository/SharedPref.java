@@ -173,8 +173,8 @@ public class SharedPref {
 
     public Boolean getFirstStart(){
         if(myPref.contains(FIRST_START))
-            return myPref.getBoolean(FIRST_START, false);
-        return false;
+            return myPref.getBoolean(FIRST_START, true);
+        return true;
     }
 
 
