@@ -10,7 +10,7 @@ import java.util.List;
 
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
-
+/** класс конвертации списка меню для сохранения в базу данных рум */
 public class MenuAdapterApiDb {
 
     private Gson GSON;
@@ -20,6 +20,7 @@ public class MenuAdapterApiDb {
         this.GSON = new Gson();
     }
 
+    /** формат для сохранения в бд */
     public List<MenuDB> fromMenuCategory(List<MenuCategory> menuCategoryList){
 
         List<MenuDB> menuDBList = new ArrayList<>();
@@ -40,7 +41,7 @@ public class MenuAdapterApiDb {
         }
         return menuDBList;
     }
-
+    /** Формат для работы в приложении */
     public List<MenuCategory> fromMenuDB(List<MenuDB> menuDBList){
 
         Type listType = new TypeToken<ArrayList<MenuItem>>(){}.getType();

@@ -4,6 +4,7 @@ import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.DragonWeyCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.PromoCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.SongCallBack;
 
 public class PromoInteractor {
 
@@ -23,5 +24,10 @@ public class PromoInteractor {
         Initialization.repositoryApi.dragonwing(Initialization.userWithKeys.getPublickey(),
                 Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), ""),
                 dragonWeyCallBack, failCallBack);
+    }
+
+    public void playList(SongCallBack songCallBack, FailCallBack failCallBack){
+        Initialization.repositoryApi.playListFromServer(Initialization.userWithKeys.getPublickey(),
+                Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), ""), songCallBack, failCallBack);
     }
 }

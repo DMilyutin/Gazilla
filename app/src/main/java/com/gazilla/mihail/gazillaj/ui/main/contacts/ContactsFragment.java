@@ -16,18 +16,11 @@ import android.view.ViewGroup;
 import com.gazilla.mihail.gazillaj.R;
 
 import java.util.List;
-
+/** фрагмент с контактами */
 public class ContactsFragment extends Fragment {
 
     private static final String VK_APP_PACKAGE_ID = "com.vkontakte.android";
     private static final String FACEBOOK_APP_PACKAGE_ID = "com.facebook.katana";
-
-    ConstraintLayout clOpenVK;
-    ConstraintLayout clOpenFB;
-    ConstraintLayout clOpenInsta;
-    ConstraintLayout clOpenMap;
-    ConstraintLayout clOpenWWW;
-    ConstraintLayout clCallMe;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,15 +32,15 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contacts_fragment, null);
 
-        clOpenVK = view.findViewById(R.id.clOpenVK);
-        clOpenFB = view.findViewById(R.id.clOpenFB);
-        clOpenInsta = view.findViewById(R.id.clOpenInsta);
-        clOpenMap = view.findViewById(R.id.clOpenMap);
-        clOpenWWW = view.findViewById(R.id.clOpenWWW);
-        clCallMe = view.findViewById(R.id.clCallMe);
+        /** Поля с соответсвующими ссылками */
+        ConstraintLayout clOpenVK = view.findViewById(R.id.clOpenVK);
+        ConstraintLayout clOpenFB = view.findViewById(R.id.clOpenFB);
+        ConstraintLayout clOpenInsta = view.findViewById(R.id.clOpenInsta);
+        ConstraintLayout clOpenMap = view.findViewById(R.id.clOpenMap);
+        ConstraintLayout clOpenWWW = view.findViewById(R.id.clOpenWWW);
+        ConstraintLayout clCallMe = view.findViewById(R.id.clCallMe);
 
         clOpenVK.setOnClickListener(v -> {
-
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/gazilla_gz"));
             startActivity(intent);
         });
@@ -98,4 +91,6 @@ public class ContactsFragment extends Fragment {
         }
         activity.startActivity(intent);
     }
+
+
 }

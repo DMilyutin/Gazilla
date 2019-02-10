@@ -10,5 +10,4 @@ public interface ReserveView {
     void showWorningDialog(String err);
     void showLoadingDialog();
     void clouseAppDialog();
-    void showErrorDialog(String err, String locatoin);
 }

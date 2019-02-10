@@ -13,8 +13,9 @@ import com.gazilla.mihail.gazillaj.presentation.account.AccountPresentation;
 import com.gazilla.mihail.gazillaj.presentation.account.AccountView;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 
+/** Активити с управлением данных User */
 public class AccountActivity extends AppCompatActivity implements AccountView {
-
+    /** Пресентер данной активити*/
     private AccountPresentation accountPresentation;
 
     private EditText edName;
@@ -62,7 +63,7 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
 
     }
 
-
+    /** Установка сохраненных данных */
     @Override
     public void setUserInfo(String name, String phone, String email) {
         if(name!= null)
@@ -73,21 +74,18 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
             edEmail.setText(email);
     }
 
+    /** Показ диалога с ошибкой */
     @Override
     public void showWorningDialog(String txt) {
         appDialogs.warningDialog(this, txt);
     }
-
+    /** Показ диалога с загрузкой  */
     @Override
     public void showLoadingDialog() {
         appDialogs.loadingDialog(this);
     }
 
-    @Override
-    public void showErrorDialog(String err, String locatoin) {
-        appDialogs.errorDialog(this, err, locatoin);
-    }
-
+    /** Закрытие диалога */
     @Override
     public void clouseAppDialog() {
         appDialogs.clouseDialog();

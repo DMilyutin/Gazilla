@@ -97,12 +97,12 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         }
         catch (ArrayIndexOutOfBoundsException indexEx){
             new BugReport().sendBugInfo(indexEx.getMessage(), "PresentsAdapter.init2.ArrayIndexOutOfBoundsException");
-            new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение");
+            //new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение");
             menuFromServer();
         }
         catch (IndexOutOfBoundsException indexEx){
             new BugReport().sendBugInfo(indexEx.getMessage(), "PresentsAdapter.init2.IndexOutOfBoundsException");
-            new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение");
+            //new AppDialogs().warningDialog(context, "Ошибка загрузки меню\nПереустановите пожалуйста приложение");
             menuFromServer();
         }
 

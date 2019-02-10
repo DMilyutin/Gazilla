@@ -6,6 +6,9 @@ import android.util.Log;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.presentation.main.card.CardView;
 
+/**
+ * Класс подсказок
+ * */
 
 public class Tips {
 
@@ -21,8 +24,6 @@ public class Tips {
     private boolean registrTip = false;
     private boolean reserveTip = false;
 
-    private boolean stop = false;
-
 
 
     public Tips(CardView cardView, Context context) {
@@ -31,7 +32,7 @@ public class Tips {
         //initTips();
     }
 
-    /*
+    /**
      *
      * показать подсказку с колесом - нажать на колесо
      *

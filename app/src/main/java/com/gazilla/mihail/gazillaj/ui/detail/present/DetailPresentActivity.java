@@ -31,14 +31,17 @@ import com.google.zxing.WriterException;
 import java.nio.ByteBuffer;
 import java.util.List;
 
+/** Активити с детальным показом выбранного продукта из меню */
 public class DetailPresentActivity extends AppCompatActivity implements DetailPresentView {
 
     private AlertDialog firstDialogWithQRcode;
     private AlertDialog secondDialogWithAcsess;
     private Button btBuy;
 
+    /** Пресентер данного класса */
     private DetailPresentPresenter presentPresenter;
 
+    /** POJO класс для меню */
     private MenuItem item;
     private String typeBuy;
     private ImageView imageView;
@@ -105,6 +108,7 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
         onBackPressed();
     }
 
+    /** Метод установки картинки товара */
     @Override
     public void setImgItem(Bitmap bitmap) {
 

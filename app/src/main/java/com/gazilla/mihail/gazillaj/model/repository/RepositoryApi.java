@@ -19,6 +19,7 @@ import com.gazilla.mihail.gazillaj.utils.callBacks.MenuCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.MenuItemCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.PromoCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.QTYCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.SongCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SmokerpassCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
@@ -29,7 +30,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-
+/** Класс с методами запросов на сервер */
 public class RepositoryApi {
 
     private ServerApi serverApi;
@@ -38,6 +39,7 @@ public class RepositoryApi {
         this.serverApi = serverApi;
     }
 
+    /** запрос защитного кода с сервера */
     public void getCodeForLogin(String phone, String email, SuccessCallBack successCallBack, FailCallBack failCallBack) {
         serverApi.getCodeForLoging(phone, email)
                 .subscribeOn(Schedulers.io())
@@ -49,7 +51,7 @@ public class RepositoryApi {
                         successCallBack.errorResponse(successResponse.errorBody().string());
                 }, failCallBack::setError);
     }
-
+    /** отправка защитного кода при восстановлении акк */
     public void sendCodeForLoging(String code, AutorizationCallBack autorizationCallBack, FailCallBack failCallBack) {
         serverApi.sendCodeForLoging(code)
                 .subscribeOn(Schedulers.io())
@@ -61,7 +63,7 @@ public class RepositoryApi {
                         autorizationCallBack.showError(userWithKeysResponse.errorBody().string());
                 }, failCallBack::setError);
     }
-
+    /** Регистрация новго аккаунта  */
     public void registration(String name, String phone, String email, String password, String referer, String promo,
                              AutorizationCallBack autorizationCallBack, FailCallBack failCallBack) {
         serverApi.registration(name, phone, email, password, referer, promo)
@@ -75,7 +77,7 @@ public class RepositoryApi {
 
 
     }
-
+    /** Запрос на обновление данных User  */
     public void updateUserData(String name, String phone, String email, String signature, SuccessCallBack succsesCallback,
                                FailCallBack failCallBack) {
         serverApi.updateUserData(email, name, phone, Initialization.userWithKeys.getPublickey(), signature)
@@ -89,7 +91,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
 
     }
-
+    /** Запрос на данные User */
     public void userData(UserCallBack userCallBack, FailCallBack failCallBack) {
         String publKey = Initialization.userWithKeys.getPublickey();
         String emptySignatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), "");
@@ -105,6 +107,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
     }
 
+    /** Запрос баланса User */
     public void myBalances(String publickey, String signature, BalanceCallBack balanceCallBack,
                            FailCallBack failCallBack) {
         serverApi.getBalances(publickey, signature)
@@ -122,6 +125,7 @@ public class RepositoryApi {
 
     }
 
+    /** Запрос на уровни лояльности */
     public void levels(LevelsCallBack levelsCallBack, FailCallBack failCallBack) {
         String publKey = Initialization.userWithKeys.getPublickey();
         String emptySignatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), "");
@@ -136,6 +140,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
     }
 
+    /** Запрос меню с сервера */
     public void ollMenu(String publickey, String signature, MenuCallBack menuCallBack,
                         FailCallBack failCallBack) {
         serverApi.getOllMenu(publickey, signature)
@@ -149,6 +154,7 @@ public class RepositoryApi {
 
     }
 
+    /** Добавление товара в избранное */
     public void addFavoriteItem(String publickey, int id, String signature, SuccessCallBack successCallBack,
                                 FailCallBack failCallBack) {
         serverApi.addFavoritItem(publickey, id, signature)
@@ -163,6 +169,7 @@ public class RepositoryApi {
 
     }
 
+    /** Удаление товара из избранного */
     public void delFavoritItem(String publickey, int id, String signature, SuccessCallBack successCallBack,
                                FailCallBack failCallBack) {
         serverApi.deleteFavoritItem(publickey, id, signature)
@@ -176,7 +183,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
     }
 
-
+    /** Последняя версия меню */
     public void lastVersionMenu(String publickey, String signature, LVersionDBMenuCallBack menuCallBack,
                                 FailCallBack failCallBack) {
         serverApi.lastVersionDBMenu(publickey, signature)
@@ -190,7 +197,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
 
     }
-
+    /** Запрос подарков на сервер */
     public void giftsOnServer(String publickey, String signature, MenuItemCallBack itemCallBack,
                               FailCallBack failCallBack) {
         serverApi.getGifts(publickey, signature)
@@ -204,7 +211,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
 
     }
-
+    /** Последня версия таблицы подарков на сервере */
     public void lastVersionMenuItem(String publickey, String signature, LVersionDBMenuItemCallBack itemCallBack,
                                     FailCallBack failCallBack) {
         serverApi.lastVersionDBGifts(publickey, signature)
@@ -218,7 +225,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
 
     }
-
+    /** Запрос акций и новостей с сервера */
     public void ollPromo(String publickey, String signature, PromoCallBack promoCallBack,
                          FailCallBack failCallBack) {
 
@@ -233,7 +240,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
 
     }
-
+    /** Запрос последней версии акций */
     public void lastVersionPromo(String publickey, String signature, LVersionDBPromoCallBack promoCallBack,
                                  FailCallBack failCallBack) {
         serverApi.lastVersionDBPromo(publickey, signature)
@@ -247,7 +254,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
 
     }
-
+    /** Загрузка статик файлов с сервера (картинок) */
     public void getStaticFromServer(String folder, String id, StaticCallBack staticCallBack,
                                     FailCallBack failCallBack) {
         serverApi.getStaticFromServer(folder, id)
@@ -261,6 +268,7 @@ public class RepositoryApi {
 
     }
 
+    /** Запрос кол-ва возможных вращений колеса драконов */
     public void mySpins(String publickey, String signature, QTYCallBack qtyCallBack,
                         FailCallBack failCallBack) {
         serverApi.mySpins(publickey, signature)
@@ -273,7 +281,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
 
     }
-
+    /** запрос на прокрутку колеса */
     public void wheeling(String publickey, String signature, WheelCallBack wheelCallBack,
                          FailCallBack failCallBack) {
         serverApi.wheeling(publickey, signature)
@@ -307,6 +315,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
     }
 
+    /** Запрос резерва  */
     public void reserving(int qty, int hours, String date,
                           String phone, String name, String comment, Boolean preorder, String publickey,
                           String signatur, SuccessCallBack successCallBack, FailCallBack failCallBack) {
@@ -326,7 +335,7 @@ public class RepositoryApi {
                 }, failCallBack::setError);
 
     }
-
+    /** хз че за хрень */
     public void dragonwing(String publickey, String signatur, DragonWeyCallBack dragonWeyCallBack,
                            FailCallBack failCallBack) {
         serverApi.getLvlDragonway(publickey, signatur)
@@ -339,7 +348,7 @@ public class RepositoryApi {
                         dragonWeyCallBack.errorTxt(levelsResponse.errorBody().string());
                 }, failCallBack::setError);
     }
-
+    /** запрос на акцию дымный абонимент */
     public void smokerpassing(String publickey, String signatur, SmokerpassCallBack smokerpassCallBack,
                               FailCallBack failCallBack) {
         serverApi.getPromoSmokerpass(publickey, signatur)
@@ -352,7 +361,7 @@ public class RepositoryApi {
                         smokerpassCallBack.errorTxt(promoSmokerpassResponse.errorBody().string());
                 }, failCallBack::setError);
     }
-
+    /** оттправка отчета об шибках */
     public void sendBugReport(String message, String publickey, String signatur, SuccessCallBack successCallBack,
                               FailCallBack failCallBack) {
 
@@ -363,6 +372,33 @@ public class RepositoryApi {
                     if (successResponse.isSuccessful()){
                         successCallBack.reservResponse(successResponse.body());
                     }
+                }, failCallBack::setError);
+
+    }
+    /** получение плейлиста для гуслей */
+    public void playListFromServer(String publickey, String signatur, SongCallBack songCallBack,
+                               FailCallBack failCallBack){
+        serverApi.getPlaylist(publickey, signatur)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response.isSuccessful()) {
+                        songCallBack.songFromServer(response.body());
+                    }
+                    else songCallBack.errorSongFromServer("Ошибка загрузки плейлиста");
+                    }, failCallBack::setError);
+    }
+    /** загрузка возможных песен для гуслей */
+    public void songFromServer(String publickey, String signatur, SongCallBack songCallBack,
+                               FailCallBack failCallBack){
+        serverApi.getOllSongs(publickey, signatur)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response.isSuccessful()) {
+                        songCallBack.songFromServer(response.body());
+                    }
+                    else songCallBack.errorSongFromServer("Ошибка загрузки доступных песен");
                 }, failCallBack::setError);
 
     }

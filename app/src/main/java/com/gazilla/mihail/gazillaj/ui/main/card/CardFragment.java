@@ -1,5 +1,6 @@
 package com.gazilla.mihail.gazillaj.ui.main.card;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -34,37 +35,47 @@ import java.util.Map;
 
 import static com.gazilla.mihail.gazillaj.ui.main.MainActivity.mainPresentation;
 
+/** Фрагмент с рулеткой и кодом */
 
 public class CardFragment extends Fragment implements CardView, View.OnClickListener {
 
+    private Context mContext;
+    /** Пресентор данной фрагмента */
     private CardPresenter cardPresenter;
+    /** Адаптер для списка уровней системы лояльности */
     private AdapterLvlDracon adapterLvlDracon;
 
+    /** Класс для вызова диалогов */
     private AppDialogs appDialogs;
 
+    /** Картинка с рулеткой */
     private ImageView ruletka;
-
+    /** Поле с указанием кол-ва вращений */
     private TextView spins;
+    /** Text view с надписью "Подарок на рулетке " */
     private TextView tvPresentCard;
-
+    /** Картинка белого обода (Подсказка) */
     private ImageView imgWhiteCircle;
 
+    /** указание на шкале потраченных денег */
     private TextView tvSum;
     private ProgressBar pbCardFragment;
+    /** картинка с кодом */
     private ImageView imvQRcode;
 
     private ListView lvLvlDracon;
 
-
-
     private DialogDetailProgress dialogDetailProgress;
+    /** Обновление по тапу вниз */
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private ScrollView scCard;
+    /** Класс с подсказками */
     private Tips cardTips;
 
 
     //------------------------ Подсказки----------------------------------------------
+    /** Поля с подсказками, скрытые методом setVisibli(GONE) */
     private ConstraintLayout clWheelTip;
     private ConstraintLayout clBalanceTip;
     private ConstraintLayout clNacopTip;
@@ -77,10 +88,10 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
         super.onCreate(savedInstanceState);
 
         if(cardPresenter==null)
-            cardPresenter = new CardPresenter(this, getActivity());
-        dialogDetailProgress = new DialogDetailProgress(getActivity());
+            cardPresenter = new CardPresenter(this, mContext);
+        dialogDetailProgress = new DialogDetailProgress(mContext);
         appDialogs = new AppDialogs();
-        cardTips = new Tips(this, getActivity());
+        cardTips = new Tips(this, mContext);
     }
 
     @Nullable
@@ -134,9 +145,10 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        /** Запуск подсказок */
         cardTips.initTips();
 
+        /** ЗАпуск первого окна с возможностями приложения */
         cardPresenter.initCardFragment();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -150,19 +162,25 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
                 }});
 
         lvLvlDracon.setOnItemClickListener((parent, view, position, id) -> {
+            /** Открытие детальной информации из списка уровней лояльности */
+            /** Определние нажатого уровня */
             int key = (int) adapterLvlDracon.getItemId(position);
+            /** {@link AdapterLvlDracon#AdapterLvlDracon(Context, int, Map)} */
             dialogDetailProgress.detailTargetProgress(key, cardTips.getFirstStartApp(), this); });
     }
-    
+
+    /** обработчик нажатий - фрагмент */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imgRuletka: {
+                /** Нажатие на рудетку */
                 cardPresenter.prepearWheel();
                 ruletka.setClickable(false);
                 break;
             }
             case R.id.miniProgressLayout:{
+                /** Нажатие на поле с прогрессом потраченных денег для открытия уровней лояльности */
                 int i = lvLvlDracon.getVisibility();
                 if (i==8){
                     lvLvlDracon.setVisibility(View.VISIBLE);
@@ -173,30 +191,36 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
                 break;
             }
             case R.id.tvStopTips:{
+                /** Нажатие на подсказке  */
                 wheelTip(false);
                 break;
             }
             case R.id.btOpenReserve:{
-                Intent intent = new Intent(getActivity(), ReserveActivity.class);
+                /** Нажатие кнопки резерва  */
+                Intent intent = new Intent(mContext, ReserveActivity.class);
                 startActivity(intent);
                 break;
             }
             case R.id.btTipNext:{
+                /** Нажатие на подсказке  */
                 cardTips.nextTips();
                 break;
             }
             case R.id.tvRegistrTipNext:{
+                /** Нажатие на подсказке  */
                 cardTips.nextTips();
                 scCard.scrollBy(0,2000);
                 break;
             }
             case R.id.tvReserveTipNext:{
+                /** Нажатие на подсказке  */
                 cardTips.nextTips();
                 break;
             }
         }
     }
 
+    /** Метод запуска вращения рулетки*/
     @Override
     public void startWheeling(){
         ruletka.setColorFilter(Color.TRANSPARENT);
@@ -212,6 +236,7 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                /** При завершении вращений рулетки обновление информации о User и показ выигрыша */
                 cardPresenter.myWinn();
                 mainPresentation.updateUserInfo();
                 ruletka.setClickable(true);
@@ -227,6 +252,7 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
         }
 
 
+    /** Метод установки параметов в прогресе потраченных денег */
     @Override
     public void setValueProgressBar(int maxValue, int userValue) {
         tvSum.setText(String.valueOf(userValue) + "/" + String.valueOf(maxValue));
@@ -236,7 +262,7 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
 
     @Override
     public void initListWithLvl(int myLvl, Map<Integer, Integer> mapLvl) {
-        adapterLvlDracon = new AdapterLvlDracon(getContext(), myLvl, mapLvl);
+        adapterLvlDracon = new AdapterLvlDracon(mContext, myLvl, mapLvl);
         lvLvlDracon.setAdapter(adapterLvlDracon);
     }
 
@@ -247,7 +273,7 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
 
     }
 
-
+    /** Установка кол-ва вращение рулетки и внешний вид рулетки при доступных вращениях */
     @Override
     public void setSpins(int qty) {
         spins.setText(String.valueOf(qty));
@@ -262,21 +288,24 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
         }
     }
 
+    /** метод показа выигрыша */
     @Override
     public void myWin(String win, String res) {
-        appDialogs.dialogWinWheel(getActivity(), win, res, cardTips.getFirstStartApp(), this);
+        appDialogs.dialogWinWheel(mContext, win, res, cardTips.getFirstStartApp(), this);
         cardPresenter.initCardFragment();
 
     }
 
+    /** Метод установки колеса взависимости от уровня User */
     @Override
     public void initLvlForKoleso(int res) {
         ruletka.setImageResource(res);
     }
 
+    /** Методы показа подсказок */
     @Override
     public void firstDialogTip() {
-        appDialogs.dialogFirstStart(getActivity());
+        appDialogs.dialogFirstStart(mContext);
 
     }
 
@@ -346,4 +375,9 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
         cardTips.nextTips();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 }

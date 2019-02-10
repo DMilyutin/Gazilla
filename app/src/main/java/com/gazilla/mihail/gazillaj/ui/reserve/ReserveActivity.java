@@ -30,9 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ReserveActivity extends AppCompatActivity implements ReserveView {
-
+    /** Пресентер данной активити */
     private ReservePresentation reservePresentation;
 
+    /** Поля для заполнения */
     private EditText pioples;
     private CheckBox predzakaz;
     private TextView tvDate;
@@ -44,7 +45,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
 
     private Boolean bTime = false;
     private Boolean bDate = false;
-
+    /** класс для установки времени */
     private Calendar dateAndTime;
 
     private AlertDialog alertDialog;
@@ -130,7 +131,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
 
     }
 
-
+    /** Диалог с выбором даты */
     DatePickerDialog.OnDateSetListener d = (view, year, monthOfYear, dayOfMonth) -> {
         dateAndTime.set(Calendar.YEAR, year);
         dateAndTime.set(Calendar.MONTH, monthOfYear);
@@ -141,7 +142,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         tvDate.setText(date);
         bDate = true;
     };
-
+    /** Диалог с выбором времени */
     TimePickerDialog.OnTimeSetListener t= (view, hourOfDay, minute) -> {
 
         if (hourOfDay>=0&&hourOfDay<12) {
@@ -158,7 +159,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         tvTime.setText(time);
         bTime = true;
     };
-
+    /** Метод округления минут кратных 15 */
     private int roundMinute(int minute) {
         if(minute>=53&&minute<60||minute>=0&&minute<8) return 0;
         if(minute>=8&&minute<23) return 15;
@@ -169,7 +170,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     }
 
 
-
+    /** Метод установки данных User из памяти */
     @Override
     public void inputUserInfo(String name, String phone) {
         if (name==null||name.equals(""))
@@ -181,17 +182,16 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         else
             etPhone.setText(phone);
     }
-
+    /** Метод отправки заявки на резерв */
     @Override
     public void putReserve(Reserve reserve, Boolean preorder) {
         if(bTime&&bDate){
-
             reservePresentation.reservingPresenter(reserve, preorder);
         }
         else
         appDialogs.warningDialog(this, "Укажите время и дату");
     }
-
+    /** Метод отображения результата запроса на резерв */
     @Override
     public void resultReserve(String result) {
         appDialogs.warningDialog(this, result);
@@ -213,9 +213,5 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         appDialogs.clouseDialog();
     }
 
-    @Override
-    public void showErrorDialog(String err, String locatoin) {
-        appDialogs.errorDialog(this, err, locatoin);
-    }
 
 }

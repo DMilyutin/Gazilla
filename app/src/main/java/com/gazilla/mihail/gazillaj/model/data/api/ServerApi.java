@@ -31,7 +31,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-
+/** интерфейс запросов к серверу с использованием Retrofit2 */
 public interface ServerApi {
 
     // Авторизация
@@ -146,11 +146,11 @@ public interface ServerApi {
 
     // гусли
     @GET("api/client/songs")
-    Observable<Response<String[]>> getOllSongs(@Header("publickey")String publickey,
+    Observable<Response<List<Song>>> getOllSongs(@Header("publickey")String publickey,
                                                @Field("signature") String signature);
 
     @GET("api/client/playlist")
-    Observable<Response<Song[]>> getPlaylist(@Header("publickey")String publickey,
+    Observable<Response<List<Song>>> getPlaylist(@Header("publickey")String publickey,
                                              @Field("signature") String signature);
 
     @POST("api/client/playlist")

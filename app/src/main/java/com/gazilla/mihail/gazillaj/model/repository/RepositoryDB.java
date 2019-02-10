@@ -18,7 +18,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
+/** класс с запросами в базу данных Room  + callback_и для запросов в новых потоках */
 public class RepositoryDB {
 
     private PromoDao promoDao = Initialization.appDatabase.promoDao();
@@ -165,6 +165,20 @@ class CallableNewMenuFromServer implements Callable<Boolean> {
     }
 }
 
+class CallableClearMenuTable  implements Callable<Boolean> {
+
+    private MenuDBDao menuDBDao;
+
+    public CallableClearMenuTable(MenuDBDao menuDBDao) {
+        this.menuDBDao = menuDBDao;
+    }
+
+    @Override
+    public Boolean call() throws Exception {
+        menuDBDao.deleteOllTable();
+        return true;
+    }
+}
 
 
 //___________________________________картинки Callable_________________________________________

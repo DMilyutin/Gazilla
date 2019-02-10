@@ -19,11 +19,22 @@ import com.gazilla.mihail.gazillaj.utils.BugReport;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 
+/**
+ *  Активити, запускаемая при старте программы
+ * @author Dmitry Milyutin
+ */
+
 public class InitializationActivity extends AppCompatActivity implements InnitView {
 
+
+
+    /** Поле пресентора для данной активити */
     private InitPresentation initPresentation;
+
+    /** Поле статического класса для работы с приложением {@link Initialization#Initialization(Context)}*/
     private Initialization init;
 
+    /** Код для возрата с Активити регистрации */
     private final int CODE = 5;
 
     @Override
@@ -39,35 +50,29 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
 
 
         init = new Initialization(this);
+        /** Статический класс создания QR кодов во всем приложении*/
         new QRcode();
 
         initPresentation.checkUserDate();
 
     }
 
-
+    /** Метод запуска главного экрана приложения {@link InitPresentation#checkUserDat()} */
     @Override
     public void startMainActivity() {
         Intent intent = new Intent(InitializationActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
+    /** Метод запуска активити авторизации и регистрации {@link InitPresentation#checkUserDat()}*/
     @Override
     public void startRegistrationActivity() {
         Intent intent = new Intent(InitializationActivity.this, RegAndAutorizActivity.class);
         startActivityForResult(intent, CODE);
     }
 
-    @Override
-    public void startProgressBar() {
 
-    }
-
-    @Override
-    public void stopProgressBar() {
-
-    }
-
+    /** Метод получения результата после регистрации или авторизации*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(data==null) return;

@@ -1,5 +1,6 @@
 package com.gazilla.mihail.gazillaj.ui.main.stock;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +33,8 @@ import java.util.List;
 
 public class StockFragment extends Fragment implements PromoView {
 
+    private Context mContext;
+
     private ImageLoader imageLoader;
 
     private ConstraintLayout clPromoDragonWay;
@@ -60,9 +63,9 @@ public class StockFragment extends Fragment implements PromoView {
         if(promoPresenter == null)
             promoPresenter = new PromoPresenter(this, new PromoInteractor());
         try {
-            imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
+            imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
         }catch (NullPointerException ex){
-            new AppDialogs().warningDialog(getContext(), "Ошибка загрузки картинок");
+            new AppDialogs().warningDialog(mContext, "Ошибка загрузки картинок");
         }
 
 
@@ -113,32 +116,32 @@ public class StockFragment extends Fragment implements PromoView {
        // promoPresenter.myPromo();
 
         clPromoSmokerpass.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), SmokerpassActivity.class );
+            Intent intent = new Intent(mContext, SmokerpassActivity.class );
             startActivity(intent);
         });
 
         clPromoDragonWay.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), DragonwayActivity.class);
+            Intent intent = new Intent(mContext, DragonwayActivity.class);
             startActivity(intent);
         });
 
         clPromoHoax.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), StockHoaxActivity.class);
+            Intent intent = new Intent(mContext, StockHoaxActivity.class);
             startActivity(intent);
         });
 
         clFriend.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), StockNewFriendActivity.class);
+            Intent intent = new Intent(mContext, StockNewFriendActivity.class);
             startActivity(intent);
         });
 
         clKitchen.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), StockKitchenActivity.class);
+            Intent intent = new Intent(mContext, StockKitchenActivity.class);
             startActivity(intent);
         });
 
         clPlayStation.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), StoakPlayStationActivity.class);
+            Intent intent = new Intent(mContext, StoakPlayStationActivity.class);
             startActivity(intent);
         });
     }
@@ -152,5 +155,11 @@ public class StockFragment extends Fragment implements PromoView {
     @Override
     public void showErrorCode(int error) {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
     }
 }

@@ -27,17 +27,25 @@ import com.gazilla.mihail.gazillaj.ui.main.presents.Presents;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockFragment;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 
+/**
+ * Главная активити приложения с меню
+ * */
 
 public class MainActivity extends AppCompatActivity implements MainView {
-
-    public static int cal =0;
-
+    /**  */
+    /** Пресентор данной активити */
     public static MainPresentation mainPresentation;
 
     private ImageView imgOpenAccount;
     private TextView nameFragment;
     private TextView tvScore;
 
+    /**  Фрагменты для меню
+     * CardFragment - меню с QR кодом, рулеткой
+     * Presents - меню с подарками
+     * StockFragment - меню с акциями
+     * ContactsFragment - меню с контактами
+     * */
     private CardFragment cardFragment;
     private Presents presentsF;
     private StockFragment stockFragment;
@@ -57,11 +65,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         if(mainPresentation==null)
             mainPresentation = new MainPresentation(this);
 
+        /** Поле с баллами */
         tvScore = findViewById(R.id.tvScoreMainActivity);
+        /** Картинка для входа в активити управления аккаунтом */
         imgOpenAccount = findViewById(R.id.imgAccount);
-        tvScore.setText(String.valueOf(Initialization.userWithKeys.getScore()));
+
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavMainMenu);
 
+        /** Поле для установки заголовка меню */
         nameFragment = findViewById(R.id.tvNameFragment);
 
         cardFragment = new CardFragment();
@@ -74,7 +85,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
         fragmentTransaction.add(R.id.fragmentLayoutMainMenu, cardFragment);
         fragmentTransaction.commit();
 
+        /** Обновление всех полей User */
         mainPresentation.updateUserInfo();
+
+        tvScore.setText(String.valueOf(Initialization.userWithKeys.getScore()));
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -83,23 +97,27 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 switch (menuItem.getItemId()){
                     case R.id.menu_card:
+                        /** Запуск меню с кодом и рулеткой */
                         fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, cardFragment);
                         nameFragment.setText("");
                         imgOpenAccount.setVisibility(View.VISIBLE);
                         mainPresentation.updateUserInfo();
                         break;
                     case R.id.menu_presents:
+                        /** Запуск меню с падарками  */
                         fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, presentsF);
                         imgOpenAccount.setVisibility(View.GONE);
                         nameFragment.setText("Подарки");
                         mainPresentation.updateUserInfo();
                         break;
                     case R.id.menu_stock:
+                        /** Запуск меню с акциями */
                         fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, stockFragment);
                         imgOpenAccount.setVisibility(View.GONE);
                         nameFragment.setText("Акции и новости");
                         break;
                     case R.id.menu_contacts:
+                        /**  Запуск меню с контактами */
                         fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, contactsFragment);
                         imgOpenAccount.setVisibility(View.GONE);
                         nameFragment.setText("О нас");
@@ -118,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     }
 
-
+    /** Метод обновления баллов */
     @Override
     public void updateInfo(int score) {
         Log.i("Loog", "обновление баллов");

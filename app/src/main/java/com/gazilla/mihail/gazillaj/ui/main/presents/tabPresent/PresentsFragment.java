@@ -1,5 +1,6 @@
 package com.gazilla.mihail.gazillaj.ui.main.presents.tabPresent;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,11 +29,15 @@ import java.util.List;
 @SuppressWarnings("FinalizeCalledExplicitly")
 public class PresentsFragment extends Fragment implements PresentsView {
 
+    private Context mContext;
+
     public static final String ARG_PAGE = "ARG_PAGE_ONE";
     private int mPage = 1;
-
+    /** Лист с меню */
     private ExpandableListView expandableListView;
+    /** Адаптер для листа */
     private PresentsAdapter presentAdapter;
+    /** Пресентро данного фрагмента */
     private PresentsPresenter presentsPresenter;
 
     @Override
@@ -71,7 +76,7 @@ public class PresentsFragment extends Fragment implements PresentsView {
 
                 MenuItem item = presentAdapter.getChild(groupPosition, childPosition);
 
-                Intent intent = new Intent(getActivity(), DetailPresentActivity.class);
+                Intent intent = new Intent(mContext, DetailPresentActivity.class);
                 intent.putExtra("SelectedItem", item);
                 intent.putExtra("Type", "buy");
                 startActivity(intent);
@@ -85,7 +90,7 @@ public class PresentsFragment extends Fragment implements PresentsView {
     @Override
     public void setAdapterPresents(List<MenuCategory> categories, List<ImgGazilla> imgGazillaList) {
 
-        presentAdapter = new PresentsAdapter(getActivity(), categories);
+        presentAdapter = new PresentsAdapter(mContext, categories);
         expandableListView.setAdapter(presentAdapter);
 
     }
@@ -95,5 +100,9 @@ public class PresentsFragment extends Fragment implements PresentsView {
 
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
 }

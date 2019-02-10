@@ -1,5 +1,6 @@
 package com.gazilla.mihail.gazillaj.ui.main.presents.tabPresent;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,11 +27,14 @@ import java.util.List;
 
 public class GiftsFragment extends Fragment implements PresentsView {
 
+    private Context mContext;
+
     public static final String ARG_PAGE = "ARG_PAGE_TWO";
     private int mPage = 2;
-
+    /** Адаптер для листа с подарками */
     private GifsAdapter gifsAdapter;
     private ListView giftsList;
+    /** Пресентер данного фрагмента */
     private PresentsPresenter presentsPresenter;
 
     public static GiftsFragment newInstance(int page) {
@@ -76,7 +80,7 @@ public class GiftsFragment extends Fragment implements PresentsView {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MenuItem menuItem = gifsAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), DetailPresentActivity.class);
+                Intent intent = new Intent(mContext, DetailPresentActivity.class);
                 intent.putExtra("SelectedItem", menuItem);
                 intent.putExtra("Type", "free");
                 startActivity(intent);
@@ -92,7 +96,7 @@ public class GiftsFragment extends Fragment implements PresentsView {
 
     @Override
     public void setAdapterGifts(List<MenuItem> gifts) {
-        gifsAdapter = new GifsAdapter(getActivity() , gifts);
+        gifsAdapter = new GifsAdapter(mContext , gifts);
         giftsList.setAdapter(gifsAdapter);
     }
 
@@ -104,5 +108,11 @@ public class GiftsFragment extends Fragment implements PresentsView {
             throwable.printStackTrace();
         }
         super.onStop();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
     }
 }

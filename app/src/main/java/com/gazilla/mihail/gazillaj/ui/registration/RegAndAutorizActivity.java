@@ -16,22 +16,23 @@ import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.RegAndAutorizInteractor;
 import com.gazilla.mihail.gazillaj.presentation.registration.RegAndAutorizPresenter;
 import com.gazilla.mihail.gazillaj.presentation.registration.RegAndAutorizView;
+import com.gazilla.mihail.gazillaj.ui.InitializationActivity;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
-
+/** Активити регстрации */
 public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAutorizView {
-
+    /** Пресентер данной активити */
     private RegAndAutorizPresenter presenter;
 
    private AppDialogs appDialogs;
 
-    // ------------------------- Восстановление аккаунта-----------------------------------
+    // ---------------------------Регистрация----------------------------------------------
     private TextView tvTxtWithCode;
     private EditText code;
     private Button btLogin;
     private AlertDialog loginDialog;
     //-------------------------------------------------------------------------------------
 
-    // ---------------------------Регистрация----------------------------------------------
+
     private EditText etPromocode;
 
     @Override
@@ -69,6 +70,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
 
     // -------------------------восстановление аккаунта-------------------------------------
+    /**  Метод открытия диалого для восстановления аккаунта */
     private void loginDialog(){
         View dialog = getLayoutInflater().inflate(R.layout.dialog_recover_account, null);
 
@@ -111,6 +113,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
 
     //---------------------------------------------------------------------------------------------
 
+    /** запрос кода на маил */
     private void sendCodeOnMail(String s) {
         if (!s.equals("")){
             if (s.contains("@")){
@@ -121,7 +124,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         }
 
     }
-
+    /** отправка кода восстановления на сервер */
     private void checkCodeFromServer(String code){
         if(!code.equals(""))
             presenter.sendCodeForLogin(code);
@@ -131,7 +134,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
     }
 
 
-
+    /** метод включения полей при восстановлении аккаунта */
     @Override
     public void visibleETCode() {
         btLogin.setClickable(true);
@@ -140,7 +143,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         tvTxtWithCode.setVisibility(View.VISIBLE);
         btLogin.setText("Войти");
     }
-
+    /** Метод возращения на первую активити для запуска приложения {@link InitializationActivity onActivityResult} */
     @Override
     public void startProgramm(Boolean response) {
         Intent intent = new Intent();

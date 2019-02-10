@@ -16,9 +16,11 @@ import com.gazilla.mihail.gazillaj.utils.Initialization;
 
 import java.util.Map;
 
+/** Адаптер для листа с уровнями лояльности */
 public class AdapterLvlDracon extends BaseAdapter {
 
     private int lvl;
+    /** Данные о уровнях и кол-ва баллов с сервера */
     private Map<Integer, Integer> mapLvl;
     private Context context;
     private int key;
@@ -55,12 +57,8 @@ public class AdapterLvlDracon extends BaseAdapter {
             TextView txtName = convertView.findViewById(R.id.tvNameLvlForList);
             TextView txtDeckription = convertView.findViewById(R.id.tvDicriptionLvlForList);
 
-            Log.i("Loog", "posiz - " + mapLvl.get(position + 1));
-
             key = (int) getItemId(position);
-
-            Log.i("Loog", "key pos - " + key);
-
+            /** Получение даннх об уровне дракона*/
             String names = getName((int) getItemId(position));
             String deckr = getDescription((int) getItemId(position));
             int rDrawable = getImage((int) getItemId(position));
@@ -69,7 +67,7 @@ public class AdapterLvlDracon extends BaseAdapter {
             txtDeckription.setText(deckr);
 
             imgDracon.setImageResource(rDrawable);
-
+            /** Установка подцветки драконов в зависимости от уровня User */
             if (lvl != key) {
                 imgDracon.setColorFilter(0x99000000);
                 txtName.setTextColor(Color.rgb(151, 151, 151));

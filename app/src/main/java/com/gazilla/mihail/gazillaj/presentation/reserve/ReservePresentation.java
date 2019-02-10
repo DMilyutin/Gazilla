@@ -102,7 +102,7 @@ public class ReservePresentation {
                     public void setError(Throwable throwable) {
                         new BugReport().sendBugInfo(throwable.getMessage(), "ReservePresentation.reservingPresenter.setError.Throwable");
                         reserveView.clouseAppDialog();
-                        reserveView.showErrorDialog("Ошибка \n" + throwable, "ReservePresentation.reservingPresenter.errorResponse");
+                        reserveView.showWorningDialog("К сожалению, нам не удалось забронировать столик в автоматическом режиме. В ближайшее время с вами свяжется Администратор, чтобы забронировать Вам место по телефону");
                         Log.i("Loog", "errorReserveT - " + throwable.getMessage());
                     }
                 });
