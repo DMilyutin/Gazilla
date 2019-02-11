@@ -10,12 +10,14 @@ import com.gazilla.mihail.gazillaj.model.interactor.AccountInteractor;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
-
+/** Презентер аккаунт активити {@link com.gazilla.mihail.gazillaj.ui.account.AccountActivity} */
 public class AccountPresentation {
 
-
+    /** Поле интерфейса для убравления активити */
     private AccountView accountView;
+    /** Поле интератор для управления запросами */
     private AccountInteractor accountInteractor;
+    /** Поле для работы с сохраненными данными для приложения */
     private SharedPref sharedPref;
 
     public AccountPresentation(AccountView accountView, Context context) {
@@ -23,16 +25,18 @@ public class AccountPresentation {
         accountInteractor = new AccountInteractor();
         sharedPref = new SharedPref(context);
     }
-
+    /** Метод поиска сохраненных данных о User */
     public void checkUserInfo(){
         if(sharedPref.myPreff()){
             String n = sharedPref.getNameFromPref();
             String p = sharedPref.getPhoneFromPref();
             String e = sharedPref.getEmailFromPref();
+            /** Установка данных User в поля */
             accountView.setUserInfo(n,p,e);
         }
     }
-
+    /** Метод анализа формата номера */
+    /** Возращяет либо номер в нужном формате, либо пустую строку */
     private String checkFormatPhone(String s) {
         if (s==null||s.equals("")) return ""; // пусте поле
 
@@ -48,7 +52,7 @@ public class AccountPresentation {
             return "";
         }
     }
-
+    /** Метод сохранения новых данных User */
     public void newUserInfo(String name, String phone, String email){
         accountView.showLoadingDialog();
 
@@ -60,9 +64,8 @@ public class AccountPresentation {
 
         updateUserInfo(name, phone, email);
     }
-
+    /** метод отправки новых данных на сервер */
     private void updateUserInfo(String name, String phone, String email){
-
         String dat = "email="+email+"&"+
                 "name="+name+"&"+
                 "phone="+phone;
@@ -80,7 +83,6 @@ public class AccountPresentation {
                 else{
                     accountView.showWorningDialog("Ошибка: "+success.getMessage());
                     new BugReport().sendBugInfo(success.getMessage(), "AccountPresentation.updateUserInfo.reservResponse");
-                    //new BugReport().sendBugInfo("", "");
                 }
 
             }

@@ -16,7 +16,7 @@ import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;
 
 import java.util.Calendar;
 
-
+/** Пресентор управления активити {@link com.gazilla.mihail.gazillaj.ui.reserve.ReserveActivity} */
 public class ReservePresentation {
 
     private SharedPref sharedPref;
@@ -31,10 +31,10 @@ public class ReservePresentation {
     }
 
     public void reservingPresenter(Reserve reserve, Boolean preorder){
-
         reserve.setPhone(checkFormatPhone(reserve.getPhone()));
+        /** Проверка полей на пустые значения */
         if (reserve.getPhone().equals("")) return;
-
+        /** Поле нужное для вставки данных в сигнатуру */
         String dat = "comment="+reserve.getCommentL()+"&"+
                     "date="+reserve.getDate()+"&"+
                     "hours="+reserve.getHours()+"&"+
@@ -46,8 +46,7 @@ public class ReservePresentation {
         String signatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),  dat);
 
         reserve.setDate(zamenaPlusa(reserve.getDate()));
-
-
+        /** отправка данных резерва на сервер */
         reserveInteractor.setReserve(reserve.getQty(), reserve.getHours(), reserve.getDate(),
                 reserve.getName(), reserve.getPhone(), reserve.getCommentL(), preorder,  signatur,
                 new SuccessCallBack() {
@@ -107,7 +106,7 @@ public class ReservePresentation {
                     }
                 });
     }
-
+    /** Метод провекри формата номера */
     private String checkFormatPhone(String s) {
         if (s==null||s.equals("")) return ""; // пусте поле
 
@@ -123,12 +122,12 @@ public class ReservePresentation {
             return "";
         }
     }
-
+    /** Метод замена "+" на "%2В" для оправки на сервер*/
     private String zamenaPlusa(String dat) {
         return dat.replace("+", "%2B");
     }
 
-
+    /** Метод вставки данных пользователя в поля имя и номер, сохраненных в памяти */
     public void checkUserInfo(){
         reserveView.inputUserInfo(sharedPref.getNameFromPref(), sharedPref.getPhoneFromPref());
     }

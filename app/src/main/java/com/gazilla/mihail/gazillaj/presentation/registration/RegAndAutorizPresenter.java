@@ -12,7 +12,7 @@ import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.AutorizationCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
-
+/** Пресентор упраления активити {@link com.gazilla.mihail.gazillaj.ui.registration.RegAndAutorizActivity} */
 public class RegAndAutorizPresenter {
 
    private RegAndAutorizView regAndAutorizView;
@@ -26,9 +26,8 @@ public class RegAndAutorizPresenter {
     }
 
     //------------------------------регистрация-----------------------------------------
-
+    /** Метод определения типа регистрации(проверка на пустой промо и регистрация с промокодом или рефералкой ) */
     public void regNewUser(boolean withPromo, String promo){
-
         if (withPromo && promo.equals("")){
             regAndAutorizView.showWarningDialog("Промокод не может быть пустым");
             return;
@@ -42,7 +41,7 @@ public class RegAndAutorizPresenter {
             registrationApi("", "", "",  promo, "");
 
     }
-
+    /** Метод анализа промо поля (рефералка или промокод) */
     private String poromoORrefer(String text){
         if (text.contains("0")||text.contains("1")||text.contains("2")||text.contains("3")||
                 text.contains("4")||text.contains("5")||text.contains("6")||text.contains("7")||
@@ -52,7 +51,7 @@ public class RegAndAutorizPresenter {
             return "Promo";
 
     }
-
+    /** Метод регистрации нового пользователя */
     private void registrationApi(String name, String phone, String email, String referer, String promo){
         interactor.registrationApi(name, phone, email, "", referer, promo, new AutorizationCallBack(){
             @Override
@@ -65,7 +64,6 @@ public class RegAndAutorizPresenter {
 
             @Override
             public void showError(String error) {
-
                 if (error.contains("phone or email already in use")){
                     regAndAutorizView.clouaeAppDialog();
                     regAndAutorizView.showWarningDialog("Аккаунт с такими данными уже зарегестрирован");
@@ -92,7 +90,7 @@ public class RegAndAutorizPresenter {
 
 
     //-------------------------------авторизация-----------------------------------------
-
+    /** Метод запроса кода восстановления  */
     public void getCodeForLogin(String phone, String email){
         Log.i("Loog", "восстановление акк");
         interactor.getCodeForLogin(phone, email, new SuccessCallBack() {
@@ -120,7 +118,7 @@ public class RegAndAutorizPresenter {
             }
         });
     }
-
+    /** Метод отправки кода восстановления аккаунта */
     public void sendCodeForLogin(String code){
         interactor.sendCodeLoging(code, new AutorizationCallBack() {
             @Override
@@ -147,7 +145,7 @@ public class RegAndAutorizPresenter {
     }
 
 
-
+    /** Сохранение ключей и данных пользователя при регистрации или авторизации */
     private void saveKey(){
         Log.i("Loog", "saveKey");
         sharedPref.saveNewPrivateKey(Initialization.userWithKeys.getPrivatekey());

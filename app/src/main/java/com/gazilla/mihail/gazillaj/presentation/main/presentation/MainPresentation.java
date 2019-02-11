@@ -38,6 +38,7 @@ public class MainPresentation {
 
     }
 
+    /** Обновление статического поля UserWithRey класса {@link Initialization} */
     private void setUserwithUserKey(User user){
         Initialization.userWithKeys.setId(user.getId());
         Initialization.userWithKeys.setLevel(user.getLevel());

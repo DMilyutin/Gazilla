@@ -60,7 +60,7 @@ public class CardPresenter {
         myIdForQRcode();
         initRuletca();
     }
-
+    /** метод установки колеса рулетки взависимости от уровня */
     private void initRuletca(){
         int myLvl = Initialization.userWithKeys.getLevel();
         int res = R.drawable.koleso1;
@@ -84,13 +84,13 @@ public class CardPresenter {
         }
         cardView.initLvlForKoleso(res);
     }
-
+    /** метод создания QR кода с id */
     private void myIdForQRcode()  {
-
         String id = myId();
         Log.i("Loog", "my id - " + id);
         try {
             Bitmap bitmap = QRcode.encodeAsBitmap(id, BarcodeFormat.QR_CODE, 250, 250);
+            /** установка QR кода в ImageView */
             cardView.setQRcode(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
@@ -100,6 +100,7 @@ public class CardPresenter {
 
     //_____________________________уровни и прогресс_______________________________________
 
+    /** метод определения прогресса потраченных денег */
     public void myProgress(){
         Log.i("Loog", "начало обновления прогреса");
 
@@ -107,19 +108,17 @@ public class CardPresenter {
         int myLvl = Initialization.userWithKeys.getLevel();
         Log.i("Loog", "myLvl - " + myLvl);
 
-
         try {
             cardInteractor.level(new LevelsCallBack() {
-
                 @Override
                 public void levelsFromSerser(Map<Integer, Integer> levels) {
+                    /** Приходит массив описания уровней без 0 элемента */
                     Log.i("Loog", "levels : " + levels.get(myLvl));
                     if (myLvl==5)
                         cardView.setValueProgressBar(levels.get(5), sum);
                     else
                         cardView.setValueProgressBar(levels.get(myLvl+1), sum);
                     cardView.initListWithLvl(myLvl, levels);
-
                 }
 
                 @Override
@@ -136,42 +135,36 @@ public class CardPresenter {
             new BugReport().sendBugInfo(ex.getMessage(), "CardPresenter.myProgress.levelsFromSerser.NullPointerException");
         }
 
-
-
-
-
-
     }
 
     private String myId(){
         return cardInteractor.getMyId();
     }
-
+    /** установка кол-ва вращений колеса дракона */
     public void mySpins(){
         cardInteractor.mySpins(qty -> {
             mySpins = qty.getQty();
             cardView.setSpins(qty.getQty());
-            },
-                throwable -> {
+            },throwable -> {
                     mySpins = 0;
                     cardView.setSpins(0);
                     new BugReport().sendBugInfo(throwable.getMessage(), "CardPresenter.mySpins.setError");
                 });
 
     }
-
+    /** метод для запуска первого окна с описание возможностей приложения */
     private void firstStartApp(Boolean firs){
         if (firs)
             cardView.firstDialogTip();
     }
 
     //________________________________Прокрутка колеса дракона__________________________
-
+    /** Проверка на возможность прокрутить колесо */
     public void prepearWheel(){
         if (mySpins>0)
             wheeling();
     }
-
+    /** Метод запуска колеса дракона(рулетка) */
     private void wheeling(){
         cardView.startWheeling();
         cardInteractor.wheeling(new WheelCallBack() {
@@ -193,16 +186,19 @@ public class CardPresenter {
             }
         });
     }
-
+    /** метод анализа выигрыша */
     public void myWinn(){
         initCardFragment();
         if (dragonWheel!=null) {
+            /** Если выигрыли очки, показ картинки газилла */
             if (dragonWheel.getWinType().equals("point")){
                 cardView.myWin(String.valueOf(dragonWheel.getId()) + " баллов", "drawable://" + menuImg.getImg(0));
                 initCardFragment();
             }
-            else
+            else{
+            /** поиск выигрыша по id */
                 winById(dragonWheel.getId());
+            }
         }
         else
             new AppDialogs().warningDialog(context, "Плохое интернет соединение");
@@ -211,6 +207,7 @@ public class CardPresenter {
     //__________________________________поиск item по id_____________________________________
 
     private void winById(int id){
+        /** Класс преобразования формата хранения меню */
         MenuAdapterApiDb menuAdapterApiDb = new MenuAdapterApiDb();
         Initialization.repositoryDB.menuFromDB(new MenuDBCallBack() {
             @Override
@@ -225,7 +222,7 @@ public class CardPresenter {
             }
         });
     }
-
+    /** Поиск элемента по id */
     private void findItemById(List<MenuCategory> categories, int id){
 
         for(int iCategorys = 0; iCategorys<categories.size(); iCategorys++){

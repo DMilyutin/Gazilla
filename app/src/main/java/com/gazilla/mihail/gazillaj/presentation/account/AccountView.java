@@ -1,7 +1,5 @@
 package com.gazilla.mihail.gazillaj.presentation.account;
 
-import com.gazilla.mihail.gazillaj.utils.POJO.Success;
-
 public interface AccountView {
 
     void setUserInfo(String name, String phone, String email);

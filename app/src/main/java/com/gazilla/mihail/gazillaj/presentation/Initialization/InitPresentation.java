@@ -21,7 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-
+/** Пресентер управления активити {@link com.gazilla.mihail.gazillaj.ui.InitializationActivity} */
 public class InitPresentation {
 
     private InitInteractor initInteractor;
@@ -86,14 +86,12 @@ public class InitPresentation {
 
     public boolean checkUserDat(){
         Log.i("Loog", "checkUserDate");
-
-
-
-        //innitView.startProgressBar();
+        /** Проверка доступа к интернету. 1 - есть доступ к интернету, 0 - нет доступа */
         Boolean hasConnection = hasConnection(context);
+        /** Проверка наличия сохраненных данных. 1 - есть данные, 0 - нет данных */
         Boolean sharedPrefData = sharedPref.myPreff();
 
-        String code = "11";
+        String code = "00";
         if(hasConnection && sharedPrefData) code = "11";
         if(!hasConnection && sharedPrefData) code = "01";
         if(hasConnection && !sharedPrefData) code = "10";
@@ -106,10 +104,6 @@ public class InitPresentation {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(aBoolean -> {}, throwable -> {});
-                                //innitView.startMainActivity()
-
-                //initInteractor.checkVersionMemu(ver);
-                ;
                 break;
             }
             case "00" : {
@@ -130,13 +124,11 @@ public class InitPresentation {
                 // регистрация
                 break;
             }
-
         }
-        //innitView.stopProgressBar();
         return true;
     }
 
-
+    /** метод обновления данных User с сервера */
     private void getUserOnline() {
         if(Initialization.userWithKeys== null)  // Если нет User, создаем
             Initialization.setUserWithKeys(new UserWithKeys(
@@ -148,7 +140,7 @@ public class InitPresentation {
 
 
     }
-
+    /** Метод инициализации User сохраненными данными */
     private void getUserOffline() {
         if(Initialization.userWithKeys== null)  // Если нет User, создаем
             Initialization.setUserWithKeys(new UserWithKeys(

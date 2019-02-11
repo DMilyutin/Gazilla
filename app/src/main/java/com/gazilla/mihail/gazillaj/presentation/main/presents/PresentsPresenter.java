@@ -14,7 +14,7 @@ import com.gazilla.mihail.gazillaj.utils.callBacks.MenuDBCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.MenuItemCallBack;
 
 import java.util.List;
-
+/** пресентор для меню подарки (за баллы и бесплатно) */
 public class PresentsPresenter {
 
     private MenuAdapterApiDb adapterApiDb;
@@ -30,11 +30,11 @@ public class PresentsPresenter {
         this.presentAdapterView = presentAdapterView;
     }
 
+    /** метод получения меню с базы данных */
     public void initMenu(){
         presentsInteractor.menuDB(new MenuDBCallBack() {
             @Override
             public void ollMenu(List<MenuDB> menuDBList) {
-
                 img(menuDBList);
             }
 
@@ -45,7 +45,7 @@ public class PresentsPresenter {
         });
 
     }
-
+    /** метод получения списка подарков */
     public void initGifts(){
         presentsInteractor.myGifts(new MenuItemCallBack() {
             @Override
