@@ -78,8 +78,8 @@ public class AccountPresentation {
                 if (success.isSuccess())
                     accountView.showWorningDialog("Ваши данные успешно сохранены");
                 else{
-                    accountView.showWorningDialog("Ошибка: "+success.getMessage());
-                    new BugReport().sendBugInfo(success.getMessage(), "AccountPresentation.updateUserInfo.reservResponse");
+                    accountView.showWorningDialog("Ошибка: данные использованы для другого аккаунта");
+                    //new BugReport().sendBugInfo(success.getMessage(), "AccountPresentation.updateUserInfo.reservResponse");
                     //new BugReport().sendBugInfo("", "");
                 }
 

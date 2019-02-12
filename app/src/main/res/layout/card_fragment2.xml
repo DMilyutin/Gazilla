@@ -151,12 +151,10 @@
             </android.support.constraint.ConstraintLayout>
 
 
-
-
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout11"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="260dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
@@ -169,27 +167,29 @@
                     android:id="@+id/imgWhiteCircle"
                     android:layout_width="238dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/imgRuletka"
-                    app:layout_constraintEnd_toEndOf="@+id/imgRuletka"
-                    app:layout_constraintStart_toStartOf="@+id/imgRuletka"
-                    app:layout_constraintTop_toTopOf="@+id/imgRuletka"
-                    app:srcCompat="@drawable/white_circle"
-                    android:visibility="gone"/>
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/white_circle" />
 
                 <ImageView
                     android:id="@+id/imgRuletka"
                     android:layout_width="230dp"
                     android:layout_height="230dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="8dp"
                     android:clickable="true"
                     android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/imgWhiteCircle"
+                    app:layout_constraintEnd_toEndOf="@+id/imgWhiteCircle"
+                    app:layout_constraintStart_toStartOf="@+id/imgWhiteCircle"
+                    app:layout_constraintTop_toTopOf="@+id/imgWhiteCircle"
                     app:srcCompat="@drawable/wheel2" />
 
                 <ImageView
@@ -200,6 +200,7 @@
                     android:layout_marginRight="24dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imgRuletka"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.454"
                     app:layout_constraintStart_toEndOf="@+id/imgRuletka"
                     app:layout_constraintTop_toTopOf="@+id/imgRuletka"
                     app:srcCompat="@drawable/arrow" />

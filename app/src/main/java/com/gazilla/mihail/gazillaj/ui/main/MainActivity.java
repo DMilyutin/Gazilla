@@ -25,6 +25,7 @@ import com.gazilla.mihail.gazillaj.ui.main.card.CardFragment;
 import com.gazilla.mihail.gazillaj.ui.main.contacts.ContactsFragment;
 import com.gazilla.mihail.gazillaj.ui.main.presents.Presents;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockFragment;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 
 /**
@@ -142,6 +143,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         Log.i("Loog", "обновление баллов");
         tvScore.setText(String.valueOf(score));
 
+    }
+
+    @Override
+    public void showErrorDialog(String error) {
+        new AppDialogs().warningDialog(this, error);
     }
 
 }

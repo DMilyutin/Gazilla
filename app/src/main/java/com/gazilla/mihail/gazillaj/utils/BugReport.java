@@ -2,6 +2,7 @@ package com.gazilla.mihail.gazillaj.utils;
 
 import android.util.Log;
 
+import com.gazilla.mihail.gazillaj.BuildConfig;
 import com.gazilla.mihail.gazillaj.model.interactor.bugReport.BugReportInterator;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
@@ -42,7 +43,8 @@ public class BugReport {
     }
 
     public String createErrorMesage(String ex, String location){
-        String mes = "Android bug: ";
+        int versionCode = BuildConfig.VERSION_CODE;
+        String mes ="Версия программы - "+ String.valueOf(versionCode) + ". Android bug: ";
 
         if (ex!=null&&!ex.equals(""))
             mes+=ex;

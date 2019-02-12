@@ -37,18 +37,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView30">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:translationZ="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/etNameAccoun"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/etNameAccoun"
-            app:srcCompat="@drawable/ic_create_black_24dp" />
-
         <TextView
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
@@ -84,30 +72,6 @@
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:translationZ="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/etPhoneAccoun"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/etPhoneAccoun"
-            app:srcCompat="@drawable/ic_create_black_24dp" />
-
-        <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:translationZ="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/etEmailAccoun"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/etEmailAccoun"
-            app:srcCompat="@drawable/ic_create_black_24dp" />
 
         <EditText
             android:id="@+id/etNameAccoun"

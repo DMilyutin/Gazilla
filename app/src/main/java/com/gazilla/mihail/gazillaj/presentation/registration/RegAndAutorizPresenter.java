@@ -28,7 +28,6 @@ public class RegAndAutorizPresenter {
     //------------------------------регистрация-----------------------------------------
 
     public void regNewUser(boolean withPromo, String promo){
-
         if (withPromo && promo.equals("")){
             regAndAutorizView.showWarningDialog("Промокод не может быть пустым");
             return;
@@ -40,7 +39,6 @@ public class RegAndAutorizPresenter {
             registrationApi("", "", "", "", promo);
         else
             registrationApi("", "", "",  promo, "");
-
     }
 
     private String poromoORrefer(String text){
@@ -50,7 +48,6 @@ public class RegAndAutorizPresenter {
             return "Refer";
         else
             return "Promo";
-
     }
 
     private void registrationApi(String name, String phone, String email, String referer, String promo){
@@ -62,7 +59,6 @@ public class RegAndAutorizPresenter {
                 saveKey();
                 regAndAutorizView.startProgramm(true);
             }
-
             @Override
             public void showError(String error) {
 
@@ -78,7 +74,6 @@ public class RegAndAutorizPresenter {
                     regAndAutorizView.showErrorDialog("Ошибка: " + error, "RegAndAutorizPresenter.registrationApi.shouError");
                     new BugReport().sendBugInfo(error, "RegAndAutorizPresenter.registrationApi.showError");
                 }
-
             }
         }, new FailCallBack() {
             @Override
