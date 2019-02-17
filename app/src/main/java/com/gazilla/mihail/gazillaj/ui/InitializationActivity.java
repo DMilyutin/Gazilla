@@ -40,21 +40,15 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_initialization);
 
         if(initPresentation==null)
             initPresentation = new InitPresentation(this,this);
-
-
-        ((ImageView) findViewById(R.id.imageView4)).setImageResource(R.drawable.logo_startr_page1);
-
 
         init = new Initialization(this);
         /** Статический класс создания QR кодов во всем приложении*/
         new QRcode();
 
         initPresentation.checkUserDate();
-
     }
 
     /** Метод запуска главного экрана приложения {@link InitPresentation#checkUserDat()} */
@@ -62,6 +56,7 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
     public void startMainActivity() {
         Intent intent = new Intent(InitializationActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /** Метод запуска активити авторизации и регистрации {@link InitPresentation#checkUserDat()}*/

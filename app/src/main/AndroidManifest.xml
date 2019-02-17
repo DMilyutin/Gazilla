@@ -22,7 +22,6 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -38,8 +37,9 @@
         <activity
             android:name=".ui.reserve.ReserveActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.account.AccountActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.account.AccountActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.stock.StockDragonway.DragonwayActivity"
             android:screenOrientation="portrait" />
@@ -61,8 +61,7 @@
         />
         <activity
             android:name=".ui.main.stock.StockMusic.StockMusicActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

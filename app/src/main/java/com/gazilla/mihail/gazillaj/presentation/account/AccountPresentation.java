@@ -35,15 +35,29 @@ public class AccountPresentation {
 
     private String checkFormatPhone(String s) {
         if (s==null||s.equals("")) return ""; // пусте поле
-
-        if(s.charAt(0)=='8'&&s.length()==11){ // 8 ххх ххх хх хх
-            return ""+ s.charAt(1)+s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10);
+        s = s.replaceAll("\\s", "");
+        s = s.replaceAll("-", "");
+        if (s.length() < 11 || s.length() > 12) {
+            accountView.showWorningDialog("Неверный формат номера");
+            return "";
         }
-        else if (s.charAt(0)=='+'&&s.charAt(1)=='7'&&s.length()==12) // +7 ххх ххх хх хх
-            return ""+ s.charAt(2)+s.charAt(3)+s.charAt(4)+s.charAt(5)+s.charAt(6)+s.charAt(7)+s.charAt(8)+s.charAt(9)+s.charAt(10)+s.charAt(11);
-        else if (s.charAt(0)=='9'&&s.length()==10) // 9хх ххх хх хх
-            return s;
-        else {
+        if (s.charAt(0) == '8' && s.length() == 11) {
+            s = s.substring(1);
+            if (!s.matches("\\d+")) {
+                accountView.showWorningDialog("Неверный формат номера");
+                return "";
+            } else {
+                return s;
+            }
+        } else if (s.charAt(0) == '+' && s.charAt(1) == '7' && s.length() == 12) {
+            s = s.substring(2);
+            if (!s.matches("\\d+")) {
+                accountView.showWorningDialog("Неверный формат номера");
+                return "";
+            } else {
+                return s;
+            }
+        } else {
             accountView.showWorningDialog("Неверный формат номера");
             return "";
         }
