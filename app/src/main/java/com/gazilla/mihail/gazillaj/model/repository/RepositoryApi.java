@@ -17,6 +17,8 @@ import com.gazilla.mihail.gazillaj.utils.callBacks.LVersionDBPromoCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.LevelsCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.MenuCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.MenuItemCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.NotificationCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.PlaylistSongCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.PromoCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.QTYCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SongCallBack;
@@ -376,16 +378,16 @@ public class RepositoryApi {
 
     }
     /** получение плейлиста для гуслей */
-    public void playListFromServer(String publickey, String signatur, SongCallBack songCallBack,
+    public void playListFromServer(String publickey, String signatur, PlaylistSongCallBack playlistSongCallBack,
                                FailCallBack failCallBack){
         serverApi.getPlaylist(publickey, signatur)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response.isSuccessful()) {
-                        songCallBack.songFromServer(response.body());
+                        playlistSongCallBack.playlist(response.body());
                     }
-                    else songCallBack.errorSongFromServer("Ошибка загрузки плейлиста");
+                    else playlistSongCallBack.errorPlaylist("Ошибка загрузки плейлиста");
                     }, failCallBack::setError);
     }
     /** загрузка возможных песен для гуслей */
@@ -401,5 +403,63 @@ public class RepositoryApi {
                     else songCallBack.errorSongFromServer("Ошибка загрузки доступных песен");
                 }, failCallBack::setError);
 
+    }
+    /** Добавить песню в очередь */
+    public void sendNextSong(int id, String publickey, String signatur, SuccessCallBack successCallBack,
+                             FailCallBack failCallBack){
+        serverApi.sendMyNextSond(publickey, id, signatur)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(successResponse -> {
+                    if (successResponse.isSuccessful()) {
+                        successCallBack.reservResponse(successResponse.body());
+                    }
+                    else
+                        successCallBack.errorResponse(successResponse.errorBody().string());
+                }, failCallBack::setError);
+    }
+
+    /** Проверка последней версии уведомлений */
+    public void getLastVersionNotification(String publickey, String signatur, LVersionDBMenuCallBack versionCallBack,
+                                           FailCallBack failCallBack){
+        serverApi.getLastVersionNotification(publickey, signatur)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(latestVersionResponse -> {
+                    if (latestVersionResponse.isSuccessful()) {
+                        versionCallBack.versionDBMenu(latestVersionResponse.body());
+                    }
+                    else
+                        versionCallBack.showError(latestVersionResponse.errorBody().string());
+                }, failCallBack::setError);
+    }
+    /** Подгрузка последних уведомлений */
+    public void getOllNotification(String publickey, String signatur, NotificationCallBack notificationCallBack,
+                                   FailCallBack failCallBack){
+        serverApi.getOllNotification(publickey, signatur)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(listResponse -> {
+                    if (listResponse.isSuccessful()) {
+                        notificationCallBack.ollNotification(listResponse.body());
+                    }
+                    else
+                        notificationCallBack.showNotificationError(listResponse.errorBody().string());
+                }, failCallBack::setError);
+    }
+
+    /** Отправка отчета о нажатой кнопки уведомлений*/
+    public void sendAnswerUserAboutNotification(String publickey, int alertId, int commandId,  String signatur,
+                                                SuccessCallBack successCallBack, FailCallBack failCallBack){
+        serverApi.answerUserAboutNotification(publickey, alertId, commandId,signatur)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(successResponse -> {
+                    if (successResponse.isSuccessful()) {
+                        successCallBack.reservResponse(successResponse.body());
+                    }
+                    else
+                        successCallBack.errorResponse(successResponse.errorBody().string());
+                }, failCallBack::setError);
     }
 }

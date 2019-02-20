@@ -38,8 +38,9 @@
         <activity
             android:name=".ui.reserve.ReserveActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.account.AccountActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.account.AccountActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.stock.StockDragonway.DragonwayActivity"
             android:screenOrientation="portrait" />
@@ -61,8 +62,8 @@
         />
         <activity
             android:name=".ui.main.stock.StockMusic.StockMusicActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.main.stock.StockMusic.NewMySongActivity"></activity>
     </application>
 
 </manifest>

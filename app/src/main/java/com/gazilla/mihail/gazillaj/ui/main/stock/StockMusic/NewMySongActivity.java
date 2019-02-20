@@ -1,9 +1,9 @@
 package com.gazilla.mihail.gazillaj.ui.main.stock.StockMusic;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.gazilla.mihail.gazillaj.R;
@@ -15,56 +15,47 @@ import com.gazilla.mihail.gazillaj.utils.POJO.Song;
 
 import java.util.List;
 
-public class StockMusicActivity extends AppCompatActivity implements StockMusicView {
+public class NewMySongActivity extends AppCompatActivity implements StockMusicView {
 
-    private StockMusicPresenter musicPresenter;
+    private ListView lvOllSong;
     private SongsAdapter songsAdapter;
-    private ListView lvPlayList;
-    private Button btMyNextSong;
+    private StockMusicPresenter musicPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stock_music);
+        setContentView(R.layout.activity_new_my_song);
 
         if (musicPresenter==null)
             musicPresenter = new StockMusicPresenter(this);
 
-        lvPlayList = findViewById(R.id.lvPlayListPromoMusic);
-        btMyNextSong = findViewById(R.id.btMyNextSong);
+        lvOllSong = findViewById(R.id.lvOllSong);
 
-        musicPresenter.getPlayList();
+        musicPresenter.getOllSongForNextSong();
 
-        btMyNextSong.setOnClickListener(v -> {
-            if (musicPresenter.getPlaying()){
-                Intent intent = new Intent(StockMusicActivity.this, NewMySongActivity.class);
-                startActivity(intent);
+        lvOllSong.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Song song = songsAdapter.getItem(position);
+                musicPresenter.sendMyNextSong(song);
             }
-            else
-                new AppDialogs().warningDialog(this, "Плеер сейчас выключен");
         });
     }
 
     @Override
     public void setPlayList(List<Song> song) {
         songsAdapter = new SongsAdapter(this, song);
-        lvPlayList.setAdapter(songsAdapter);
+        lvOllSong.setAdapter(songsAdapter);
     }
 
     @Override
     public void showErrorMes(String error) {
+
         new AppDialogs().warningDialog(this, error);
     }
 
     @Override
     public void backToPlaylist() {
-
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        musicPresenter.getPlayList();
+        onBackPressed();
     }
 }

@@ -42,7 +42,7 @@ public class BugReport {
         });
     }
 
-    public String createErrorMesage(String ex, String location){
+    private String createErrorMesage(String ex, String location){
         int versionCode = BuildConfig.VERSION_CODE;
         String mes ="Версия программы - "+ String.valueOf(versionCode) + ". Android bug: ";
 
