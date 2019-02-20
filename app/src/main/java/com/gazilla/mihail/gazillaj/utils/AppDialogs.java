@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.presentation.main.card.CardView;
+import com.gazilla.mihail.gazillaj.presentation.main.presentation.MainView;
 import com.gazilla.mihail.gazillaj.ui.main.MainActivity;
+import com.gazilla.mihail.gazillaj.utils.POJO.Notificaton;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -149,7 +151,6 @@ public class AppDialogs {
 
         Button bt = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         bt.setTextColor(Color.rgb(254, 194, 15));
-        //String res = "drawable://" + R.drawable.gaz;
     }
 
     public void dialogFirstStart(Context context){
@@ -158,12 +159,9 @@ public class AppDialogs {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
 
-        builder.setPositiveButton("Продолжить!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
-                alertDialog=null;
-            }
+        builder.setPositiveButton("Продолжить!", (dialog1, which) -> {
+            alertDialog.dismiss();
+            alertDialog=null;
         });
 
         builder.setView(dialog);
@@ -179,75 +177,60 @@ public class AppDialogs {
             alertDialog.dismiss();
     }
 
+    public void dialogNotification(Context context, Notificaton notificaton, MainView mainView){
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialog = inflater.inflate(R.layout.dialog_notification, null);
 
-    //----------------------------------------------------
+        TextView tvMessNotification = dialog.findViewById(R.id.tvMessNotification);
+        tvMessNotification.setText(notificaton.getMessage());
 
-   /* private void firstStart(){
-        if (!first){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
+        builder.setNegativeButton("Закрыть", (dialog1, which) ->  {
+            mainView.sendAnswerNotification(notificaton.getId(), -1);
+            alertDialog.dismiss();
+            alertDialog = null;
 
-            clWhillTip(true);
+        });
+
+        if (notificaton.getPromoId()!=0){
+            builder.setPositiveButton("Акции", (dialog1, which) -> {
+                mainView.openMenuStocks();
+            });
         }
+        else {
+        if (notificaton.getCommands()!=null){
+            if (notificaton.getCommands()[0] == 2 ){
+                builder.setPositiveButton("Резерв", ((dialog1, which) -> {
+                    alertDialog.dismiss();
+                    alertDialog = null;
+                    mainView.startReserveActivity();
+                    mainView.sendAnswerNotification(notificaton.getId(), 2);
+                }));
+            }
+            if (notificaton.getCommands()[0] == 3){
+                builder.setPositiveButton("К колесу", (dialog1, which) -> {
+                    alertDialog.dismiss();
+                    alertDialog = null;
+                    mainView.sendAnswerNotification(notificaton.getId(), 3);
+                });
+            }
+            if (notificaton.getCommands()[0]==1||notificaton.getCommands()[0]==0){
+                builder.setPositiveButton("Меню", (dialog1, which) -> {
+                   mainView.openMenuPresent();
+                    mainView.sendAnswerNotification(notificaton.getId(), 0);
+                });
+            }
+        }
+        }
+
+        builder.setView(dialog);
+        alertDialog = builder.create();
+        alertDialog.show();
+
+        Button bt = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        bt.setTextColor(Color.rgb(254, 194, 15));
+
+        Button bt1 = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        bt1.setTextColor(Color.rgb(254, 194, 15));
     }
-
-    private void clWhillTip(Boolean show){
-        if (show){
-            clWheelTip.setVisibility(View.VISIBLE);
-
-        }
-
-
-        else
-            clWheelTip.setVisibility(View.GONE);
-    }
-
-    private void clBalanceTip(Boolean show){
-        if (show)
-            clBalanceTip.setVisibility(View.VISIBLE);
-        else
-            clBalanceTip.setVisibility(View.GONE);
-    }
-
-    private void clNacopTip(Boolean show){
-        if (show){
-            int[] location = new int[2];
-            clNacopTip.setVisibility(View.VISIBLE);
-            clNacopTip.getLocationOnScreen(location);
-            scCard.scrollBy(0, location[1]);
-        }
-        else{
-            clNacopTip.setVisibility(View.GONE);
-        }
-    }
-
-    private void clShowTipLvlDracon(Boolean show){
-        if (show)
-            clShowTipLvlDracon.setVisibility(View.VISIBLE);
-        else{
-            clShowTipLvlDracon.setVisibility(View.GONE);
-            sharedPref.saveFirstStart(true);
-        }
-    }
-
-    private void registTip(Boolean show){
-        if (show){
-            scCard.scrollBy(0,-2000);
-            clRegistrTip.setVisibility(View.VISIBLE);
-        }
-        else{
-            clRegistrTip.setVisibility(View.GONE);
-            scCard.scrollBy(0, 2000);
-        }
-
-    }
-
-    private void reserveTip(Boolean show){
-        if (show)
-            clReserveTip.setVisibility(View.VISIBLE);
-        else{
-            clReserveTip.setVisibility(View.GONE);
-            first=true;
-            sharedPref.saveFirstStart(true);
-        }
-    }*/
-
 }

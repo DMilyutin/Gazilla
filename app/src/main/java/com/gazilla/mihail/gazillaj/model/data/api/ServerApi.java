@@ -6,6 +6,8 @@ import com.gazilla.mihail.gazillaj.utils.POJO.LatestVersion;
 import com.gazilla.mihail.gazillaj.utils.POJO.Levels;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
+import com.gazilla.mihail.gazillaj.utils.POJO.Notificaton;
+import com.gazilla.mihail.gazillaj.utils.POJO.PlaylistSongs;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoSmokerpass;
 import com.gazilla.mihail.gazillaj.utils.POJO.QTY;
@@ -147,14 +149,32 @@ public interface ServerApi {
     // гусли
     @GET("api/client/songs")
     Observable<Response<List<Song>>> getOllSongs(@Header("publickey")String publickey,
-                                               @Field("signature") String signature);
+                                               @Query("signature") String signature);
 
     @GET("api/client/playlist")
-    Observable<Response<List<Song>>> getPlaylist(@Header("publickey")String publickey,
-                                             @Field("signature") String signature);
+    Observable<Response<PlaylistSongs>> getPlaylist(@Header("publickey")String publickey,
+                                                          @Query("signature") String signature);
 
+    @FormUrlEncoded
     @POST("api/client/playlist")
     Observable<Response<Success>> sendMyNextSond(@Header("publickey")String publickey,
-                                                 @Field("next") String next,
+                                                 @Field("next") int next,
                                                  @Field("signature") String signature);
+
+    // Уведомления
+    @GET("api/client/alerts/latest")
+    Observable<Response<LatestVersion>> getLastVersionNotification(@Header("publickey")String publickey,
+                                                                   @Query("signature") String signature);
+
+    @GET("api/client/alerts")
+    Observable<Response<List<Notificaton>>> getOllNotification(@Header("publickey")String publickey,
+                                                               @Query("signature") String signature);
+
+    // ответ на уведомления
+    @FormUrlEncoded
+    @POST("api/client/alerts/report")
+    Observable<Response<Success>> answerUserAboutNotification(@Header("publickey")String publickey,
+                                                              @Field("alertId") int alertId,
+                                                              @Field("commandId") int commandId,
+                                                              @Field("signature") String signature);
 }

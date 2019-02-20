@@ -12,12 +12,11 @@ public class UserWithKeys {
     private String publickey;
     private String privatekey;
     private String refererLink;
-    private String promo;
     private int[] favorites;
 
     public UserWithKeys(int id, String name, String phone, String email, int sum, int score,
                         int level, String publickey, String privatekey, String refererLink,
-                        String promo ,int[] favorites) {
+                        int[] favorites) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -28,7 +27,6 @@ public class UserWithKeys {
         this.publickey = publickey;
         this.privatekey = privatekey;
         this.refererLink = refererLink;
-        this.promo = promo;
         this.favorites = favorites;
     }
 
@@ -110,14 +108,6 @@ public class UserWithKeys {
         return privatekey;
     }
 
-    public void setPublickey(String publickey) {
-        this.publickey = publickey;
-    }
-
-    public void setPrivatekey(String privatekey) {
-        this.privatekey = privatekey;
-    }
-
     public int[] getFavorites() {
         return favorites;
     }
@@ -125,12 +115,5 @@ public class UserWithKeys {
     public void setFavorites(int[] favorites) {
         this.favorites = favorites;
     }
-
-    public String getPromo() {
-        return promo;
-    }
-
-
-
 
 }

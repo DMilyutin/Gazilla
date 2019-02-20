@@ -25,6 +25,7 @@ import com.gazilla.mihail.gazillaj.ui.main.card.CardFragment;
 import com.gazilla.mihail.gazillaj.ui.main.contacts.ContactsFragment;
 import com.gazilla.mihail.gazillaj.ui.main.presents.Presents;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockFragment;
+import com.gazilla.mihail.gazillaj.ui.reserve.ReserveActivity;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.Initialization;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
      * StockFragment - меню с акциями
      * ContactsFragment - меню с контактами
      * */
+
     private CardFragment cardFragment;
     private Presents presentsF;
     private StockFragment stockFragment;
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         Log.i("Loog", "MainActivity создана");
 
         if(mainPresentation==null)
-            mainPresentation = new MainPresentation(this);
+            mainPresentation = new MainPresentation(this, this);
 
         /** Поле с баллами */
         tvScore = findViewById(R.id.tvScoreMainActivity);
@@ -148,6 +150,34 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void showErrorDialog(String error) {
         new AppDialogs().warningDialog(this, error);
+    }
+
+    @Override
+    public void startReserveActivity() {
+        Intent intent = new Intent(MainActivity.this, ReserveActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void sendAnswerNotification(int alertId, int commandId) {
+        mainPresentation.sendAnswerNotification(alertId, commandId);
+    }
+
+    @Override
+    public void openMenuPresent() {
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, presentsF);
+        imgOpenAccount.setVisibility(View.GONE);
+        nameFragment.setText("Подарки");
+        mainPresentation.updateUserInfo();
+    }
+
+    @Override
+    public void openMenuStocks() {
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, stockFragment);
+        imgOpenAccount.setVisibility(View.GONE);
+        nameFragment.setText("Акции и новости");
     }
 
 }

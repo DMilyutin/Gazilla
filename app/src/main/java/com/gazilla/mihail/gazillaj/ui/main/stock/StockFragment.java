@@ -11,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gazilla.mihail.gazillaj.model.data.db.AppDatabase;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockKitchen.StockKitchenActivity;
+import com.gazilla.mihail.gazillaj.ui.main.stock.StockMusic.NewMySongActivity;
+import com.gazilla.mihail.gazillaj.ui.main.stock.StockMusic.StockMusicActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockPlayStation.StoakPlayStationActivity;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
@@ -53,7 +56,7 @@ public class StockFragment extends Fragment implements PromoView {
 
     private PromoPresenter promoPresenter;
 
-
+    private TextView tvMusicStock;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +86,8 @@ public class StockFragment extends Fragment implements PromoView {
         clFriend = view.findViewById(R.id.clFriend);
         clKitchen = view.findViewById(R.id.clKitchen);
         clPlayStation = view.findViewById(R.id.clPlayStation);
+
+        tvMusicStock = view.findViewById(R.id.tvMusicStock);
 
         imgNewFrendStockPromo   = view.findViewById(R.id.imgNewFrendStockPromo);
         imgDragonwayStockPromo  = view.findViewById(R.id.imgDragonwayStockPromo);
@@ -142,6 +147,11 @@ public class StockFragment extends Fragment implements PromoView {
 
         clPlayStation.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, StoakPlayStationActivity.class);
+            startActivity(intent);
+        });
+
+        tvMusicStock.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, StockMusicActivity.class);
             startActivity(intent);
         });
     }

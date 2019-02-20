@@ -56,7 +56,9 @@ public class Tips {
     public void initTips(){
         Log.i("Loog", "Is first start - " + sharedPref.getFirstStart());
         firstStartApp = sharedPref.getFirstStart();
-        if (firstStartApp)
+        /*if (firstStartApp)
+            startTips();*/
+        if (false)
             startTips();
     }
 

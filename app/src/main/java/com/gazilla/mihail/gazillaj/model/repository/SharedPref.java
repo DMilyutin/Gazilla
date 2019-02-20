@@ -20,6 +20,7 @@ public class SharedPref {
     private static final String APP_PREF_VERSION_MENU_CATEGORY = "versionMenuCategory";
     private static final String APP_PREF_VERSION_MENU_ITEM = "versionMenuItem";
     private static final String APP_PREF_VERSION_PROMO = "versionPromo";
+    private static final String APP_PREF_VERSION_NOTIFICATION = "versionNotification";
 
     private static final String FIRST_START = "firstStart";
 
@@ -123,6 +124,18 @@ public class SharedPref {
 
     //_______________________Версии баз данных_______________________
 
+    @SuppressLint("CommitPrefEdits")
+    public void saveVersionNotification(String ver){
+        editor = myPref.edit();
+        editor.putString(APP_PREF_VERSION_NOTIFICATION, ver);
+        editor.commit();
+    }
+
+    public String getVersionNotification(){
+        if(myPref.contains(APP_PREF_VERSION_NOTIFICATION))
+            return myPref.getString(APP_PREF_VERSION_NOTIFICATION, "");
+        return "";
+    }
 
     @SuppressLint("CommitPrefEdits")
     public void saveVersionMenuCategory(String ver){

@@ -60,7 +60,6 @@ public class PhotoMemuInterator {
 
                     }
                 });
-
             }
         }
 
@@ -84,6 +83,4 @@ public class PhotoMemuInterator {
     private void addCount(){
         count++;
     }
-
-
 }

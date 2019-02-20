@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface StockMusicView {
     void setPlayList(List<Song> song);
+    void showErrorMes(String error);
+    void backToPlaylist();
 }

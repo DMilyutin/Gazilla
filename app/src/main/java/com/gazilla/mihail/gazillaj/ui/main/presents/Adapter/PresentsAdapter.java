@@ -62,7 +62,7 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         if (categories.isEmpty()||categories==null){
             return null;
         }
-
+        if (Initialization.userWithKeys.getFavorites()==null) return null;
 
         int[] favor = Initialization.userWithKeys.getFavorites();  // список id которые в любимом
 
