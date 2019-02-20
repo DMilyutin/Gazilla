@@ -44,13 +44,6 @@ public class StockFragment extends Fragment implements PromoView {
     private ConstraintLayout clKitchen;
     private ConstraintLayout clPlayStation;
 
-    private ImageView imgNewFrendStockPromo;
-    private ImageView imgDragonwayStockPromo;
-    private ImageView imgSmokerpassStockPromo;
-    private ImageView imgKitchenStockPromo;
-    private ImageView imgPlayStationStockPromo;
-
-
     private PromoPresenter promoPresenter;
 
 
@@ -83,29 +76,6 @@ public class StockFragment extends Fragment implements PromoView {
         clFriend = view.findViewById(R.id.clFriend);
         clKitchen = view.findViewById(R.id.clKitchen);
         clPlayStation = view.findViewById(R.id.clPlayStation);
-
-        imgNewFrendStockPromo   = view.findViewById(R.id.imgNewFrendStockPromo);
-        imgDragonwayStockPromo  = view.findViewById(R.id.imgDragonwayStockPromo);
-        imgSmokerpassStockPromo = view.findViewById(R.id.imgSmokerpassStockPromo);
-        imgKitchenStockPromo    = view.findViewById(R.id.imgKitchenStockPromo);
-        imgPlayStationStockPromo    = view.findViewById(R.id.imgPlayStationStockPromo);
-
-        String res = "drawable://" + R.drawable.photo_new_friend;
-        imageLoader.displayImage(res, imgNewFrendStockPromo);
-
-        res = "drawable://" + R.drawable.dragon_hoax;
-        imageLoader.displayImage(res, imgDragonwayStockPromo);
-
-        res = "drawable://" + R.drawable.photo_smoke;
-        imageLoader.displayImage(res, imgSmokerpassStockPromo);
-
-        res = "drawable://" + R.drawable.appetizer;
-        imageLoader.displayImage(res, imgKitchenStockPromo);
-
-        res = "drawable://" + R.drawable.stock_play_station_photo;
-        imageLoader.displayImage(res, imgPlayStationStockPromo);
-
-
 
         return view;
     }

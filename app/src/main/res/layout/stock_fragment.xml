@@ -58,7 +58,7 @@
                     app:layout_constraintStart_toEndOf="@+id/textView45"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
-                    app:srcCompat="@drawable/gaz" />
+                    app:srcCompat="@drawable/friend640" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
@@ -132,7 +132,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/gaz" />
+                    app:srcCompat="@drawable/dragon320" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
@@ -170,7 +170,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="24dp"
-                    android:text="Приходии выигрывай"
+                    android:text="Приходи и выигрывай"
                     android:textColor="#ffffff"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -240,7 +240,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/gaz" />
+                    app:srcCompat="@drawable/photo_smoke" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -309,7 +309,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/gaz" />
+                    app:srcCompat="@drawable/appetizer" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -387,7 +387,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/gaz" />
+                    app:srcCompat="@drawable/stock_play_station_photo" />
 
                 <android.support.constraint.ConstraintLayout
 
@@ -410,7 +410,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Отдыхай, играя!"
+                    android:text="Отдыхай играя!"
                     android:textColor="#ffffff"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/textView0"
