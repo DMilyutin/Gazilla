@@ -38,7 +38,7 @@ public class StockFragment extends Fragment implements PromoView {
 
     private Context mContext;
 
-    private ImageLoader imageLoader;
+    //private ImageLoader imageLoader;
 
     private ConstraintLayout clPromoDragonWay;
     private ConstraintLayout clPromoSmokerpass;
@@ -49,20 +49,19 @@ public class StockFragment extends Fragment implements PromoView {
 
     private PromoPresenter promoPresenter;
 
-    private TextView tvMusicStock;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imageLoader = ImageLoader.getInstance();
+        //imageLoader = ImageLoader.getInstance();
 
         if(promoPresenter == null)
             promoPresenter = new PromoPresenter(this, new PromoInteractor());
-        try {
+        /*try {
             imageLoader.init(ImageLoaderConfiguration.createDefault(mContext));
         }catch (NullPointerException ex){
             new AppDialogs().warningDialog(mContext, "Ошибка загрузки картинок");
-        }
+        }*/
 
 
     }
@@ -118,10 +117,6 @@ public class StockFragment extends Fragment implements PromoView {
             startActivity(intent);
         });
 
-        tvMusicStock.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, StockMusicActivity.class);
-            startActivity(intent);
-        });
     }
 
     @Override
