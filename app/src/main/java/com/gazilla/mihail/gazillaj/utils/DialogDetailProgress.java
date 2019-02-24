@@ -76,7 +76,7 @@ public class DialogDetailProgress {
             public void onClick(DialogInterface dialog, int which) {
                 detailProgressDialog.dismiss();
                 if (showRegTip)
-                    cardView.nextTip();
+                    cardView.nextTip(5);
             }
         });
         builder.setView(dialog);

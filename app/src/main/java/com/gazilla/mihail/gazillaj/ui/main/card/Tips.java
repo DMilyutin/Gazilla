@@ -17,7 +17,7 @@ public class Tips {
 
     private Boolean firstStartApp;
 
-    private boolean wheelTip = false;
+    private boolean wheelTip = false;// true при нажатии на дракона
     private boolean balanceTip = false;
     private boolean nacopTip = false;
     private boolean draconTip = false;
@@ -29,7 +29,6 @@ public class Tips {
     public Tips(CardView cardView, Context context) {
         this.cardView = cardView;
         sharedPref = new SharedPref(context);
-        //initTips();
     }
 
     /**
@@ -56,47 +55,58 @@ public class Tips {
     public void initTips(){
         Log.i("Loog", "Is first start - " + sharedPref.getFirstStart());
         firstStartApp = sharedPref.getFirstStart();
-        /*if (firstStartApp)
-            startTips();*/
-        if (false)
-            startTips();
+        if (firstStartApp)
+            nextTips(1);
     }
 
-    public void nextTips(){
-        if (wheelTip){
-            wheelTip = false;
-            stopWheelTip();
-            balanceTip = true;
-            startBalanceTip();
-        }
-        else if (balanceTip){
-            balanceTip=false;
-            stopBalanceTip();
-            nacopTip = true;
-            startNacopTip();
-        }
-        else if (nacopTip){
-            nacopTip=false;
-            stopNacopTip();
-            draconTip= true;
-            startLvlDragonTip();
-        }
-        else if (draconTip){
-            draconTip=false;
-            stopLvlDragonTip();
-            registrTip=true;
-            startRegistrTip();
-        }
-        else if (registrTip){
-            registrTip=false;
-            stopRegistrTip();
-            reserveTip=true;
-            startReserveTip();
-        }
-        else if (reserveTip){
-            reserveTip=false;
-            stopReserveTip();
-            stopTips();
+    public void nextTips(int i){
+        switch (i){
+            case 1:{
+                    startWheelTip();
+                    break;
+            }
+            case 2:{
+                if (wheelTip){
+                    stopWheelTip();
+                    startBalanceTip();
+                    break;
+                }
+            }
+            case 3:{
+                if (balanceTip){
+                    stopBalanceTip();
+                    startNacopTip();
+                    break;
+                }
+            }
+            case 4:{
+                if (nacopTip){
+                    stopNacopTip();
+                    startLvlDragonTip();
+                    break;
+                }
+            }
+            case 5:{
+                if (draconTip){
+                    stopLvlDragonTip();
+                    startRegistrTip();
+                    break;
+                }
+            }
+            case 6:{
+                if (registrTip){
+                    stopRegistrTip();
+                    startReserveTip();
+                    break;
+                }
+            }
+            case 7:{
+                if (reserveTip){
+                    stopReserveTip();
+                    stopTips();
+                    break;
+                }
+            }
         }
 
     }
@@ -112,15 +122,9 @@ public class Tips {
         reserveTip = false;
     }
 
-    private void startTips(){
-        wheelTip = true;
-        startWheelTip();
-
-    }
 
     private void startWheelTip(){
-        if (wheelTip)
-            cardView.wheelTip(true);
+        cardView.wheelTip(true);
     }
 
     private void stopWheelTip(){
@@ -128,20 +132,16 @@ public class Tips {
     }
 
     private void startBalanceTip(){
-        if (balanceTip)
-            cardView.balanceTip(true);
+        cardView.balanceTip(true);
     }
     private void stopBalanceTip(){
 
-            cardView.balanceTip(false);
+        cardView.balanceTip(false);
     }
 
 
     private void startNacopTip(){
-        if (nacopTip){
-            cardView.nacopTip(true);
-
-        }
+        cardView.nacopTip(true);
     }
 
     private void stopNacopTip(){
@@ -149,18 +149,14 @@ public class Tips {
     }
 
     private void startLvlDragonTip(){
-        if (draconTip){
-            cardView.lvlDraconTip(true);
-        }
-
+        cardView.lvlDraconTip(true);
     }
     private void stopLvlDragonTip(){
         cardView.lvlDraconTip(false);
     }
 
     private void startRegistrTip(){
-        if (registrTip)
-            cardView.registrTip(true);
+        cardView.registrTip(true);
     }
 
     private void stopRegistrTip(){
@@ -168,16 +164,56 @@ public class Tips {
     }
 
     private void startReserveTip(){
-        if (reserveTip)
-            cardView.reserveTip(true);
+        cardView.reserveTip(true);
     }
 
     private void stopReserveTip(){
-
-            cardView.reserveTip(false);
+        cardView.reserveTip(false);
     }
 
     public Boolean getFirstStartApp() {
         return firstStartApp;
     }
+
+
+    public void setWheelTip(boolean wheelTip) {
+        this.wheelTip = wheelTip;
+    }
+
+    public void setBalanceTip(boolean balanceTip) {
+        this.balanceTip = balanceTip;
+    }
+
+    public void setNacopTip(boolean nacopTip) {
+        this.nacopTip = nacopTip;
+    }
+
+    public void setDraconTip(boolean draconTip) {
+        this.draconTip = draconTip;
+    }
+
+    public void setRegistrTip(boolean registrTip) {
+        this.registrTip = registrTip;
+    }
+
+    public void setReserveTip(boolean reserveTip) {
+        this.reserveTip = reserveTip;
+    }
+
+    public boolean isWheelTip() {
+        return wheelTip;
+    }
+
+    public boolean isBalanceTip() {
+        return balanceTip;
+    }
+
+    public boolean isNacopTip() {
+        return nacopTip;
+    }
+
+    public boolean isDraconTip() {
+        return draconTip;
+    }
+
 }

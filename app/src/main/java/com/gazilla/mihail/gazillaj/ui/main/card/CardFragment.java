@@ -162,6 +162,10 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
                 }});
 
         lvLvlDracon.setOnItemClickListener((parent, view, position, id) -> {
+            if (cardTips.getFirstStartApp()&&cardTips.isNacopTip()&&!cardTips.isDraconTip()) {
+                cardTips.setDraconTip(true);
+
+            }
             /** Открытие детальной информации из списка уровней лояльности */
             /** Определние нажатого уровня */
             int key = (int) adapterLvlDracon.getItemId(position);
@@ -175,16 +179,25 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
         switch (v.getId()){
             case R.id.imgRuletka: {
                 /** Нажатие на рудетку */
+                if (cardTips.getFirstStartApp()&&!cardTips.isWheelTip()){
+                    cardTips.setWheelTip(true);
+                    wheelTip(false);
+                }
                 cardPresenter.prepearWheel();
                 ruletka.setClickable(false);
+
                 break;
             }
             case R.id.miniProgressLayout:{
                 /** Нажатие на поле с прогрессом потраченных денег для открытия уровней лояльности */
+                if (cardTips.getFirstStartApp()&&cardTips.isBalanceTip()&&!cardTips.isNacopTip()) {
+                    cardTips.setNacopTip(true);
+                    cardTips.nextTips(4);
+                }
                 int i = lvLvlDracon.getVisibility();
                 if (i==8){
                     lvLvlDracon.setVisibility(View.VISIBLE);
-                    cardTips.nextTips();
+
                 }
                 else
                     lvLvlDracon.setVisibility(View.GONE);
@@ -202,19 +215,22 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
                 break;
             }
             case R.id.btTipNext:{
+                cardTips.setBalanceTip(true);
                 /** Нажатие на подсказке  */
-                cardTips.nextTips();
+                cardTips.nextTips(3);
                 break;
             }
             case R.id.tvRegistrTipNext:{
+                cardTips.setRegistrTip(true);
                 /** Нажатие на подсказке  */
-                cardTips.nextTips();
+                cardTips.nextTips(6);
                 scCard.scrollBy(0,2000);
                 break;
             }
             case R.id.tvReserveTipNext:{
+                cardTips.setReserveTip(true);
                 /** Нажатие на подсказке  */
-                cardTips.nextTips();
+                cardTips.nextTips(7);
                 break;
             }
         }
@@ -371,8 +387,8 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
     }
 
     @Override
-    public void nextTip() {
-        cardTips.nextTips();
+    public void nextTip(int N) {
+        cardTips.nextTips(N);
     }
 
     @Override

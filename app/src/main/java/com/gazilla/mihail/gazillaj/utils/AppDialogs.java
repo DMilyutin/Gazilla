@@ -137,7 +137,7 @@ public class AppDialogs {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (showBalanceTip)
-                    cardView.nextTip();
+                    cardView.nextTip(2);
                 alertDialog.dismiss();
                 alertDialog=null;
 

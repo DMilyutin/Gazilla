@@ -20,5 +20,5 @@ public interface CardView {
     void lvlDraconTip(Boolean show);
     void registrTip(Boolean show);
     void reserveTip(Boolean show);
-    void nextTip();
+    void nextTip(int N);
 }
