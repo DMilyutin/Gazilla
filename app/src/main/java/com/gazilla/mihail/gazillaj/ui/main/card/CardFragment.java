@@ -164,7 +164,7 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
         lvLvlDracon.setOnItemClickListener((parent, view, position, id) -> {
             if (cardTips.getFirstStartApp()&&cardTips.isNacopTip()&&!cardTips.isDraconTip()) {
                 cardTips.setDraconTip(true);
-
+                lvlDraconTip(false);
             }
             /** Открытие детальной информации из списка уровней лояльности */
             /** Определние нажатого уровня */

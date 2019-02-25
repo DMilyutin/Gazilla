@@ -34,7 +34,6 @@ import com.gazilla.mihail.gazillaj.utils.Initialization;
  * */
 
 public class MainActivity extends AppCompatActivity implements MainView {
-    /**  */
     /** Пресентор данной активити */
     public static MainPresentation mainPresentation;
 
@@ -55,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private ContactsFragment contactsFragment;
 
     private FragmentTransaction fragmentTransaction;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +87,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         /** Обновление всех полей User */
         mainPresentation.updateUserInfo();
+        try {
+            tvScore.setText(String.valueOf(Initialization.userWithKeys.getScore()));
+        }catch (NullPointerException ex){
+            new AppDialogs().warningDialog(this, "Устаревшие данные о баллах. Обновите страничку для получения актуальных баллов");
+            tvScore.setText("0");
+        }
 
-        tvScore.setText(String.valueOf(Initialization.userWithKeys.getScore()));
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -180,4 +182,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
         nameFragment.setText("Акции и новости");
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        moveTaskToBack(true);
+    }
 }

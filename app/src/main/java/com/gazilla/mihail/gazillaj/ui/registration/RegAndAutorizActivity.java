@@ -149,7 +149,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
         Intent intent = new Intent();
         intent.putExtra("REG", response);
         setResult(RESULT_OK, intent);
-        finish();
+        //finish();
     }
 
     @Override

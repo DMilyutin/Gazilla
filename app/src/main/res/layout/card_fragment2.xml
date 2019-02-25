@@ -190,7 +190,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/imgWhiteCircle"
                     app:layout_constraintStart_toStartOf="@+id/imgWhiteCircle"
                     app:layout_constraintTop_toTopOf="@+id/imgWhiteCircle"
-                    app:srcCompat="@drawable/wheel2" />
+                     />
 
                 <ImageView
                     android:id="@+id/imageView8"

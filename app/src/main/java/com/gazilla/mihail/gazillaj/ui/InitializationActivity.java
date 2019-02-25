@@ -55,8 +55,12 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
     @Override
     public void startMainActivity() {
         Intent intent = new Intent(InitializationActivity.this, MainActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     /** Метод запуска активити авторизации и регистрации {@link InitPresentation#checkUserDat()}*/
@@ -64,6 +68,11 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
     public void startRegistrationActivity() {
         Intent intent = new Intent(InitializationActivity.this, RegAndAutorizActivity.class);
         startActivityForResult(intent, CODE);
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
     }
 
 

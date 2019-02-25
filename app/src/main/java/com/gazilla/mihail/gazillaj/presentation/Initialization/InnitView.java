@@ -4,4 +4,5 @@ public interface InnitView {
 
     void startMainActivity();
     void startRegistrationActivity();
+    void finishActivity();
 }

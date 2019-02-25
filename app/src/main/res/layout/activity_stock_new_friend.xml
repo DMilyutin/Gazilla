@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/photo_new_friend" />
+        app:srcCompat="@drawable/photo_new_friend"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout12"
