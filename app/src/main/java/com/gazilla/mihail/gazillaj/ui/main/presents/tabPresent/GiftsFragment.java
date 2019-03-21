@@ -90,7 +90,7 @@ public class GiftsFragment extends Fragment implements PresentsView {
 
 
     @Override
-    public void setAdapterPresents(List<MenuCategory> categories, List<ImgGazilla> imgGazillaList) {
+    public void setAdapterPresents(List<MenuCategory> categories) {
 
     }
 
@@ -101,13 +101,13 @@ public class GiftsFragment extends Fragment implements PresentsView {
     }
 
     @Override
-    public void onStop() {
-        try {
-            finalize();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-        super.onStop();
+    public void setVisibleProgressBar() {
+
+    }
+
+    @Override
+    public void setUnvisibleProgressBar() {
+
     }
 
     @Override

@@ -1,35 +1,41 @@
 package com.gazilla.mihail.gazillaj.presentation.account;
 
-import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.model.interactor.AccountInteractor;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
 
-public class AccountPresentation {
+@InjectViewState
+public class AccountPresentation extends MvpPresenter<AccountView> {
 
-
-    private AccountView accountView;
     private AccountInteractor accountInteractor;
-    private SharedPref sharedPref;
+    private SharedPreferences sharedPref;
+    private InitializationAp initializationAp = InitializationAp.getInstance();
 
-    public AccountPresentation(AccountView accountView, Context context) {
-        this.accountView = accountView;
+
+    public AccountPresentation(SharedPreferences sharedPref ) {
         accountInteractor = new AccountInteractor();
-        sharedPref = new SharedPref(context);
+        this.sharedPref = sharedPref;
     }
 
     public void checkUserInfo(){
-        if(sharedPref.myPreff()){
-            String n = sharedPref.getNameFromPref();
-            String p = sharedPref.getPhoneFromPref();
-            String e = sharedPref.getEmailFromPref();
-            accountView.setUserInfo(n,p,e);
+        if (sharedPref!=null){
+            String n = sharedPref.getString("myName", "");
+            String p = sharedPref.getString("myPhone", "");
+            String e = sharedPref.getString("myEmail", "");
+            String id = String.valueOf(initializationAp.getUserWithKeys().getId());
+
+            if (getViewState()!=null)
+            getViewState().setUserInfo(n,p,e, id);
+            else
+                Log.i("Loog", "getViewState - null");
         }
     }
 
@@ -38,13 +44,13 @@ public class AccountPresentation {
         s = s.replaceAll("\\s", "");
         s = s.replaceAll("-", "");
         if (s.length() < 11 || s.length() > 12) {
-            accountView.showWorningDialog("Неверный формат номера");
+            getViewState().showWorningDialog("Неверный формат номера");
             return "";
         }
         if (s.charAt(0) == '8' && s.length() == 11) {
             s = s.substring(1);
             if (!s.matches("\\d+")) {
-                accountView.showWorningDialog("Неверный формат номера");
+                getViewState().showWorningDialog("Неверный формат номера");
                 return "";
             } else {
                 return s;
@@ -52,25 +58,38 @@ public class AccountPresentation {
         } else if (s.charAt(0) == '+' && s.charAt(1) == '7' && s.length() == 12) {
             s = s.substring(2);
             if (!s.matches("\\d+")) {
-                accountView.showWorningDialog("Неверный формат номера");
+                getViewState().showWorningDialog("Неверный формат номера");
                 return "";
             } else {
                 return s;
             }
         } else {
-            accountView.showWorningDialog("Неверный формат номера");
+            getViewState().showWorningDialog("Неверный формат номера");
             return "";
         }
     }
 
     public void newUserInfo(String name, String phone, String email){
-        accountView.showLoadingDialog();
+        getViewState().showLoadingDialog();
 
         phone = checkFormatPhone(phone);
+        SharedPreferences.Editor editor = sharedPref.edit();
 
-        sharedPref.saveName(name);
+        if (name==null)
+            name="";
+        if (phone==null)
+            phone="";
+        if (email==null)
+            email="";
+
+        editor.putString("myName", name);
+        editor.putString("myPhone", phone);
+        editor.putString("myEmail", email);
+        editor.commit();
+
+        /*sharedPref.saveName(name);
         sharedPref.saveMyPhone(phone);
-        sharedPref.saveMyEmail(email);
+        sharedPref.saveMyEmail(email);*/
 
         updateUserInfo(name, phone, email);
     }
@@ -83,16 +102,16 @@ public class AccountPresentation {
 
         Log.i("Loog", dat);
 
-        String signatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),  dat);
+        String signatur = initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(),  dat);
 
-        accountInteractor.updateUser(name, phone, email, signatur, new SuccessCallBack() {
+        accountInteractor.updateUser(name, phone, email, initializationAp.getUserWithKeys().getPublickey(), signatur, new SuccessCallBack() {
             @Override
             public void reservResponse(Success success) {
-                accountView.clouseAppDialog();
+                getViewState().clouseAppDialog();
                 if (success.isSuccess())
-                    accountView.showWorningDialog("Ваши данные успешно сохранены");
+                    getViewState().showWorningDialog("Ваши данные успешно сохранены");
                 else{
-                    accountView.showWorningDialog("Ошибка: данные использованы для другого аккаунта");
+                    getViewState().showWorningDialog("Ошибка: данные использованы для другого аккаунта");
                     //new BugReport().sendBugInfo(success.getMessage(), "AccountPresentation.updateUserInfo.reservResponse");
                     //new BugReport().sendBugInfo("", "");
                 }
@@ -101,18 +120,23 @@ public class AccountPresentation {
 
             @Override
             public void errorResponse(String error) {
-                accountView.clouseAppDialog();
+                getViewState().clouseAppDialog();
                 new BugReport().sendBugInfo(error, "AccountPresentation.updateUserInfo.errorResponse");
 
             }
         }, new FailCallBack() {
             @Override
             public void setError(Throwable throwable) {
-                accountView.clouseAppDialog();
+                getViewState().clouseAppDialog();
                 new BugReport().sendBugInfo("throwable.getMessage()", "AccountPresentation.updateUserInfo.setError.Throwable");
 
             }
         });
     }
 
+    @Override
+    public void onDestroy() {
+        Log.i("Loog", "презентор уничтожен");
+        super.onDestroy();
+    }
 }

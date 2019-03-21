@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.gazilla.mihail.gazillaj.model.interactor.PromoInteractor;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.PlaylistSongs;
 import com.gazilla.mihail.gazillaj.utils.POJO.Song;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
@@ -88,8 +88,8 @@ public class StockMusicPresenter {
     public void sendMyNextSong(Song song){
         String dat = "next="+ song.getId();
 
-        String publicKey = Initialization.userWithKeys.getPublickey();
-        String signature = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), dat);
+        String publicKey = InitializationAp.getInstance().getUserWithKeys().getPublickey();
+        String signature = InitializationAp.getInstance().signatur(InitializationAp.getInstance().getUserWithKeys().getPrivatekey(), dat);
 
         promoInteractor.sendNextSong(song.getId(), publicKey, signature, new SuccessCallBack() {
             @Override

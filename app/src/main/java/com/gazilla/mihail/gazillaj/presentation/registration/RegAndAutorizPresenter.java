@@ -3,26 +3,38 @@ package com.gazilla.mihail.gazillaj.presentation.registration;
 import android.content.Context;
 import android.util.Log;
 
+import com.arellomobile.mvp.MvpPresenter;
+import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
 import com.gazilla.mihail.gazillaj.model.interactor.RegAndAutorizInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.AutorizationCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 
-public class RegAndAutorizPresenter {
+import java.util.concurrent.Callable;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
+public class RegAndAutorizPresenter extends MvpPresenter<RegAndAutorizView> {
 
    private RegAndAutorizView regAndAutorizView;
    private RegAndAutorizInteractor interactor;
     private SharedPref sharedPref;
+    private Context context;
+    private InitializationAp initializationAp = InitializationAp.getInstance();
 
     public RegAndAutorizPresenter(RegAndAutorizView regAndAutorizView, RegAndAutorizInteractor interactor, Context context) {
         this.regAndAutorizView = regAndAutorizView;
         this.interactor = interactor;
         sharedPref = new SharedPref(context);
+        this.context = context;
     }
 
     //------------------------------регистрация-----------------------------------------
@@ -35,28 +47,47 @@ public class RegAndAutorizPresenter {
         regAndAutorizView.showLoadingDialog();
         String type = poromoORrefer(promo);
 
-        if (type.equals("Promo"))
-            registrationApi("", "", "", "", promo);
-        else
-            registrationApi("", "", "",  promo, "");
+
+        Observable.fromCallable(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return AdvertisingIdClient.getAdvertisingIdInfo(context).getId(); // id гугл рекламы
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+
+                    if (type.equals("Promo"))
+                        registrationApi("", "", "", "", promo, s);
+                    else
+                        registrationApi("", "", "",  promo, "", s);
+
+                    Log.i("Loog", "id гугл рекламы" + s);
+                }, throwable -> {
+                    new BugReport().sendBugInfo(throwable.getMessage(), "Ошибка определения id девайса");
+                    new AppDialogs().warningDialog(context, "Ошибка определения вашего ID");
+                    Log.i("Loog", "id гугл рекламы T" + throwable.getMessage());
+                } );
+
     }
 
     private String poromoORrefer(String text){
-        if (text.contains("0")||text.contains("1")||text.contains("2")||text.contains("3")||
-                text.contains("4")||text.contains("5")||text.contains("6")||text.contains("7")||
-                text.contains("8")||text.contains("9"))
+        if (text.matches("[0-9]+"))
             return "Refer";
         else
             return "Promo";
     }
 
-    private void registrationApi(String name, String phone, String email, String referer, String promo){
-        interactor.registrationApi(name, phone, email, "", referer, promo, new AutorizationCallBack(){
+
+    private void registrationApi(String name, String phone, String email, String referer, String promo, String myDeviceID){
+
+        interactor.registrationApi(name, phone, email, "", referer, promo, myDeviceID,  new AutorizationCallBack(){
             @Override
             public void AutorizCallBack(UserWithKeys userWithKeys) {
+
                 regAndAutorizView.clouaeAppDialog();
-                Initialization.setUserWithKeys(userWithKeys);
-                saveKey();
+                initializationAp.setUserWithKeys(userWithKeys);
+                saveKey(userWithKeys);
                 regAndAutorizView.startProgramm(true);
             }
             @Override
@@ -121,8 +152,8 @@ public class RegAndAutorizPresenter {
             @Override
             public void AutorizCallBack(UserWithKeys userWithKeys) {
                 Log.i("Loog", "защитный код отправлен");
-                Initialization.setUserWithKeys(userWithKeys);
-                saveKey();
+                InitializationAp.getInstance().setUserWithKeys(userWithKeys);
+                saveKey(userWithKeys);
                 regAndAutorizView.startProgramm(true);
             }
 
@@ -143,14 +174,15 @@ public class RegAndAutorizPresenter {
 
 
 
-    private void saveKey(){
+    private void saveKey(UserWithKeys userWithKeys){
         Log.i("Loog", "saveKey");
-        sharedPref.saveNewPrivateKey(Initialization.userWithKeys.getPrivatekey());
-        sharedPref.saveNewPublicKey(Initialization.userWithKeys.getPublickey());
-        sharedPref.saveNewId(Initialization.userWithKeys.getId());
-        sharedPref.saveName(Initialization.userWithKeys.getName());
-        sharedPref.saveMyPhone(Initialization.userWithKeys.getPhone());
-        sharedPref.saveMyEmail(Initialization.userWithKeys.getEmail());
+
+        sharedPref.saveNewPrivateKey(initializationAp.getUserWithKeys().getPrivatekey());
+        sharedPref.saveNewPublicKey(initializationAp.getUserWithKeys().getPublickey());
+        sharedPref.saveNewId(initializationAp.getUserWithKeys().getId());
+        sharedPref.saveName(initializationAp.getUserWithKeys().getName());
+        sharedPref.saveMyPhone(initializationAp.getUserWithKeys().getPhone());
+        sharedPref.saveMyEmail(initializationAp.getUserWithKeys().getEmail());
     }
 
 }

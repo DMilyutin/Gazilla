@@ -1,8 +1,12 @@
 package com.gazilla.mihail.gazillaj.presentation.Initialization;
 
-public interface InnitView {
+import com.arellomobile.mvp.MvpView;
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
+
+public interface InnitView extends MvpView {
 
     void startMainActivity();
     void startRegistrationActivity();
-    void finishActivity();
+    void showErrorer(String error);
 }

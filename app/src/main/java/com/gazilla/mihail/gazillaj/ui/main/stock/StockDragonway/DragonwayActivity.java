@@ -14,8 +14,6 @@ import android.widget.TextView;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.presentation.main.stock.StoksDragonWay.DragonWayPresentation;
 import com.gazilla.mihail.gazillaj.presentation.main.stock.StoksDragonWay.DragonWayView;
-import com.gazilla.mihail.gazillaj.ui.main.stock.StockFragment;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;

@@ -3,13 +3,13 @@ package com.gazilla.mihail.gazillaj.utils.POJO;
 import java.util.List;
 
 
-public class MenuCategory {
+public class MenuCategory{
+
+        private int id;
 
 
-    private int id;
-
-    private String name;
-    private List<MenuItem> items;
+        private String name;
+        private List<MenuItem> items;
 
 
     public MenuCategory(int id, String name, List<MenuItem> items) {
@@ -34,5 +34,17 @@ public class MenuCategory {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setItems(List<MenuItem> items) {
+        this.items = items;
     }
 }

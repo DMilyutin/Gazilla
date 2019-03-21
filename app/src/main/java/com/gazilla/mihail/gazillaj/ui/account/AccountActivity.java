@@ -1,12 +1,15 @@
 package com.gazilla.mihail.gazillaj.ui.account;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import com.gazilla.mihail.gazillaj.utils.POJO.Success;
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.presentation.account.AccountPresentation;
@@ -14,15 +17,24 @@ import com.gazilla.mihail.gazillaj.presentation.account.AccountView;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 
 /** Активити с управлением данных User */
-public class AccountActivity extends AppCompatActivity implements AccountView {
+public class AccountActivity extends MvpAppCompatActivity implements AccountView {
     /** Пресентер данной активити*/
-    private AccountPresentation accountPresentation;
+
+    @InjectPresenter
+    AccountPresentation accountPresentation;
 
     private EditText edName;
     private EditText edPhone;
     private EditText edEmail;
 
+    private TextView tvMyIdAccount;
+
     private AppDialogs appDialogs;
+
+    @ProvidePresenter
+    AccountPresentation provideAccountPresentation(){
+        return new AccountPresentation(this.getPreferences(Context.MODE_PRIVATE));
+    }
 
 
     @Override
@@ -30,13 +42,11 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        if (accountPresentation==null)
-            accountPresentation = new AccountPresentation(this, this);
-
-
         edName  = findViewById(R.id.etNameAccoun);
         edPhone = findViewById(R.id.etPhoneAccoun);
         edEmail = findViewById(R.id.etEmailAccoun);
+        tvMyIdAccount = findViewById(R.id.tvMyIdAccount);
+
 
         Button btSave = findViewById(R.id.btSaveAccoun);
 
@@ -44,19 +54,19 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
 
         accountPresentation.checkUserInfo();
 
+
         btSave.setOnClickListener(v -> {
+
             String n="";
             String p="";
             String e="";
+            
             if (edName.getText()!=null)
             n += edName.getText().toString();
             if (edPhone.getText()!=null)
             p += edPhone.getText().toString();
             if (edEmail.getText()!=null)
             e += edEmail.getText().toString();
-
-
-            //Log.
 
             accountPresentation.newUserInfo(n,p,e);
         });
@@ -65,13 +75,15 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
 
     /** Установка сохраненных данных */
     @Override
-    public void setUserInfo(String name, String phone, String email) {
+    public void setUserInfo(String name, String phone, String email, String id) {
         if(name!= null)
             edName.setText(name);
         if(phone!=null)
             edPhone.setText(phone);
         if(email!=null)
             edEmail.setText(email);
+        if (id!=null)
+            tvMyIdAccount.setText(id);
     }
 
     /** Показ диалога с ошибкой */
@@ -91,5 +103,9 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
         appDialogs.clouseDialog();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        Log.i("Loog", this.getPackageName() + "уничтожено");
+        super.onDestroy();
+    }
 }

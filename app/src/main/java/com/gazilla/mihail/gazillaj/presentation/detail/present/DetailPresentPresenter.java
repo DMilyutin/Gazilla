@@ -4,39 +4,36 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import okhttp3.ResponseBody;
 
-public class DetailPresentPresenter {
+@InjectViewState
+public class DetailPresentPresenter extends MvpPresenter<DetailPresentView> {
 
-
-
-    private DetailPresentView presentView;
-
-    public DetailPresentPresenter(DetailPresentView presentView) {
-        this.presentView = presentView;
-    }
 
     public void pressBtNext(){
-        presentView.openFirstDialog();
+        getViewState().openFirstDialog();
     }
 
     public void byPresent(){
-        presentView.openSecondDialog();
+        getViewState().openSecondDialog();
     }
 
     public  void cloceDetailPresent(){
-        presentView.acsessBuy();
+        getViewState().acsessBuy();
     }
 
     public void getImgItem(String id){
-        Initialization.repositoryApi.getStaticFromServer("menu", id,
+        InitializationAp.getInstance().getRepositoryApi().getStaticFromServer("menu", id,
                 new StaticCallBack() {
                     @Override
                     public void myStatic(ResponseBody responseBody) throws IOException {
@@ -46,7 +43,7 @@ public class DetailPresentPresenter {
                             Log.i("Loog", "Загрузка завершена");
                         Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
 
-                        presentView.setImgItem(bitmap);
+                            getViewState().setImgItem(bitmap);
 
                         }
 
@@ -56,8 +53,8 @@ public class DetailPresentPresenter {
                     @Override
                     public void showError(String error) {
                         Log.i("Loog", "Загрузка showError " + error);
-                        presentView.setImgItem(null);
-                        presentView.errorDialog("Фото времененно недоступно");
+                        getViewState().setImgItem(null);
+                        getViewState().errorDialog("Фото времененно недоступно");
                        // new BugReport().sendBugInfo(error, "DetailPresentPresenter.getImgItem.showError");
                     }
                 }, new FailCallBack() {
@@ -66,6 +63,13 @@ public class DetailPresentPresenter {
                         new BugReport().sendBugInfo(throwable.getMessage(), "DetailPresentPresenter.getImgItem.setError.Throwable");
                     }
                 });
+    }
+
+    private void checkAcsessByWin(){
+        Calendar date = Calendar.getInstance();
+        if (date.get(Calendar.DAY_OF_WEEK) == 4){
+
+        }
     }
 
 

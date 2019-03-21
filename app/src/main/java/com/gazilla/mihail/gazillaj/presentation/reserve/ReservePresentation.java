@@ -3,26 +3,24 @@ package com.gazilla.mihail.gazillaj.presentation.reserve;
 import android.content.Context;
 import android.util.Log;
 
+import com.arellomobile.mvp.MvpPresenter;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.Reserve;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
-import com.gazilla.mihail.gazillaj.utils.POJO.User;
 import com.gazilla.mihail.gazillaj.model.interactor.ReserveInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;
-
-import java.util.Calendar;
 
 
-public class ReservePresentation {
+public class ReservePresentation extends MvpPresenter<ReserveView> {
 
     private SharedPref sharedPref;
 
     private ReserveView reserveView;
     private ReserveInteractor reserveInteractor;
+    private InitializationAp initializationAp = InitializationAp.getInstance();
 
     public ReservePresentation(ReserveView reserveView, ReserveInteractor reserveInteractor, Context context) {
         this.reserveView = reserveView;
@@ -43,7 +41,7 @@ public class ReservePresentation {
                     "preorder="+preorder+"&"+
                     "qty="+reserve.getQty();
 
-        String signatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),  dat);
+        String signatur = initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(),  dat);
 
         reserve.setDate(zamenaPlusa(reserve.getDate()));
 
@@ -119,6 +117,7 @@ public class ReservePresentation {
         else if (s.charAt(0)=='9'&&s.length()==10) // 9хх ххх хх хх
             return s;
         else {
+            reserveView.clouseAppDialog();
             reserveView.showWorningDialog("Неверный формат номера");
             return "";
         }

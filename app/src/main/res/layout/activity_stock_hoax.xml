@@ -115,7 +115,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Проводится еженедельно по пятницам в 20.00 среди присутсвующих гостей. В эту пятницу мы разыграем 5000 рублей!"
+        android:text="Проводится еженедельно по пятницам в 20.00 среди присутсвующих гостей."
         android:textColor="#ffffff"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/btReserveFromHuax"

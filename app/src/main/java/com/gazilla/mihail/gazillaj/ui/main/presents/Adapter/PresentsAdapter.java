@@ -3,8 +3,6 @@ package com.gazilla.mihail.gazillaj.ui.main.presents.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor.PhotoMemuInterator;
-import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.MenuImg;
-import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.R;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.ImgCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.MenuCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -42,6 +36,7 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     private ImageLoader imageLoader;
     private MenuImg menuImg;
     //private ImageView imgFavorit;
+    private InitializationAp initializationAp = InitializationAp.getInstance();
 
 
     @SuppressLint("UseSparseArrays")
@@ -62,9 +57,9 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
         if (categories.isEmpty()||categories==null){
             return null;
         }
-        if (Initialization.userWithKeys.getFavorites()==null) return null;
+        if (initializationAp.getUserWithKeys().getFavorites()==null) return null;
 
-        int[] favor = Initialization.userWithKeys.getFavorites();  // список id которые в любимом
+        int[] favor = initializationAp.getUserWithKeys().getFavorites();  // список id которые в любимом
 
         try {
             int max = categories.get(categories.size()-1).getItems().get(categories.get(categories.size()-1).getItems().size()-1).getId();
@@ -244,7 +239,7 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     private void addFavoritMenu(int id, ImageView imageView){
 
 
-        Initialization.repositoryApi.addFavoriteItem(Initialization.userWithKeys.getPublickey(), id,
+        initializationAp.getRepositoryApi().addFavoriteItem(initializationAp.getUserWithKeys().getPublickey(), id,
                 signatur(id), new SuccessCallBack() {
                     @Override
                     public void reservResponse(Success success) {
@@ -264,7 +259,7 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     }
 
     private void delFavoritMenu(int id, ImageView imageView){
-        Initialization.repositoryApi.delFavoritItem(Initialization.userWithKeys.getPublickey(), id,
+        initializationAp.getRepositoryApi().delFavoritItem(initializationAp.getUserWithKeys().getPublickey(), id,
                 signatur(id), new SuccessCallBack() {
                     @Override
                     public void reservResponse(Success success) {
@@ -286,13 +281,13 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
     private String signatur( int id){
         String dat = "id="+id;
 
-        return Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),  dat);
+        return initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(),  dat);
     }
 
     private void menuFromServer(){
-        String publicKey = Initialization.userWithKeys.getPublickey();
-        String signanure = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(),"");
-        Initialization.repositoryApi.ollMenu(publicKey, signanure, new MenuCallBack() {
+        String publicKey = initializationAp.getUserWithKeys().getPublickey();
+        String signanure = initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(),"");
+        initializationAp.getRepositoryApi().ollMenu(publicKey, signanure, new MenuCallBack() {
             @Override
             public void ollMenu(List<MenuCategory> menuCategoryList) {
                 menuCategories=menuCategoryList;
@@ -336,7 +331,7 @@ public class PresentsAdapter extends BaseExpandableListAdapter{
 
 //
 // /*private void setPhotoList(){
-//        Initialization.repositoryDB.imgFromBD(new ImgCallBack() {
+//        InitializationAp.repositoryDB.imgFromBD(new ImgCallBack() {
 //            @Override
 //            public void ollImgFromDB(List<ImgGazilla> imgGazillaList) {
 //                imgGazillas = imgGazillaList;

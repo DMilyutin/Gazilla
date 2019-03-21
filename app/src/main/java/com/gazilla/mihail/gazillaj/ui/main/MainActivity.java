@@ -1,20 +1,15 @@
 package com.gazilla.mihail.gazillaj.ui.main;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gazilla.mihail.gazillaj.R;
@@ -27,7 +22,7 @@ import com.gazilla.mihail.gazillaj.ui.main.presents.Presents;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockFragment;
 import com.gazilla.mihail.gazillaj.ui.reserve.ReserveActivity;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 
 /**
  * Главная активити приложения с меню
@@ -88,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         /** Обновление всех полей User */
         mainPresentation.updateUserInfo();
         try {
-            tvScore.setText(String.valueOf(Initialization.userWithKeys.getScore()));
+            tvScore.setText(String.valueOf(InitializationAp.getInstance().getUserWithKeys().getScore()));
         }catch (NullPointerException ex){
             new AppDialogs().warningDialog(this, "Устаревшие данные о баллах. Обновите страничку для получения актуальных баллов");
             tvScore.setText("0");
@@ -100,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.menu_card:
                         /** Запуск меню с кодом и рулеткой */
                         fragmentTransaction.replace(R.id.fragmentLayoutMainMenu, cardFragment);
@@ -133,12 +128,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 return true;
             }
         });
+
+
+
+
         imgOpenAccount.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AccountActivity.class);
             startActivity(intent);
 
         });
-
     }
 
     /** Метод обновления баллов */
@@ -162,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void sendAnswerNotification(int alertId, int commandId) {
+        mainPresentation.saveVersionNotification();
         mainPresentation.sendAnswerNotification(alertId, commandId);
     }
 

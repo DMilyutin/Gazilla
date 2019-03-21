@@ -3,9 +3,7 @@ package com.gazilla.mihail.gazillaj.ui.detail.present;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,30 +14,28 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
-import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.presentation.detail.present.DetailPresentPresenter;
 import com.gazilla.mihail.gazillaj.presentation.detail.present.DetailPresentView;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
-import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-
 /** Активити с детальным показом выбранного продукта из меню */
-public class DetailPresentActivity extends AppCompatActivity implements DetailPresentView {
+public class DetailPresentActivity extends MvpAppCompatActivity implements DetailPresentView {
 
     private AlertDialog firstDialogWithQRcode;
     private AlertDialog secondDialogWithAcsess;
     private Button btBuy;
 
     /** Пресентер данного класса */
-    private DetailPresentPresenter presentPresenter;
+    @InjectPresenter
+    DetailPresentPresenter presentPresenter;
 
     /** POJO класс для меню */
     private MenuItem item;
@@ -57,8 +53,7 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
         item = intent.getParcelableExtra("SelectedItem");
         typeBuy = intent.getStringExtra("Type");
 
-        if(presentPresenter==null)
-            presentPresenter = new DetailPresentPresenter(this);
+
         presentPresenter.getImgItem(String.valueOf(item.getId()));
 
         imageView = findViewById(R.id.imgDetailItem);
@@ -131,9 +126,9 @@ public class DetailPresentActivity extends AppCompatActivity implements DetailPr
 
         String dataForQrCode = "";
         if(typeBuy.equals("buy"))
-            dataForQrCode = String.valueOf(Initialization.userWithKeys.getId()) +"/" + item.getId();
+            dataForQrCode = String.valueOf(InitializationAp.getInstance().getUserWithKeys().getId()) +"/" + item.getId();
         else
-            dataForQrCode = String.valueOf(Initialization.userWithKeys.getId()) +"/" + item.getId() + "/free";
+            dataForQrCode = String.valueOf(InitializationAp.getInstance().getUserWithKeys().getId()) +"/" + item.getId() + "/free";
 
 
         try {

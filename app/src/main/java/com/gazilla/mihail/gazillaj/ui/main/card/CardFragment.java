@@ -2,6 +2,7 @@ package com.gazilla.mihail.gazillaj.ui.main.card;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.DialogDetailProgress;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static com.gazilla.mihail.gazillaj.ui.main.MainActivity.mainPresentation;
 
@@ -87,8 +89,11 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("myProf", Context.MODE_PRIVATE);
+
         if(cardPresenter==null)
-            cardPresenter = new CardPresenter(this, mContext);
+            cardPresenter = new CardPresenter(this, sharedPreferences);
+
         dialogDetailProgress = new DialogDetailProgress(mContext);
         appDialogs = new AppDialogs();
         cardTips = new Tips(this, mContext);
@@ -170,7 +175,11 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
             /** Определние нажатого уровня */
             int key = (int) adapterLvlDracon.getItemId(position);
             /** {@link AdapterLvlDracon#AdapterLvlDracon(Context, int, Map)} */
-            dialogDetailProgress.detailTargetProgress(key, cardTips.getFirstStartApp(), this); });
+            if (cardTips.getTipsIsWork()&&!cardTips.isRegistrTip())
+                dialogDetailProgress.detailTargetProgress(key, true, this);
+            else
+                dialogDetailProgress.detailTargetProgress(key, false, this);
+        });
     }
 
     /** обработчик нажатий - фрагмент */
@@ -190,22 +199,30 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
             }
             case R.id.miniProgressLayout:{
                 /** Нажатие на поле с прогрессом потраченных денег для открытия уровней лояльности */
-                if (cardTips.getFirstStartApp()&&cardTips.isBalanceTip()&&!cardTips.isNacopTip()) {
+                if (cardTips.getTipsIsWork()&&cardTips.isBalanceTip()&&!cardTips.isNacopTip()) {
                     cardTips.setNacopTip(true);
                     cardTips.nextTips(4);
                 }
+
                 int i = lvLvlDracon.getVisibility();
                 if (i==8){
                     lvLvlDracon.setVisibility(View.VISIBLE);
-
                 }
-                else
+                else{
+                    if (cardTips.getTipsIsWork()&&!cardTips.isDraconTip()){
+                        cardTips.setDraconTip(true);
+                        nextTip(5);
+                    }
+
                     lvLvlDracon.setVisibility(View.GONE);
+                }
                 break;
             }
             case R.id.tvStopTips:{
                 /** Нажатие на подсказке  */
                 wheelTip(false);
+                cardTips.setWheelTip(true);
+                nextTip(2);
                 break;
             }
             case R.id.btOpenReserve:{
@@ -217,6 +234,13 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
             case R.id.btTipNext:{
                 cardTips.setBalanceTip(true);
                 /** Нажатие на подсказке  */
+                if (lvLvlDracon.getVisibility()==View.VISIBLE){
+                    cardTips.setNacopTip(true);
+                    cardTips.nextTips(3);
+
+                    cardTips.nextTips(4);
+                    break;
+                }
                 cardTips.nextTips(3);
                 break;
             }
@@ -307,7 +331,11 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
     /** метод показа выигрыша */
     @Override
     public void myWin(String win, String res) {
-        appDialogs.dialogWinWheel(mContext, win, res, cardTips.getFirstStartApp(), this);
+        //appDialogs.dialogWinWheel(mContext, win, res, cardTips.getFirstStartApp(), this);
+        if (cardTips.isBalanceTip())
+            appDialogs.dialogWinWheel(mContext, win, res, false, this, cardTips.getTipsIsWork());
+        else
+            appDialogs.dialogWinWheel(mContext, win, res, true, this, cardTips.getTipsIsWork());
         cardPresenter.initCardFragment();
 
     }
@@ -321,7 +349,7 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
     /** Методы показа подсказок */
     @Override
     public void firstDialogTip() {
-        appDialogs.dialogFirstStart(mContext);
+        //appDialogs.dialogFirstStart(mContext);
 
     }
 
@@ -392,8 +420,14 @@ public class CardFragment extends Fragment implements CardView, View.OnClickList
     }
 
     @Override
+    public void showErrorMes(String error) {
+        new AppDialogs().warningDialog(mContext, error );
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
     }
+
 }

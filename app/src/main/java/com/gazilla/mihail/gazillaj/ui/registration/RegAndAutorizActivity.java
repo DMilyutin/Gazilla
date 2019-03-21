@@ -1,7 +1,12 @@
 package com.gazilla.mihail.gazillaj.ui.registration;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -99,6 +104,7 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
                 }
             }
 
+
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
@@ -122,7 +128,6 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
             else
                 presenter.getCodeForLogin(s, "");
         }
-
     }
     /** отправка кода восстановления на сервер */
     private void checkCodeFromServer(String code){
@@ -146,10 +151,11 @@ public class RegAndAutorizActivity extends AppCompatActivity implements RegAndAu
     /** Метод возращения на первую активити для запуска приложения {@link InitializationActivity onActivityResult} */
     @Override
     public void startProgramm(Boolean response) {
+        Log.i("Loog", "Возрат к активити инициализации -" + response);
         Intent intent = new Intent();
         intent.putExtra("REG", response);
         setResult(RESULT_OK, intent);
-        //finish();
+        finish();
     }
 
     @Override

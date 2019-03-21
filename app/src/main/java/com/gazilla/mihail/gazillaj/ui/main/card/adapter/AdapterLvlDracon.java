@@ -2,7 +2,6 @@ package com.gazilla.mihail.gazillaj.ui.main.card.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public class AdapterLvlDracon extends BaseAdapter {
 
     public AdapterLvlDracon(Context context, int lvl, Map<Integer, Integer> mapLvl) {
         this.context = context;
-        this.lvl = Initialization.userWithKeys.getLevel();
+        this.lvl = InitializationAp.getInstance().getUserWithKeys().getLevel();
         this.mapLvl = mapLvl;
     }
 

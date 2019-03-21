@@ -116,4 +116,11 @@ public class UserWithKeys {
         this.favorites = favorites;
     }
 
+    public void setPublickey(String publickey) {
+        this.publickey = publickey;
+    }
+
+    public void setPrivatekey(String privatekey) {
+        this.privatekey = privatekey;
+    }
 }

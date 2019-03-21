@@ -10,27 +10,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.gazilla.mihail.gazillaj.model.data.db.AppDatabase;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockKitchen.StockKitchenActivity;
-import com.gazilla.mihail.gazillaj.ui.main.stock.StockMusic.NewMySongActivity;
-import com.gazilla.mihail.gazillaj.ui.main.stock.StockMusic.StockMusicActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockPlayStation.StoakPlayStationActivity;
-import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoItem;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.PromoInteractor;
 import com.gazilla.mihail.gazillaj.presentation.main.stock.PromoPresenter;
 import com.gazilla.mihail.gazillaj.presentation.main.stock.PromoView;
-import com.gazilla.mihail.gazillaj.ui.main.stock.Adapter.StocksAdapter;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockDragonway.DragonwayActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockHoax.StockHoaxActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockNewFriend.StockNewFriendActivity;
 import com.gazilla.mihail.gazillaj.ui.main.stock.StockSmokerpass.SmokerpassActivity;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
@@ -48,6 +39,8 @@ public class StockFragment extends Fragment implements PromoView {
     private ConstraintLayout clPlayStation;
 
     private PromoPresenter promoPresenter;
+
+    private List<PromoItem> promoItemsList;
 
 
     @Override
@@ -85,7 +78,7 @@ public class StockFragment extends Fragment implements PromoView {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-       // promoPresenter.myPromo();
+        promoPresenter.myPromo();
 
         clPromoSmokerpass.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, SmokerpassActivity.class );
@@ -121,6 +114,7 @@ public class StockFragment extends Fragment implements PromoView {
 
     @Override
     public void setPromoAdapter(List<PromoItem> promoItems) {
+        promoItemsList = promoItems;
         //stocksAdapter = new StocksAdapter(getContext(), promoItems);
         //lvStocks.setAdapter(stocksAdapter);
     }

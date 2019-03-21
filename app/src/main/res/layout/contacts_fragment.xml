@@ -408,7 +408,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:text="с понедельника по четверг,\nа также в воскресенье - с 12:00 до 01:00\nв пятницу и субботу - с 12:00 до 06:00"
+                android:text="с понедельника по четверг - с 12:00 до 00:00, в пятницу - с 12:00 до 06:00, в субботу - с 14:00 до 06:00, в воскресенье - с 14:00 до 00:00"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView23"

@@ -1,15 +1,12 @@
 package com.gazilla.mihail.gazillaj.ui.main.presents;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +19,7 @@ import com.gazilla.mihail.gazillaj.ui.main.presents.tabPresent.GiftsFragment;
 import com.gazilla.mihail.gazillaj.ui.main.presents.tabPresent.PresentsFragment;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 /** фрагмент с подарками */
 public class Presents extends Fragment {
 
@@ -70,9 +67,7 @@ public class Presents extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(Initialization.userWithKeys.getFavorites()!=null)
-        Log.i("Loog", "favorit [] -" + Initialization.userWithKeys.getFavorites().length);
-
+        if(InitializationAp.getInstance().getUserWithKeys().getFavorites()!=null)
 
         tabMenuPresents.setOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override

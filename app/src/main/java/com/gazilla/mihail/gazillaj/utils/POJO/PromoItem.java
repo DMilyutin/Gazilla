@@ -1,13 +1,9 @@
 package com.gazilla.mihail.gazillaj.utils.POJO;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
-@Entity
 public class PromoItem{
 
 
-    @PrimaryKey
+
     private int id;
 
     private String name;

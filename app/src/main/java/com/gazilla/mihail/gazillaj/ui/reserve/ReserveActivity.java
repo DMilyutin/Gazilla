@@ -40,6 +40,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     private TextView tvTime;
     private EditText etPhone;
     private EditText etName;
+    private EditText etComment;
 
     private AppDialogs appDialogs;
 
@@ -70,6 +71,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         predzakaz=findViewById(R.id.cbPredzakazReserve);
         etPhone=findViewById(R.id.edPhoneReserve);
         etName=findViewById(R.id.etNameReserve);
+        etComment=findViewById(R.id.etCommentForReserv);
 
         reservePresentation.checkUserInfo();
         //checkUserInfo();
@@ -81,8 +83,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
                     dateAndTime.get(Calendar.DAY_OF_MONTH));
                     alertDialog.show();
 
-        })
-        ;
+        });
 
         tvTime.setOnClickListener(v -> {
             new TimePickerDialog(ReserveActivity.this,R.style.TimePike,  t,
@@ -92,7 +93,6 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         });
 
         btNewReserve.setOnClickListener(v -> {
-
             if(Calendar.getInstance().getTimeInMillis()>=dateAndTime.getTimeInMillis()){
                 appDialogs.warningDialog(this, "Дата указана неверно");
                 return;
@@ -111,6 +111,8 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
                     String phone = etPhone.getText().toString();
                     String name = etName.getText().toString();
                     String comment = "";
+                    if (!etComment.getText().toString().equals(""))
+                        comment = etComment.getText().toString();
                     Boolean preorder = false;
 
                     if (predzakaz.isChecked()) preorder = true;
@@ -137,11 +139,11 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         dateAndTime.set(Calendar.MONTH, monthOfYear);
         dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-
        @SuppressLint("SimpleDateFormat") String date = new SimpleDateFormat("dd-MM-yyyy").format(dateAndTime.getTimeInMillis());
         tvDate.setText(date);
         bDate = true;
     };
+
     /** Диалог с выбором времени */
     TimePickerDialog.OnTimeSetListener t= (view, hourOfDay, minute) -> {
 
@@ -165,7 +167,6 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         if(minute>=8&&minute<23) return 15;
         if(minute>=23&&minute<38) return 30;
         if(minute>=38&&minute<53) return 45;
-
         return minute;
     }
 
@@ -182,6 +183,7 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
         else
             etPhone.setText(phone);
     }
+
     /** Метод отправки заявки на резерв */
     @Override
     public void putReserve(Reserve reserve, Boolean preorder) {
@@ -212,6 +214,5 @@ public class ReserveActivity extends AppCompatActivity implements ReserveView {
     public void clouseAppDialog() {
         appDialogs.clouseDialog();
     }
-
 
 }

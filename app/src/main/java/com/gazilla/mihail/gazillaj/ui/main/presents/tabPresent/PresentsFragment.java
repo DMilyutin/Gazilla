@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 
-import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
 import com.gazilla.mihail.gazillaj.R;
@@ -21,9 +21,7 @@ import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentsPresenter;
 import com.gazilla.mihail.gazillaj.presentation.main.presents.PresentsView;
 import com.gazilla.mihail.gazillaj.ui.detail.present.DetailPresentActivity;
 import com.gazilla.mihail.gazillaj.ui.main.presents.Adapter.PresentsAdapter;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 
-import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("FinalizeCalledExplicitly")
@@ -39,6 +37,8 @@ public class PresentsFragment extends Fragment implements PresentsView {
     private PresentsAdapter presentAdapter;
     /** Пресентро данного фрагмента */
     private PresentsPresenter presentsPresenter;
+
+    private ProgressBar pbLoadMenu;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class PresentsFragment extends Fragment implements PresentsView {
         View view = inflater.inflate(R.layout.prezents_fragment, null);
         Log.i("Loog", "fragment Presents");
         expandableListView = view.findViewById(R.id.exListPresents);
+        pbLoadMenu = view.findViewById(R.id.pbLoadMenu);
         expandableListView.setGroupIndicator(null);
         return view;
     }
@@ -68,7 +69,7 @@ public class PresentsFragment extends Fragment implements PresentsView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        presentsPresenter.initMenu();
+        presentsPresenter.menuFromServer();
 
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -88,7 +89,7 @@ public class PresentsFragment extends Fragment implements PresentsView {
     }
 
     @Override
-    public void setAdapterPresents(List<MenuCategory> categories, List<ImgGazilla> imgGazillaList) {
+    public void setAdapterPresents(List<MenuCategory> categories) {
 
         presentAdapter = new PresentsAdapter(mContext, categories);
         expandableListView.setAdapter(presentAdapter);
@@ -101,8 +102,19 @@ public class PresentsFragment extends Fragment implements PresentsView {
     }
 
     @Override
+    public void setVisibleProgressBar() {
+        pbLoadMenu.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setUnvisibleProgressBar() {
+        pbLoadMenu.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext=context;
     }
+
 }

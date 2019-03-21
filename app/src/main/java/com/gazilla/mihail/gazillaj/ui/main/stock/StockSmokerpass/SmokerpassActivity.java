@@ -12,10 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.PromoSmokerpass;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SmokerpassCallBack;
@@ -34,6 +34,8 @@ public class SmokerpassActivity extends AppCompatActivity {
     private Button btSmokerpass;
 
     private AlertDialog dialogWithQRcode;
+
+    private InitializationAp initializationAp = InitializationAp.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +61,8 @@ public class SmokerpassActivity extends AppCompatActivity {
 
     private void mySmokerpass(){
 
-        Initialization.repositoryApi.smokerpassing(Initialization.userWithKeys.getPublickey(),
-                Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), ""),
+        initializationAp.getRepositoryApi().smokerpassing(initializationAp.getUserWithKeys().getPublickey(),
+                initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(), ""),
                 new SmokerpassCallBack() {
                     @Override
                     public void mySmokerpass(PromoSmokerpass promoSmokerpass) {
@@ -108,7 +110,7 @@ public class SmokerpassActivity extends AppCompatActivity {
                 "считает Ваш QR-код";
         Bitmap bitmap;
 
-        String dataForQrCode = String.valueOf(Initialization.userWithKeys.getId());
+        String dataForQrCode = String.valueOf(initializationAp.getUserWithKeys().getId());
 
         try {
             bitmap = QRcode.encodeAsBitmap(dataForQrCode, BarcodeFormat.QR_CODE, 200, 200);

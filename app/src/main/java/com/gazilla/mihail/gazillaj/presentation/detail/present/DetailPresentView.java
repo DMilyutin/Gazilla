@@ -3,7 +3,9 @@ package com.gazilla.mihail.gazillaj.presentation.detail.present;
 
 import android.graphics.Bitmap;
 
-public interface DetailPresentView {
+import com.arellomobile.mvp.MvpView;
+
+public interface DetailPresentView extends MvpView {
 
     void openFirstDialog();
 

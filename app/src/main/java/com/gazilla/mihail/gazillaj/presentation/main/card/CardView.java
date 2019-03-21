@@ -2,9 +2,11 @@ package com.gazilla.mihail.gazillaj.presentation.main.card;
 
 import android.graphics.Bitmap;
 
+import com.arellomobile.mvp.MvpView;
+
 import java.util.Map;
 
-public interface CardView {
+public interface CardView extends MvpView {
 
     void setValueProgressBar(int maxValue, int userValue);
     void initListWithLvl(int myLvl, Map<Integer, Integer> mapLvl);
@@ -21,4 +23,5 @@ public interface CardView {
     void registrTip(Boolean show);
     void reserveTip(Boolean show);
     void nextTip(int N);
+    void showErrorMes(String error);
 }

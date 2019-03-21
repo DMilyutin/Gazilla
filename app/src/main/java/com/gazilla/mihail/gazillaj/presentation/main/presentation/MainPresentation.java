@@ -1,26 +1,36 @@
 package com.gazilla.mihail.gazillaj.presentation.main.presentation;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.arellomobile.mvp.MvpPresenter;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.Success;
 import com.gazilla.mihail.gazillaj.utils.POJO.User;
 import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
+import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.SuccessCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;
 
-public class MainPresentation {
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+
+public class MainPresentation extends MvpPresenter<MainView> {
 
     private MainView mainView;
     private Context context;
     private SharedPref sharedPref;
+    private InitializationAp initializationAp;
 
     public MainPresentation(MainView mainView, Context context) {
+        initializationAp = InitializationAp.getInstance();
         this.mainView = mainView;
         this.context = context;
         sharedPref = new SharedPref(context);
@@ -29,9 +39,11 @@ public class MainPresentation {
 
     public void updateUserInfo(){
 
-        if (Initialization.repositoryApi!=null){
+        if (initializationAp.getRepositoryApi()!=null){
             Log.i("Loog", "Запрос на сервер User а");
-            Initialization.repositoryApi.userData(new UserCallBack() {
+            initializationAp.getRepositoryApi().userData(initializationAp.getUserWithKeys().getPublickey(),
+                    initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(), ""),
+                    new UserCallBack() {
                 @Override
                 public void userCallBack(User user) {
                     setUserwithUserKey(user);
@@ -54,44 +66,78 @@ public class MainPresentation {
     }
 
     private void setUserwithUserKey(User user){
-        if (Initialization.userWithKeys!=null){
-            Initialization.userWithKeys.setId(user.getId());
-            Initialization.userWithKeys.setLevel(user.getLevel());
-            Initialization.userWithKeys.setRefererLink(user.getRefererLink());
-            Initialization.userWithKeys.setName(user.getName());
-            Initialization.userWithKeys.setPhone(user.getPhone());
-            Initialization.userWithKeys.setScore(user.getScore());
-            Initialization.userWithKeys.setSum(user.getSum());
-            Initialization.userWithKeys.setFavorites(user.getFavorites());
+        if (initializationAp.getUserWithKeys()!=null){
+            initializationAp.getUserWithKeys().setId(user.getId());
+            initializationAp.getUserWithKeys().setLevel(user.getLevel());
+            initializationAp.getUserWithKeys().setRefererLink(user.getRefererLink());
+            initializationAp.getUserWithKeys().setName(user.getName());
+            initializationAp.getUserWithKeys().setPhone(user.getPhone());
+            initializationAp.getUserWithKeys().setScore(user.getScore());
+            initializationAp.getUserWithKeys().setSum(user.getSum());
+            initializationAp.getUserWithKeys().setFavorites(user.getFavorites());
 
             Log.i("Loog", "update User getScore" + user.getScore());
             Log.i("Loog", "update User getSum" + user.getSum());
         }
         else
-            Initialization.userWithKeys = new UserWithKeys(user.getId(), user.getName()
+            initializationAp.setUserWithKeys(new UserWithKeys(user.getId(), user.getName()
                     , user.getPhone(), user.getEmail(), user.getSum(), user.getScore(), user.getLevel(),
                     sharedPref.getPublickKeyFromPref(), sharedPref.getPrivateKeyFromPref(), user.getRefererLink(),
-                    user.getFavorites());
+                    user.getFavorites()));
 
         mainView.updateInfo(user.getScore());
     }
 
     private void alertNotificationORTips(){
-        if (!sharedPref.getFirstStart()){
-            if (Initialization.notificaton!=null)
-                new AppDialogs().dialogNotification(context, Initialization.notificaton, mainView);
+        //if (!sharedPref.getFirstStart()){
+        if (true){
+            if (initializationAp.getNotificaton()!=null){
+                getImgItem(initializationAp.getNotificaton().getId());
+            }
+
         }
     }
 
+    private void getImgItem(int id){
+        initializationAp.getRepositoryApi().getStaticFromServer("alerts", String.valueOf(id),
+                new StaticCallBack() {
+                    @Override
+                    public void myStatic(ResponseBody responseBody) throws IOException {
+                        if (responseBody!=null){
+                            byte[] b = responseBody.bytes();
+                            Log.i("Loog", "Загрузка завершена");
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+                            new AppDialogs().dialogNotification(context, initializationAp.getNotificaton(), mainView, bitmap);
+                        }
+
+                        else  Log.i("Loog", "Загрузка пусто");
+                    }
+
+                    @Override
+                    public void showError(String error) {
+                        Log.i("Loog", "Загрузка showError " + error);
+                        //presentView.setImgItem(null);
+                        //presentView.errorDialog("Фото времененно недоступно");
+                         //new BugReport().sendBugInfo(error, "Ошибка загрузки картинки для алерта пуша");
+                        new AppDialogs().dialogNotification(context, initializationAp.getNotificaton(), mainView, null);
+                    }
+                }, new FailCallBack() {
+                    @Override
+                    public void setError(Throwable throwable) {
+                        new BugReport().sendBugInfo(throwable.getMessage(), "MainPresentation.getImgItem.setError.Throwable");
+                    }
+                });
+    }
+
     public void sendAnswerNotification(int alertId, int commandId){
-        if (Initialization.repositoryApi==null) return;
+        if (initializationAp.getRepositoryApi()==null) return;
 
         String dat = "alertId=" + alertId
                 +"&"+ "commandId=" + commandId;
 
-        String publicKey = Initialization.userWithKeys.getPublickey();
-        String signature = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), dat);
-        Initialization.repositoryApi.sendAnswerUserAboutNotification(publicKey, alertId, commandId, signature,
+        String publicKey = initializationAp.getUserWithKeys().getPublickey();
+        String signature = initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(), dat);
+        initializationAp.getRepositoryApi().sendAnswerUserAboutNotification(publicKey, alertId, commandId, signature,
                 new SuccessCallBack() {
                     @Override
                     public void reservResponse(Success success) {
@@ -113,5 +159,8 @@ public class MainPresentation {
 
     }
 
+    public void saveVersionNotification(){
+        sharedPref.saveVersionNotification(initializationAp.getLatestVersion().getDate());
+    }
 
 }

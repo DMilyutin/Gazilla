@@ -3,10 +3,10 @@ package com.gazilla.mihail.gazillaj.model.repository;
 
 import android.util.Log;
 
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.Balances;
 import com.gazilla.mihail.gazillaj.model.data.api.ServerApi;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
-import com.gazilla.mihail.gazillaj.utils.POJO.LatestVersion;
+import com.gazilla.mihail.gazillaj.utils.POJO.QTY;
 import com.gazilla.mihail.gazillaj.utils.callBacks.AutorizationCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.BalanceCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.DragonWeyCallBack;
@@ -28,7 +28,6 @@ import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.WheelCallBack;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -66,9 +65,9 @@ public class RepositoryApi {
                 }, failCallBack::setError);
     }
     /** Регистрация новго аккаунта  */
-    public void registration(String name, String phone, String email, String password, String referer, String promo,
+    public void registration(String name, String phone, String email, String password, String referer, String promo, String deviceId,
                              AutorizationCallBack autorizationCallBack, FailCallBack failCallBack) {
-        serverApi.registration(name, phone, email, password, referer, promo)
+        serverApi.registration(name, phone, email, password, referer, promo, deviceId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userWithKeysResponse -> {
@@ -80,9 +79,9 @@ public class RepositoryApi {
 
     }
     /** Запрос на обновление данных User  */
-    public void updateUserData(String name, String phone, String email, String signature, SuccessCallBack succsesCallback,
+    public void updateUserData(String name, String phone, String email, String publicKey, String signature, SuccessCallBack succsesCallback,
                                FailCallBack failCallBack) {
-        serverApi.updateUserData(email, name, phone, Initialization.userWithKeys.getPublickey(), signature)
+        serverApi.updateUserData(email, name, phone, publicKey, signature)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(successResponse -> {
@@ -94,10 +93,8 @@ public class RepositoryApi {
 
     }
     /** Запрос на данные User */
-    public void userData(UserCallBack userCallBack, FailCallBack failCallBack) {
-        String publKey = Initialization.userWithKeys.getPublickey();
-        String emptySignatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), "");
-        serverApi.getDataUser(publKey, emptySignatur)
+    public void userData(String publicKey, String signature, UserCallBack userCallBack, FailCallBack failCallBack) {
+        serverApi.getDataUser(publicKey, signature)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userResponse -> {
@@ -128,10 +125,8 @@ public class RepositoryApi {
     }
 
     /** Запрос на уровни лояльности */
-    public void levels(LevelsCallBack levelsCallBack, FailCallBack failCallBack) {
-        String publKey = Initialization.userWithKeys.getPublickey();
-        String emptySignatur = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), "");
-        serverApi.getLevels(publKey, emptySignatur)
+    public void levels(String publicKey, String signature, LevelsCallBack levelsCallBack, FailCallBack failCallBack) {
+        serverApi.getLevels(publicKey, signature)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mapResponse -> {
@@ -279,7 +274,8 @@ public class RepositoryApi {
                 .subscribe(qtyResponse -> {
                     if (qtyResponse.isSuccessful())
                         qtyCallBack.myQTY(qtyResponse.body());
-                    Log.i("Loog", "qty -" + qtyResponse.body().getQty());
+                    else
+                        qtyCallBack.myQTY(new QTY(0));
                 }, failCallBack::setError);
 
     }
@@ -293,12 +289,12 @@ public class RepositoryApi {
                     if (dragonWheelResponse.isSuccessful()) {
                         wheelCallBack.myWin(dragonWheelResponse.body());
 
-                        myBalances(Initialization.userWithKeys.getPublickey(),
-                                Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), ""),
+                        myBalances(InitializationAp.getInstance().getUserWithKeys().getPublickey(),
+                                InitializationAp.getInstance().signatur(InitializationAp.getInstance().getUserWithKeys().getPrivatekey(), ""),
                                 new BalanceCallBack() {
                                     @Override
                                     public void myBalance(Balances balances) {
-                                        Initialization.userWithKeys.setScore(balances.getScore());
+                                        InitializationAp.getInstance().getUserWithKeys().setScore(balances.getScore());
                                     }
 
                                     @Override

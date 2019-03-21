@@ -1,6 +1,8 @@
 package com.gazilla.mihail.gazillaj.presentation.main.presents;
 
-public interface PresentAdapterView {
+import com.arellomobile.mvp.MvpView;
+
+public interface PresentAdapterView extends MvpView {
 
     void setRedCalor();
 

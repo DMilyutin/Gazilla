@@ -16,6 +16,7 @@ public class Tips {
     private SharedPref sharedPref;
 
     private Boolean firstStartApp;
+    private Boolean tipsIsWork = false;
 
     private boolean wheelTip = false;// true при нажатии на дракона
     private boolean balanceTip = false;
@@ -24,17 +25,15 @@ public class Tips {
     private boolean registrTip = false;
     private boolean reserveTip = false;
 
-
-
     public Tips(CardView cardView, Context context) {
         this.cardView = cardView;
         sharedPref = new SharedPref(context);
+        //firstStartApp = sharedPref.getFirstStart();
+        firstStartApp = false;
     }
 
     /**
-     *
      * показать подсказку с колесом - нажать на колесо
-     *
      *
      * показать подсказку с баллами - далее
      *
@@ -48,22 +47,26 @@ public class Tips {
      *
      * сохранить как второе посещение
      *
-     *
-
-     * */
+     */
 
     public void initTips(){
         Log.i("Loog", "Is first start - " + sharedPref.getFirstStart());
-        firstStartApp = sharedPref.getFirstStart();
-        if (firstStartApp)
-            nextTips(1);
+        //firstStartApp = sharedPref.getFirstStart();
+        firstStartApp = false;
+        /*if (firstStartApp){
+            cardView.firstDialogTip();
+            nextTips(1);}*/
+        /*if (true)
+            nextTips(1);*/
     }
 
     public void nextTips(int i){
         switch (i){
             case 1:{
-                    startWheelTip();
-                    break;
+                sharedPref.saveFirstStart(false);
+                tipsIsWork = true;
+                cardView.wheelTip(true);
+                break;
             }
             case 2:{
                 if (wheelTip){
@@ -103,28 +106,11 @@ public class Tips {
             case 7:{
                 if (reserveTip){
                     stopReserveTip();
-                    stopTips();
+                    tipsIsWork = false;
                     break;
                 }
             }
         }
-
-    }
-
-    public void stopTips(){
-        sharedPref.saveFirstStart(false);
-        cardView.wheelTip(false);
-        wheelTip = false;
-        balanceTip = false;
-        draconTip = false;
-        nacopTip = false;
-        registrTip = false;
-        reserveTip = false;
-    }
-
-
-    private void startWheelTip(){
-        cardView.wheelTip(true);
     }
 
     private void stopWheelTip(){
@@ -134,11 +120,8 @@ public class Tips {
     private void startBalanceTip(){
         cardView.balanceTip(true);
     }
-    private void stopBalanceTip(){
 
-        cardView.balanceTip(false);
-    }
-
+    private void stopBalanceTip(){ cardView.balanceTip(false); }
 
     private void startNacopTip(){
         cardView.nacopTip(true);
@@ -151,6 +134,7 @@ public class Tips {
     private void startLvlDragonTip(){
         cardView.lvlDraconTip(true);
     }
+
     private void stopLvlDragonTip(){
         cardView.lvlDraconTip(false);
     }
@@ -171,10 +155,9 @@ public class Tips {
         cardView.reserveTip(false);
     }
 
-    public Boolean getFirstStartApp() {
-        return firstStartApp;
-    }
+    public boolean getTipsIsWork() { return tipsIsWork; }
 
+    public boolean getFirstStartApp() { return firstStartApp; }
 
     public void setWheelTip(boolean wheelTip) {
         this.wheelTip = wheelTip;
@@ -216,4 +199,7 @@ public class Tips {
         return draconTip;
     }
 
+    public boolean isRegistrTip() {
+        return registrTip;
+    }
 }

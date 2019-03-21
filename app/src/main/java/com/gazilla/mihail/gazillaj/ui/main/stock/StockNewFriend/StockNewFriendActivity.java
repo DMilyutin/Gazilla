@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gazilla.mihail.gazillaj.R;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 
 public class StockNewFriendActivity extends AppCompatActivity {
 
@@ -30,8 +30,8 @@ public class StockNewFriendActivity extends AppCompatActivity {
         imgCopy = findViewById(R.id.imgCopyReferLink);
         btSend = findViewById(R.id.btSendPril);
 
-        if (Initialization.userWithKeys.getRefererLink()!=null)
-            tvReferer.setText(Initialization.userWithKeys.getRefererLink());
+        if (InitializationAp.getInstance().getUserWithKeys().getRefererLink()!=null)
+            tvReferer.setText(InitializationAp.getInstance().getUserWithKeys().getRefererLink());
         else
             tvReferer.setText("Отсутсвует");
 

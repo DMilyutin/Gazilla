@@ -80,12 +80,10 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
             android:text="Сделать предзаказ"
             android:textColor="#ffffff"
             android:textSize="15sp"
             android:theme="@style/MyCheckBox"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTimeReserve" />
@@ -188,6 +186,26 @@
             app:layout_constraintEnd_toEndOf="@+id/edPhoneReserve"
             app:layout_constraintStart_toStartOf="@+id/edPhoneReserve"
             app:layout_constraintTop_toTopOf="@+id/textView24" />
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/etCommentForReserv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Комментарий"
+            android:lines="3"
+            android:textColor="#ffffff"
+            android:theme="@style/MyEditText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cbPredzakazReserve" />
 
     </android.support.constraint.ConstraintLayout>
 

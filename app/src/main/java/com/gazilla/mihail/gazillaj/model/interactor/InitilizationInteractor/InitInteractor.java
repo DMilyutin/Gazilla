@@ -1,16 +1,17 @@
 package com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.presentation.Initialization.InnitView;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.Balances;
 import com.gazilla.mihail.gazillaj.utils.POJO.LatestVersion;
 import com.gazilla.mihail.gazillaj.utils.POJO.Notificaton;
 import com.gazilla.mihail.gazillaj.utils.POJO.User;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.callBacks.BalanceCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.LVersionDBMenuCallBack;
@@ -19,36 +20,36 @@ import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class InitInteractor {
 
     private InnitView innitView;
-    private Context context;
-    private SharedPref sharedPref;
 
-    public boolean checkVersionMenu(String latestVersionDB, InnitView innitView, Context context){
+    private SharedPreferences sharedPref;
+    private InitializationAp initializationAp;
+
+    public InitInteractor(SharedPreferences sharedPref, InnitView innitView) {
+        this.sharedPref = sharedPref;
+        this.innitView = innitView;
+        initializationAp = InitializationAp.getInstance();
+
+    }
+
+    /*public boolean checkVersionMenu(String latestVersionDB, InnitView innitView, Context context){
         this.innitView = innitView;
         MenuInteractor menuInteractor = new MenuInteractor(context);
         menuInteractor.checVersion(latestVersionDB);
         sharedPref = new SharedPref(context);
 
-        /*bservable.just(menuInteractor.checVersion(latestVersionDB))
+        Observable.just(menuInteractor.checVersion(latestVersionDB))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {}, throwable -> {}, ()->{});*/
 
 
 
-        return true;
-    }
+        //return true;
 
 
 
@@ -56,15 +57,16 @@ public class InitInteractor {
 
     public void myBalances(){
 
-        String publickey = Initialization.userWithKeys.getPublickey();
-        String signature = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), "");
+
+        String publickey = initializationAp.getUserWithKeys().getPublickey();
+        String signature = initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(), "");
 
         Log.i("Loog", "myBalances");
-        Initialization.repositoryApi.myBalances(publickey, signature, new BalanceCallBack() {
+        initializationAp.getRepositoryApi().myBalances(publickey, signature, new BalanceCallBack() {
             @Override
             public void myBalance(Balances balances) {
-                Initialization.userWithKeys.setSum(balances.getSum());
-                Initialization.userWithKeys.setScore(balances.getScore());
+                initializationAp.getUserWithKeys().setSum(balances.getSum());
+                initializationAp.getUserWithKeys().setScore(balances.getScore());
                 userData();
 
             }
@@ -82,9 +84,10 @@ public class InitInteractor {
     }
 
 
-
     private void userData(){
-        Initialization.repositoryApi.userData(new UserCallBack() {
+        initializationAp.getRepositoryApi().userData(initializationAp.getUserWithKeys().getPublickey(),
+                initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(),""),
+                new UserCallBack() {
             @Override
             public void userCallBack(User user) {
                 setUserwithUserKey(user);
@@ -104,29 +107,29 @@ public class InitInteractor {
     }
 
     private void setUserwithUserKey(User user) {
-        Initialization.userWithKeys.setId(user.getId());
-        Initialization.userWithKeys.setLevel(user.getLevel());
-        Initialization.userWithKeys.setRefererLink(user.getRefererLink());
-        Initialization.userWithKeys.setName(user.getName());
-        Initialization.userWithKeys.setPhone(user.getPhone());
-        Initialization.userWithKeys.setFavorites(user.getFavorites());
+        initializationAp.getUserWithKeys().setId(user.getId());
+        initializationAp.getUserWithKeys().setLevel(user.getLevel());
+        initializationAp.getUserWithKeys().setRefererLink(user.getRefererLink());
+        initializationAp.getUserWithKeys().setName(user.getName());
+        initializationAp.getUserWithKeys().setPhone(user.getPhone());
+        initializationAp.getUserWithKeys().setFavorites(user.getFavorites());
         notificationInfo();
     }
 
     private void notificationInfo(){
         Log.i("Loog", "notificationInfo");
-        String publickey = Initialization.userWithKeys.getPublickey();
-        String signature = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), "");
+        String publickey = initializationAp.getUserWithKeys().getPublickey();
+        String signature = initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(), "");
 
-        Initialization.repositoryApi.getLastVersionNotification(publickey, signature, new LVersionDBMenuCallBack() {
+        initializationAp.getRepositoryApi().getLastVersionNotification(publickey, signature, new LVersionDBMenuCallBack() {
             @Override
             public void versionDBMenu(LatestVersion latestVersion) {
                 Log.i("Loog", "notificationInfo - goog");
-                if (latestVersion.getDate().equals(sharedPref.getVersionNotification()))
+                if (latestVersion.getDate().equals(sharedPref.getString("versionNotification", "")))
                     innitView.startMainActivity();
                 else{
-                    updateNotification();
-                    sharedPref.saveVersionNotification(latestVersion.getDate());
+                    updateNotification(latestVersion);
+                    //sharedPref.saveVersionNotification(latestVersion.getDate());
                 }
             }
 
@@ -145,18 +148,21 @@ public class InitInteractor {
         });
     }
 
-    private void updateNotification(){
+    private void updateNotification(LatestVersion latestVersion1){
         Log.i("Loog", "updateNotification");
-        String publickey = Initialization.userWithKeys.getPublickey();
-        String signature = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), "");
+        String publickey = initializationAp.getUserWithKeys().getPublickey();
+        String signature = initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(), "");
 
-        Initialization.repositoryApi.getOllNotification(publickey, signature, new NotificationCallBack() {
+        initializationAp.getRepositoryApi().getOllNotification(publickey, signature, new NotificationCallBack() {
             @Override
             public void ollNotification(List<Notificaton> notificationList) {
                 Log.i("Loog", "updateNotification.good");
                 if (notificationList!=null){
                     Log.i("Loog", "updateNotification.good");
-                    Initialization.notificaton = notificationList.get(notificationList.size()-1);
+                    if (notificationList.size()!=0)
+                    initializationAp.setNotificaton(notificationList.get(notificationList.size()-1));
+                    initializationAp.setLatestVersion(latestVersion1);
+
                 }
                 innitView.startMainActivity();
             }

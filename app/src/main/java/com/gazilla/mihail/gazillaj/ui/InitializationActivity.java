@@ -2,21 +2,22 @@ package com.gazilla.mihail.gazillaj.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Looper;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ImageView;
 
-import com.gazilla.mihail.gazillaj.R;
+
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.gazilla.mihail.gazillaj.presentation.Initialization.InitPresentation;
 import com.gazilla.mihail.gazillaj.presentation.Initialization.InnitView;
 import com.gazilla.mihail.gazillaj.ui.main.MainActivity;
 import com.gazilla.mihail.gazillaj.ui.registration.RegAndAutorizActivity;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
-import com.gazilla.mihail.gazillaj.utils.BugReport;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 
 /**
@@ -26,13 +27,10 @@ import com.gazilla.mihail.gazillaj.utils.QRcode;
 
 public class InitializationActivity extends AppCompatActivity implements InnitView {
 
-
-
     /** Поле пресентора для данной активити */
     private InitPresentation initPresentation;
 
-    /** Поле статического класса для работы с приложением {@link Initialization#Initialization(Context)}*/
-    private Initialization init;
+
 
     /** Код для возрата с Активити регистрации */
     private final int CODE = 5;
@@ -41,10 +39,12 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(initPresentation==null)
-            initPresentation = new InitPresentation(this,this);
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        init = new Initialization(this);
+        initPresentation = new InitPresentation(this.getSharedPreferences("myProf",Context.MODE_PRIVATE), wifiInfo.isConnected(), this);
+
+
         /** Статический класс создания QR кодов во всем приложении*/
         new QRcode();
 
@@ -55,12 +55,7 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
     @Override
     public void startMainActivity() {
         Intent intent = new Intent(InitializationActivity.this, MainActivity.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
         startActivity(intent);
-        //finish();
     }
 
     /** Метод запуска активити авторизации и регистрации {@link InitPresentation#checkUserDat()}*/
@@ -71,25 +66,27 @@ public class InitializationActivity extends AppCompatActivity implements InnitVi
     }
 
     @Override
-    public void finishActivity() {
-        finish();
+    public void showErrorer(String error) {
+        new AppDialogs().warningDialog(this, error);
     }
 
 
     /** Метод получения результата после регистрации или авторизации*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(data==null) return;
+        Log.i("Loog", "onActivityResult");
+        if(data==null){
+            Log.i("Loog", "резалт нал");
+            return;
+        }
         Boolean response = data.getBooleanExtra("REG", false);
         Log.i("Loog" ,"respon bool - " + response);
         if (response){
             initPresentation.checkUserDate();
-            // продолжение инициализации
         }
         else {
             new AppDialogs().warningDialog(this, "Ошибка регистрации\nПерезапустите приложение");
         }
-
     }
 
 }

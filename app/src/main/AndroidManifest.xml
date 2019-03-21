@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+
     <uses-permission
         android:name="android.permission.CAMERA"
         tools:node="remove" />
@@ -15,7 +17,9 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/dragon1"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:name=".utils.InitializationAp"
+        >
         <activity
             android:name=".ui.InitializationActivity"
             android:screenOrientation="portrait"

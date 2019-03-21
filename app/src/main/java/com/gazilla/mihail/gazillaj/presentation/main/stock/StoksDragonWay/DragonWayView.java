@@ -1,6 +1,8 @@
 package com.gazilla.mihail.gazillaj.presentation.main.stock.StoksDragonWay;
 
-public interface DragonWayView {
+import com.arellomobile.mvp.MvpView;
+
+public interface DragonWayView extends MvpView {
 
     void myLevel(int lvl);
 }

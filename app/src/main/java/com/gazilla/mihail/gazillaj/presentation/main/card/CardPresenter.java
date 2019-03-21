@@ -1,27 +1,26 @@
 package com.gazilla.mihail.gazillaj.presentation.main.card;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.arellomobile.mvp.MvpPresenter;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.utils.AppDialogs;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.MenuImg;
 import com.gazilla.mihail.gazillaj.utils.POJO.DragonWheel;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuDB;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuItem;
-import com.gazilla.mihail.gazillaj.utils.POJO.QTY;
 import com.gazilla.mihail.gazillaj.R;
 import com.gazilla.mihail.gazillaj.model.interactor.CardInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.MenuAdapter.MenuAdapterApiDb;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
 import com.gazilla.mihail.gazillaj.utils.QRcode;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.LevelsCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.MenuDBCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.QTYCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.WheelCallBack;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -29,31 +28,36 @@ import com.google.zxing.WriterException;
 import java.util.List;
 import java.util.Map;
 
-public class CardPresenter {
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+public class CardPresenter extends MvpPresenter<CardView> {
+
+    InitializationAp initializationAp = InitializationAp.getInstance();
 
     private int showFirstDialog = 0;
 
     private CardView cardView;
     private CardInteractor cardInteractor;
     private MenuImg menuImg;
-    private Context context;
-    private SharedPref sharedPref;
+    private SharedPreferences sharedPref;
     private DragonWheel dragonWheel;
 
     private int mySpins = 0;
 
-    public CardPresenter(CardView cardView, Context context) {
+    public CardPresenter(CardView cardView, SharedPreferences sharedPreferences) {
         this.cardView = cardView;
-        this.context = context;
-        cardInteractor = new CardInteractor(context);
+        cardInteractor = new CardInteractor();
         menuImg = new MenuImg();
-        sharedPref = new SharedPref(context);
+        sharedPref = sharedPreferences;
+
     }
 
     public void initCardFragment(){
         if (showFirstDialog == 0){
-            firstStartApp(sharedPref.getFirstStart());
+            firstStartApp(sharedPref.getBoolean("firstStart", true));
             showFirstDialog++;
+
         }
         myProgress();
         mySpins();
@@ -62,7 +66,7 @@ public class CardPresenter {
     }
 
     private void initRuletca(){
-        int myLvl = Initialization.userWithKeys.getLevel();
+        int myLvl = initializationAp.getUserWithKeys().getLevel();
         int res = R.drawable.koleso1;
         switch (myLvl){
             case 2: {
@@ -87,10 +91,10 @@ public class CardPresenter {
 
     private void myIdForQRcode()  {
 
-        String id = myId();
+        int id = myId();
         Log.i("Loog", "my id - " + id);
         try {
-            Bitmap bitmap = QRcode.encodeAsBitmap(id, BarcodeFormat.QR_CODE, 250, 250);
+            Bitmap bitmap = QRcode.encodeAsBitmap(String.valueOf(id), BarcodeFormat.QR_CODE, 250, 250);
             cardView.setQRcode(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
@@ -103,13 +107,15 @@ public class CardPresenter {
     public void myProgress(){
         Log.i("Loog", "начало обновления прогреса");
 
-        int sum = Initialization.userWithKeys.getSum();
-        int myLvl = Initialization.userWithKeys.getLevel();
+        int sum = initializationAp.getUserWithKeys().getSum();
+        int myLvl = initializationAp.getUserWithKeys().getLevel();
         Log.i("Loog", "myLvl - " + myLvl);
 
 
         try {
-            cardInteractor.level(new LevelsCallBack() {
+            cardInteractor.level(initializationAp.getUserWithKeys().getPublickey(),
+                    initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(), ""),
+                    new LevelsCallBack() {
 
                 @Override
                 public void levelsFromSerser(Map<Integer, Integer> levels) {
@@ -143,8 +149,8 @@ public class CardPresenter {
 
     }
 
-    private String myId(){
-        return cardInteractor.getMyId();
+    private int myId(){
+        return sharedPref.getInt("myID", -1);
     }
 
     public void mySpins(){
@@ -161,8 +167,10 @@ public class CardPresenter {
     }
 
     private void firstStartApp(Boolean firs){
-        if (firs)
+        if (firs){
             cardView.firstDialogTip();
+        }
+
     }
 
     //________________________________Прокрутка колеса дракона__________________________
@@ -201,29 +209,22 @@ public class CardPresenter {
                 cardView.myWin(String.valueOf(dragonWheel.getId()) + " баллов", "drawable://" + menuImg.getImg(0));
                 initCardFragment();
             }
-            else
+            else{}
                 winById(dragonWheel.getId());
         }
         else
-            new AppDialogs().warningDialog(context, "Плохое интернет соединение");
+            cardView.showErrorMes("Плохое интернет соединение");
+
     }
 
     //__________________________________поиск item по id_____________________________________
 
     private void winById(int id){
-        MenuAdapterApiDb menuAdapterApiDb = new MenuAdapterApiDb();
-        Initialization.repositoryDB.menuFromDB(new MenuDBCallBack() {
-            @Override
-            public void ollMenu(List<MenuDB> menuDBList) {
-                List<MenuCategory> categories = menuAdapterApiDb.fromMenuDB(menuDBList);
-                findItemById(categories, id);
-            }
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<MenuDB> menuDBRealmList = realm.where(MenuDB.class).findAll();
 
-            @Override
-            public void showError(String error) {
-                new BugReport().sendBugInfo(error, "CardPresenter.winById.showError");
-            }
-        });
+        findItemById(new MenuAdapterApiDb().fromMenuDB(menuDBRealmList), id);
+        realm.close();
     }
 
     private void findItemById(List<MenuCategory> categories, int id){
@@ -235,7 +236,7 @@ public class CardPresenter {
                 if(categories.get(iCategorys).getItems().get(iItems).getId() == id){
                     MenuItem item = categories.get(iCategorys).getItems().get(iItems);
                     Log.i("Loog", "Колесо дракона показ выиграша - gift = " + item.getName());
-                    cardView.myWin(item.getName(),"drawable://"+menuImg.getImg(0));
+                    cardView.myWin(item.getName(),"drawable://"+menuImg.getImg(id));
                     initCardFragment();
                 }
             }
@@ -243,7 +244,10 @@ public class CardPresenter {
     }
 
     public void testShowWin(){
-       // DragonWheel wheel = new DragonWheel(95, "gift");
-        //myWinn(wheel);
+        DragonWheel wheel = new DragonWheel(95, "gift");
+        winById(wheel.getId());
     }
+
+
+
 }

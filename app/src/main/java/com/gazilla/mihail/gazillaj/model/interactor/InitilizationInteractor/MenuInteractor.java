@@ -7,14 +7,17 @@ import com.gazilla.mihail.gazillaj.model.interactor.PresentsInteractor;
 import com.gazilla.mihail.gazillaj.model.repository.MenuAdapter.MenuAdapterApiDb;
 import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
 import com.gazilla.mihail.gazillaj.utils.BugReport;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.LatestVersion;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
+import com.gazilla.mihail.gazillaj.utils.POJO.MenuDB;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.LVersionDBMenuCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.MenuCallBack;
 
 import java.util.List;
+
+import io.realm.Realm;
 
 
 public class MenuInteractor {
@@ -30,10 +33,12 @@ public class MenuInteractor {
     public void checVersion(String latestVersionDB){
         Log.i("Loog", "checVersion menu");
 
-        String publickey = Initialization.userWithKeys.getPublickey();
-        String signature = Initialization.signatur(Initialization.userWithKeys.getPrivatekey(), "");
+        InitializationAp initializationAp = InitializationAp.getInstance();
 
-        Initialization.repositoryApi.lastVersionMenu(publickey, signature, new LVersionDBMenuCallBack() {
+        String publickey = initializationAp.getUserWithKeys().getPublickey();
+        String signature = initializationAp.signatur(initializationAp.getUserWithKeys().getPrivatekey(), "");
+
+        initializationAp.getRepositoryApi().lastVersionMenu(publickey, signature, new LVersionDBMenuCallBack() {
             @Override
             public void versionDBMenu(LatestVersion latestVersion) {
                 Log.i("Loog", "latestVersion -"+ latestVersion.getDate());
@@ -70,7 +75,11 @@ public class MenuInteractor {
 
     private void clearMenuTable(){
         Log.i("Loog", "clearMenuTable");
-        Initialization.repositoryDB.clearMenuTable();
+        Realm realm = Realm.getInstance(context);
+        realm.beginTransaction();
+        realm.clear(MenuDB.class);
+        realm.commitTransaction();
+        realm.close();
     }
 
     private void upDateMenu(){
@@ -78,8 +87,7 @@ public class MenuInteractor {
         presentsInteractor.menuServer(new MenuCallBack() {
             @Override
             public void ollMenu(List<MenuCategory> menuCategoryList) {
-                Initialization.repositoryDB.newMenuFromServer(new MenuAdapterApiDb().fromMenuCategory(menuCategoryList));
-                //new PhotoMemuInterator().startInitPhotoMenu(menuCategoryList);
+                saveMenuInRealm(new MenuAdapterApiDb().fromMenuCategory(menuCategoryList));
             }
 
             @Override
@@ -92,6 +100,15 @@ public class MenuInteractor {
                 new BugReport().sendBugInfo(throwable.getMessage(), "MenuInteractor.upDateMenu.setError.Throwable");
             }
         });
+    }
+
+    private void saveMenuInRealm(List<MenuDB> menuDBList){
+        Log.i("Loog", "saveMenuInRealm save start");
+        Realm realm = Realm.getInstance(context);
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(menuDBList);
+        realm.commitTransaction();
+        realm.close();
     }
 
 

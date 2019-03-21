@@ -1,6 +1,8 @@
 package com.gazilla.mihail.gazillaj.presentation.main.presentation;
 
-public interface MainView {
+import com.arellomobile.mvp.MvpView;
+
+public interface MainView extends MvpView {
 
     void updateInfo(int score);
     void showErrorDialog(String error);

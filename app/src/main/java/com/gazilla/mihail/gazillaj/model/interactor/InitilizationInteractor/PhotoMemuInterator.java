@@ -2,11 +2,10 @@ package com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor;
 
 import android.util.Log;
 
-import com.gazilla.mihail.gazillaj.utils.Initialization;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.ImgGazilla;
 import com.gazilla.mihail.gazillaj.utils.POJO.MenuCategory;
 import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.ImgCallBack;
 import com.gazilla.mihail.gazillaj.utils.callBacks.StaticCallBack;
 
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class PhotoMemuInterator {
 
                 int id = categories.get(iCategories).getItems().get(iItem).getId();
 
-                Initialization.repositoryApi.getStaticFromServer("menu", String.valueOf(id), new StaticCallBack() {
+                InitializationAp.getInstance().getRepositoryApi().getStaticFromServer("menu", String.valueOf(id), new StaticCallBack() {
                     @Override
                     public void myStatic(ResponseBody responseBody) throws IOException {
                         if(responseBody!=null) {
@@ -68,7 +67,7 @@ public class PhotoMemuInterator {
 
     //Bitmap bmp = BitmapFactory.decodeStream(responseBody.byteStream());
     private void savePhotoOnDB(){
-        Initialization.repositoryDB.loadImgOnDB(imgGazillass);
+
     }
 
     private void addImgInList(ImgGazilla imgGazilla, int id, int max){

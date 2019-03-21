@@ -116,9 +116,9 @@ public class AppDialogs {
         }
     }
 
-    public void dialogWinWheel(Context context, String win, String res, Boolean showBalanceTip, CardView cardView){
+    public void dialogWinWheel(Context context, String win, String res, Boolean showBalanceTip, CardView cardView, Boolean tipsIsWork){
 
-        ImageLoader imageLoader ;
+        ImageLoader imageLoader;
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 
@@ -136,11 +136,10 @@ public class AppDialogs {
         builder.setPositiveButton("Спасибо!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (showBalanceTip)
-                    cardView.nextTip(2);
+                    if (showBalanceTip)
+                        cardView.nextTip(2);
                 alertDialog.dismiss();
                 alertDialog=null;
-
 
             }
         });
@@ -173,19 +172,29 @@ public class AppDialogs {
     }
 
     public void clouseDialog(){
-        if (alertDialog!=null)
+        if (alertDialog!=null){
             alertDialog.dismiss();
+            alertDialog=null;
+        }
     }
 
-    public void dialogNotification(Context context, Notificaton notificaton, MainView mainView){
+    public void dialogNotification(Context context, Notificaton notificaton, MainView mainView, Bitmap bitmap){
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialog = inflater.inflate(R.layout.dialog_notification, null);
 
         TextView tvMessNotification = dialog.findViewById(R.id.tvMessNotification);
         tvMessNotification.setText(notificaton.getMessage());
+        ImageView imgNotification = dialog.findViewById(R.id.imgNotification);
+
+        if (bitmap!=null)
+            imgNotification.setImageBitmap(bitmap);
+        else
+            imgNotification.setVisibility(View.GONE);
+            //imgNotification.setImageResource(R.drawable.gaz);
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
-        builder.setNegativeButton("Закрыть", (dialog1, which) ->  {
+        builder.setNegativeButton("Пропустить", (dialog1, which) ->  {
             mainView.sendAnswerNotification(notificaton.getId(), -1);
             alertDialog.dismiss();
             alertDialog = null;
@@ -226,6 +235,8 @@ public class AppDialogs {
         builder.setView(dialog);
         alertDialog = builder.create();
         alertDialog.show();
+
+        alertDialog.setCanceledOnTouchOutside(false);
 
         Button bt = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         bt.setTextColor(Color.rgb(254, 194, 15));

@@ -52,7 +52,8 @@ public interface ServerApi {
                                                     @Field("email")String email,
                                                     @Field("password")String password,
                                                     @Field("referer")String referer,
-                                                    @Field("promo")String promo
+                                                    @Field("promo")String promo,
+                                                    @Field("code")String deviceId
     );
 
 

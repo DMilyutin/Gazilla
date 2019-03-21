@@ -1,6 +1,8 @@
 package com.gazilla.mihail.gazillaj.presentation.registration;
 
-public interface RegAndAutorizView {
+import com.arellomobile.mvp.MvpView;
+
+public interface RegAndAutorizView extends MvpView {
 
 
 
@@ -11,4 +13,5 @@ public interface RegAndAutorizView {
     void showWarningDialog(String err);
     void showErrorDialog(String err, String location);
     void clouaeAppDialog();
+
 }

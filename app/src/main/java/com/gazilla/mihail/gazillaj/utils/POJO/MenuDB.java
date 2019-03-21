@@ -1,18 +1,19 @@
 package com.gazilla.mihail.gazillaj.utils.POJO;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 
-@Entity
-public class MenuDB {
+import io.realm.RealmObject;
 
-    @PrimaryKey(autoGenerate = true)
+public class MenuDB extends RealmObject {
+
+
     private int id;
     private String nameCategory;
     private String gsonMenuItem;
 
+    public MenuDB() {
+    }
 
-    public MenuDB( String nameCategory, String gsonMenuItem) {
+    public MenuDB(String nameCategory, String gsonMenuItem) {
 
         this.nameCategory = nameCategory;
         this.gsonMenuItem = gsonMenuItem;

@@ -1,42 +1,32 @@
 package com.gazilla.mihail.gazillaj.presentation.Initialization;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+
 import com.gazilla.mihail.gazillaj.model.interactor.InitilizationInteractor.InitInteractor;
-import com.gazilla.mihail.gazillaj.model.repository.SharedPref;
-import com.gazilla.mihail.gazillaj.utils.AppDialogs;
-import com.gazilla.mihail.gazillaj.utils.Initialization;
-import com.gazilla.mihail.gazillaj.utils.POJO.User;
+import com.gazilla.mihail.gazillaj.utils.InitializationAp;
 import com.gazilla.mihail.gazillaj.utils.POJO.UserWithKeys;
-import com.gazilla.mihail.gazillaj.utils.QRcode;
-import com.gazilla.mihail.gazillaj.utils.callBacks.FailCallBack;
-import com.gazilla.mihail.gazillaj.utils.callBacks.UserCallBack;
-
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class InitPresentation {
 
+
     private InitInteractor initInteractor;
-    private Context context;
-    private SharedPref sharedPref;
+    private SharedPreferences sharedPref;
+    //private String ver;
+    private Boolean isConnect;
     private InnitView innitView;
-    private String ver;
+    private InitializationAp initializationAp;
 
 
-    public InitPresentation(InnitView innitView, Context context) {
+    public InitPresentation(SharedPreferences sharedPref, Boolean isCoonect, InnitView innitView) {
+        initInteractor = new InitInteractor(sharedPref, innitView);
+        this.sharedPref = sharedPref;
+        this.isConnect = isCoonect;
         this.innitView = innitView;
-        this.context = context;
-        initInteractor = new InitInteractor();
-        sharedPref = new SharedPref(context);
-        ver = sharedPref.getVersionMenuCategory();
+        initializationAp = InitializationAp.getInstance();
+        //ver = sharedPref.getString("versionMenuCategory", "");
     }
 
     public void checkUserDate(){
@@ -59,30 +49,6 @@ public class InitPresentation {
 
     //________________________________ Проверка интернета_______________________________________
 
-    private static boolean hasConnection(final Context context) {
-        Log.i("Loog", "hasConnection");
-        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (wifiInfo != null && wifiInfo.isConnected())
-        {
-            return true;
-        }
-        wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (wifiInfo != null && wifiInfo.isConnected())
-        {
-            return true;
-        }
-        wifiInfo = cm.getActiveNetworkInfo();
-        if (wifiInfo != null && wifiInfo.isConnected())
-        {
-
-            return true;
-        }
-        Log.i("Loog", "hasConnection инета нет");
-        return false;
-    }
-
-
 
     public boolean checkUserDat(){
         Log.i("Loog", "checkUserDate");
@@ -90,31 +56,32 @@ public class InitPresentation {
 
 
         //innitView.startProgressBar();
-        Boolean hasConnection = hasConnection(context);
-        Boolean sharedPrefData = sharedPref.myPreff();
+        Boolean sharedPrefData = sharedPref.contains("myID");
 
-        String code = "11";
-        if(hasConnection && sharedPrefData) code = "11";
-        if(!hasConnection && sharedPrefData) code = "01";
-        if(hasConnection && !sharedPrefData) code = "10";
+        String code = "00";
+        if(isConnect && sharedPrefData) code = "11";
+        if(!isConnect && sharedPrefData) code = "01";
+        if(isConnect && !sharedPrefData) code = "10";
 
         switch (code){
             case "11" : {
                 Log.i("Loog", "checkUserDate - есть интернет и прошлые данные");
                 getUserOnline();
-                Observable.just(initInteractor.checkVersionMenu(ver, innitView, context))
+                /*Observable.just(initInteractor.checkVersionMenu(ver, innitView, context))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(aBoolean -> {}, throwable -> {});
+                        .subscribe(aBoolean -> {}, throwable -> {});*/
                                 //innitView.startMainActivity()
 
                 //initInteractor.checkVersionMemu(ver);
                 ;
+
+                innitView.startMainActivity();
                 break;
             }
             case "00" : {
                 Log.i("Loog", "checkUserDate - нет интернет и нет прошлых данных");
-                new AppDialogs().warningDialog(context, "Для первого запуска необходим доступ в интернет");
+                innitView.showErrorer("Для первого запуска необходим доступ в интернет");
                 break;
             }
             case "01" : {
@@ -138,23 +105,27 @@ public class InitPresentation {
 
 
     private void getUserOnline() {
-        if(Initialization.userWithKeys== null)  // Если нет User, создаем
-            Initialization.setUserWithKeys(new UserWithKeys(
-                    sharedPref.getIdFromPref(),
-                    sharedPref.getPublickKeyFromPref(),
-                    sharedPref.getPrivateKeyFromPref()));
-        initInteractor.myBalances();
+            initializationAp.setUserWithKeys(new UserWithKeys(
+                    sharedPref.getInt("myID", -1),
+                    sharedPref.getString("publicKey", ""),
+                    sharedPref.getString("privateKey", "")));
+//        initInteractor.myBalances();
 
+        Log.i("Loog", "getUserOnline - " + initializationAp.getUserWithKeys().getId());
+        if (initializationAp.getRepositoryApi()==null)
+            Log.i("Loog", "getRepositoryApi - null"  );
+        else
+            Log.i("Loog", "getRepositoryApi - not null"  );
 
 
     }
 
     private void getUserOffline() {
-        if(Initialization.userWithKeys== null)  // Если нет User, создаем
-            Initialization.setUserWithKeys(new UserWithKeys(
-                    sharedPref.getIdFromPref(),
-                    sharedPref.getPublickKeyFromPref(),
-                    sharedPref.getPrivateKeyFromPref()));
+            InitializationAp.getInstance().setUserWithKeys(new UserWithKeys(
+                    sharedPref.getInt("myID", -1),
+                    sharedPref.getString("publicKey", ""),
+                    sharedPref.getString("privateKey", "")
+            ));
     }
 }
 
