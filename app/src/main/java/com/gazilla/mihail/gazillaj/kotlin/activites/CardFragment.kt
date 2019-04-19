@@ -22,7 +22,7 @@ import com.gazilla.mihail.gazillaj.kotlin.views.CardView
 import kotlinx.android.synthetic.main.fragment_card.*
 
 class CardFragment : MvpAppCompatFragment(), CardView{
-    
+
     private lateinit var updateBalance: UpdateBalance
     private lateinit var lvlDrakonCardFragmentAdapter: LvlDrakonCardFragmentAdapter
 
