@@ -2,4 +2,29 @@
     <string name="app_name">Gazilla</string>
     <string name="title_activity_stock_music">StockMusicActivity</string>
 
+    <!-- Поля для хранения данных в SharedPreferences -->
+    <string name="APP_PREFERENCES_NAME">myProf</string>
+
+    <string name="APP_PREF_PRIVATE_KEY">privateKey</string>
+    <string name="APP_PREF_PUBLIC_KEY">publicKey</string>
+
+    <string name="APP_PREF_MY_ID">myID</string>
+    <string name="APP_PREF_MY_NAME">myName</string>
+    <string name="APP_PREF_MY_PHONE">myPhone</string>
+    <string name="APP_PREF_MY_EMAIL">myEmail</string>
+
+
+    <string name="APP_PREF_VERSION_MENU_CATEGORY">versionMenuCategory</string>
+    <string name="APP_PREF_VERSION_MENU_ITEM">versionMenuItem</string>
+    <string name="APP_PREF_VERSION_PROMO">versionPromo</string>
+    <string name="APP_PREF_VERSION_NOTIFICATION">versionNotification</string>
+
+    <string name="APP_PREF_FIRST_START">firstStart</string>
+    <string name="succes_save_user_data_account">Ваши данные успешно сохранены</string>
+    <string name="err_save_new_user_data_already_use">Аккаунт с такими данными уже существует</string>
+    <string name="dialog_with_QR_code_description_txt">Дождитесь, пока сотрудник считает Ваш QR-код</string>
+    <string name="reserve_error_wrong_time">В это время бронирование столов невозможно</string>
+    <string name="reserve_error_wrong_date">Дата указана неверно</string>
+    <string name="reserve_error_response">Произошло недорозумение :(\nПозвоните нам пожалуйста</string>
+
 </resources>

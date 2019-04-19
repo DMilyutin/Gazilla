@@ -1,11 +1,13 @@
 package com.gazilla.mihail.gazillaj;
 
+import com.gazilla.mihail.gazillaj.kotlin.presenters.registaratiobAndAuthoriz.RegistrationFragmentPresenter;
 import com.gazilla.mihail.gazillaj.ui.account.AccountActivity;
 
 import org.junit.Test;
 
 import java.util.regex.Pattern;
 
+import static com.gazilla.mihail.gazillaj.kotlin.helps.HelpersMetodsKt.checkFormatPhone;
 import static org.junit.Assert.*;
 
 /**
@@ -23,18 +25,35 @@ public class ExampleUnitTest {
     public void checkPhone(){
         //AccountActivity activity = new AccountActivity();
         //assertEquals(activity.checkPhone("+79251459197"), "9251459197");
-        String input1 = "qwerty";
+        /*String input1 = "qwerty";
         String input2 = "123456";
-        String input3 = "qwerty123456";
-
+        String input3 = "qwerty123456";*/
+/*
         String type1 = poromoORrefer(input1);
         String type2 = poromoORrefer(input2);
-        String type3 = poromoORrefer(input3);
+        String type3 = poromoORrefer(input3);*/
 
-        assertEquals(type1, "Promo");
-        assertEquals(type2, "Refer");
-        assertEquals(type3, "Promo");
+        String type1 = checkFormatPhone("+79251459197");
+        String type2 = checkFormatPhone("9251459197");
+        String type3 = checkFormatPhone("89251459197");
+        String type4 = checkFormatPhone("889251459197");
+        String type5 = checkFormatPhone("892514591");
 
+        assertEquals(type1, "9251459197");
+        assertEquals(type2, "9251459197");
+        assertEquals(type3, "9251459197");
+        assertEquals(type4, "");
+        assertEquals(type5, "");
+
+        //RegistrationFragmentPresenter presenter = new RegistrationFragmentPresenter();
+
+        /*String type4 = presenter.checkDataIsPromoorRefer(input1);
+        String type5 = presenter.checkDataIsPromoorRefer(input2);
+        String type6 = presenter.checkDataIsPromoorRefer(input3);
+
+        assertEquals(type4, "Promo");
+        assertEquals(type5, "Refer");
+        assertEquals(type6, "Promo");*/
     }
 
 

@@ -7,15 +7,14 @@
     tools:context=".ui.main.stock.StockNewFriend.StockNewFriendActivity">
 
     <ImageView
-        android:id="@+id/imageView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imgNewFriendStock"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/photo_new_friend"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout12"
@@ -29,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView52"
+            android:id="@+id/tvDescriptionNewFriendPromo"
             android:layout_width="277dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -64,7 +63,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/grey_ovalishe_background_prozrach"
-            app:layout_constraintBottom_toTopOf="@+id/textView49"
+            app:layout_constraintBottom_toTopOf="@+id/tvNameNewFriendPromo"
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
@@ -125,8 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="+100"
+            android:text="+200"
             android:textColor="@color/colorAccent"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView50"
@@ -143,11 +141,11 @@
             android:text="И получи баллы"
             android:textColor="#ffffff"
             android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView52"
+            app:layout_constraintBottom_toTopOf="@+id/tvDescriptionNewFriendPromo"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView49"
+            android:id="@+id/tvNameNewFriendPromo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

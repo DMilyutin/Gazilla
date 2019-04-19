@@ -14,6 +14,23 @@
 
     </style>
 
+
+
+    <style name="StackedAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="buttonBarButtonStyle">@style/StackedButtonBarButtonStyle</item>
+    </style>
+    <style name="StackedButtonBarButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:layout_gravity">right</item>
+    </style>
+
+
+
+
+
+
+
+
     <style name="MyDialogThemeLight" parent="Theme.AppCompat.Light.Dialog.Alert">
 
         <item name="android:background">@drawable/gold_oval_background</item>

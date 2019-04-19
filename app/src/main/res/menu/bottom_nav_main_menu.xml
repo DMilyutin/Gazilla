@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_credit_card_grey_24dp"
         android:title="Карта"/>
     <item
-        android:id="@+id/menu_presents"
+        android:id="@+id/menu_product"
         android:icon="@drawable/gift"
         android:title="Подарки"/>
     <item

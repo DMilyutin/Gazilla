@@ -32,11 +32,11 @@
             android:text="TextView"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toStartOf="@+id/imgFavoritIcon"
-            app:layout_constraintStart_toEndOf="@+id/imgMiniItemMemu"
-            app:layout_constraintTop_toTopOf="@+id/imgMiniItemMemu" />
+            app:layout_constraintStart_toEndOf="@+id/imgMiniItemMenu"
+            app:layout_constraintTop_toTopOf="@+id/imgMiniItemMenu" />
 
         <ImageView
-            android:id="@+id/imgMiniItemMemu"
+            android:id="@+id/imgMiniItemMenu"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="4dp"
@@ -56,8 +56,8 @@
             android:text="TextView"
             android:textColor="@color/colorAccent"
             android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imgMiniItemMemu"
-            app:layout_constraintStart_toEndOf="@+id/imgMiniItemMemu" />
+            app:layout_constraintBottom_toBottomOf="@+id/imgMiniItemMenu"
+            app:layout_constraintStart_toEndOf="@+id/imgMiniItemMenu" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -78,7 +78,8 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:text="400 гр"
-            app:layout_constraintStart_toEndOf="@+id/imgMiniItemMemu"
+            android:textColor="#BDB3B3"
+            app:layout_constraintStart_toEndOf="@+id/imgMiniItemMenu"
             app:layout_constraintTop_toBottomOf="@+id/tvNameChildPresentsExList" />
 
         <ImageView
@@ -99,10 +100,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/gradient_down_to_up_gold"
-            app:layout_constraintBottom_toBottomOf="@+id/imgMiniItemMemu"
-            app:layout_constraintEnd_toEndOf="@+id/imgMiniItemMemu"
-            app:layout_constraintStart_toStartOf="@+id/imgMiniItemMemu"
-            app:layout_constraintTop_toTopOf="@+id/imgMiniItemMemu">
+            app:layout_constraintBottom_toBottomOf="@+id/imgMiniItemMenu"
+            app:layout_constraintEnd_toEndOf="@+id/imgMiniItemMenu"
+            app:layout_constraintStart_toStartOf="@+id/imgMiniItemMenu"
+            app:layout_constraintTop_toTopOf="@+id/imgMiniItemMenu">
 
         </android.support.constraint.ConstraintLayout>
 

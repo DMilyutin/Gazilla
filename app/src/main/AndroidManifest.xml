@@ -5,27 +5,27 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
-
     <uses-permission
         android:name="android.permission.CAMERA"
         tools:node="remove" />
 
     <application
+        android:name=".kotlin.helps.App"
         android:allowBackup="true"
         android:icon="@drawable/dragon1"
         android:label="@string/app_name"
         android:roundIcon="@drawable/dragon1"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
-        android:name=".utils.InitializationAp"
-        >
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".kotlin.activites.Proms.PromoBaseActivity"></activity>
+        <activity android:name=".kotlin.activites.MainActivity" />
         <activity
-            android:name=".ui.InitializationActivity"
+            android:name=".kotlin.activites.StartAppInitializationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,9 +45,6 @@
             android:name=".ui.account.AccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.main.stock.StockDragonway.DragonwayActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.main.stock.StockSmokerpass.SmokerpassActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -62,12 +59,19 @@
         <activity
             android:name=".ui.main.stock.StockPlayStation.StoakPlayStationActivity"
             android:screenOrientation="portrait" />
-        />
         <activity
             android:name=".ui.main.stock.StockMusic.StockMusicActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.main.stock.StockMusic.NewMySongActivity"></activity>
-
+        <activity android:name=".ui.main.stock.StockMusic.NewMySongActivity" />
+        <activity android:name=".kotlin.activites.AccountActivity" />
+        <activity android:name=".kotlin.activites.ProductActivity" />
+        <activity android:name=".kotlin.activites.ReserveActivity" />
+        <activity android:name=".kotlin.activites.registrationAndAuthorization.RegAndAuthorizActivity" />
+        <activity android:name=".kotlin.activites.Proms.PromoNewFriendActivity" />
+        <activity android:name=".kotlin.activites.Proms.PromoHoaxActivity" />
+        <activity android:name=".kotlin.activites.Proms.PromoSmokerpassActivity" />
+        <activity android:name=".kotlin.activites.Proms.PromoKitchenActivity" />
+        <activity android:name=".kotlin.activites.Proms.PromoPlayStationActivity" />
     </application>
 
 </manifest>
