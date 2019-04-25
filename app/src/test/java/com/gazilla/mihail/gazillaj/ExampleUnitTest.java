@@ -1,13 +1,10 @@
 package com.gazilla.mihail.gazillaj;
 
-import com.gazilla.mihail.gazillaj.kotlin.presenters.registaratiobAndAuthoriz.RegistrationFragmentPresenter;
 import com.gazilla.mihail.gazillaj.ui.account.AccountActivity;
 
 import org.junit.Test;
 
-import java.util.regex.Pattern;
-
-import static com.gazilla.mihail.gazillaj.kotlin.helps.HelpersMetodsKt.checkFormatPhone;
+import static com.gazilla.mihail.gazillaj.helps.HelpersMetodsKt.checkFormatPhone;
 import static org.junit.Assert.*;
 
 /**

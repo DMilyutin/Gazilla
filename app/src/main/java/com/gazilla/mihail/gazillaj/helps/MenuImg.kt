@@ -1,0 +1,134 @@
+package com.gazilla.mihail.gazillaj.helps
+
+import com.gazilla.mihail.gazillaj.R
+
+class MenuImg {
+
+    fun getImg(id: Int): Int {
+        when (id) {
+            1 -> return R.drawable.menu_id_1
+            2 -> return R.drawable.menu_id_2
+            3 -> return R.drawable.menu_id_3
+            4 -> return R.drawable.menu_id_4
+            5 -> return R.drawable.menu_id_5
+            6 -> return R.drawable.menu_id_6
+            7 -> return R.drawable.menu_id_7
+            8 -> return R.drawable.menu_id_8
+            9 -> return R.drawable.menu_id_9
+            10 -> return R.drawable.menu_id_10
+            11 -> return R.drawable.menu_id_11
+            12 -> return R.drawable.menu_id_12
+            13 -> return R.drawable.menu_id_13
+            14 -> return R.drawable.menu_id_14
+            15 -> return R.drawable.menu_id_15
+            16 -> return R.drawable.menu_id_16
+            17 -> return R.drawable.menu_id_17
+            18 -> return R.drawable.menu_id_18
+            19 -> return R.drawable.menu_id_19
+            20 -> return R.drawable.menu_id_20
+            21 -> return R.drawable.menu_id_21
+            22 -> return R.drawable.menu_id_22
+            23 -> return R.drawable.menu_id_23
+            24 -> return R.drawable.menu_id_24
+            25 -> return R.drawable.menu_id_25
+            26 -> return R.drawable.menu_id_26
+            27 -> return R.drawable.menu_id_27
+            28 -> return R.drawable.menu_id_28
+            29 -> return R.drawable.menu_id_29
+            30 -> return R.drawable.menu_id_30
+            31 -> return R.drawable.menu_id_31
+            32 -> return R.drawable.menu_id_32
+            33 -> return R.drawable.menu_id_33
+            34 -> return R.drawable.menu_id_34
+            35 -> return R.drawable.menu_id_35
+            36 -> return R.drawable.menu_id_36
+            37 -> return R.drawable.menu_id_37
+            38 -> return R.drawable.menu_id_38
+            39 -> return R.drawable.menu_id_39
+            40 -> return R.drawable.menu_id_40
+            41 -> return R.drawable.menu_id_41
+            42 -> return R.drawable.menu_id_42
+            43 -> return R.drawable.menu_id_43
+            44 -> return R.drawable.menu_id_44
+            45 -> return R.drawable.menu_id_45
+            46 -> return R.drawable.menu_id_46
+            47 -> return R.drawable.menu_id_47
+            48 -> return R.drawable.menu_id_48
+            //case 49 : return R.drawable.menu_id_49;
+            50 -> return R.drawable.menu_id_50
+            51 -> return R.drawable.menu_id_51
+            52 -> return R.drawable.menu_id_52
+            53 -> return R.drawable.menu_id_53
+            54 -> return R.drawable.menu_id_54
+            55 -> return R.drawable.menu_id_55
+            56 -> return R.drawable.menu_id_56
+            57 -> return R.drawable.menu_id_57
+            58 -> return R.drawable.menu_id_58
+            59 -> return R.drawable.menu_id_59
+            60 -> return R.drawable.menu_id_60
+            61 -> return R.drawable.menu_id_61
+            62 -> return R.drawable.menu_id_62
+            63 -> return R.drawable.menu_id_63
+            64 -> return R.drawable.menu_id_64
+            65 -> return R.drawable.menu_id_65
+            66 -> return R.drawable.menu_id_66
+            67 -> return R.drawable.menu_id_67
+            68 -> return R.drawable.menu_id_68
+            69 -> return R.drawable.menu_id_69
+            70 -> return R.drawable.menu_id_70
+            71 -> return R.drawable.menu_id_71
+            72 -> return R.drawable.menu_id_72
+            73 -> return R.drawable.menu_id_73
+            74 -> return R.drawable.menu_id_74
+            75 -> return R.drawable.menu_id_75
+            76 -> return R.drawable.menu_id_76
+            77 -> return R.drawable.menu_id_77
+            78 -> return R.drawable.menu_id_78
+            79 -> return R.drawable.menu_id_79
+            80 -> return R.drawable.menu_id_80
+            81 -> return R.drawable.menu_id_81
+            82 -> return R.drawable.menu_id_82
+            83 -> return R.drawable.menu_id_83
+            84 -> return R.drawable.menu_id_84
+            85 -> return R.drawable.menu_id_85
+            86 -> return R.drawable.menu_id_86
+            87 -> return R.drawable.menu_id_87
+            88 -> return R.drawable.menu_id_88
+            89 -> return R.drawable.menu_id_89
+            90 -> return R.drawable.menu_id_90
+            91 -> return R.drawable.menu_id_91
+            92 -> return R.drawable.menu_id_92
+        //case 93: return R.drawable.menu_id_93;
+        //case 94: return R.drawable.menu_id_94;
+        //case 95: return R.drawable.menu_id_95;
+        //case 96: return R.drawable.menu_id_96;
+        //case 97: return R.drawable.menu_id_97;
+        //case 98: return R.drawable.menu_id_98;
+        //case 99: return R.drawable.menu_id_99;
+        //case 100: return R.drawable.menu_id_100;
+        //case 101: return R.drawable.menu_id_101;
+        //case 102: return R.drawable.menu_id_102;
+        //case 103: return R.drawable.menu_id_103;
+        //case 104: return R.drawable.menu_id_104;
+        //case 105: return R.drawable.menu_id_105;
+        //case 106: return R.drawable.menu_id_106;
+        //case 107: return R.drawable.menu_id_107;
+        //case 108: return R.drawable.menu_id_108;
+        //case 109: return R.drawable.menu_id_109;
+        //case 110: return R.drawable.menu_id_110;
+        //case 111: return R.drawable.menu_id_111;
+        //case 112: return R.drawable.menu_id_112;
+        //case 113: return R.drawable.menu_id_113;
+        //case 114: return R.drawable.menu_id_114;
+        //case 115: return R.drawable.menu_id_115;
+        //case 116: return R.drawable.menu_id_116;
+        //case 117: return R.drawable.menu_id_117;
+        //case 118: return R.drawable.menu_id_118;
+        //case 119: return R.drawable.menu_id_119;
+        //case 120: return R.drawable.menu_id_120;
+        //case 121: return R.drawable.menu_id_121;
+        122 -> return R.drawable.menu_id_122
+        else -> return R.drawable.gaz
+        }
+    }
+}

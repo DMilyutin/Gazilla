@@ -10,17 +10,20 @@
         tools:node="remove" />
 
     <application
-        android:name=".kotlin.helps.App"
+        android:name="com.gazilla.mihail.gazillaj.helps.App"
         android:allowBackup="true"
         android:icon="@drawable/dragon1"
         android:label="@string/app_name"
         android:roundIcon="@drawable/dragon1"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".kotlin.activites.Proms.PromoBaseActivity"></activity>
-        <activity android:name=".kotlin.activites.MainActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoEveryDayActivity"></activity>
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoTouchTimeActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.FirstTipsApp.FirstTipsActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoBaseActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.MainActivity" />
         <activity
-            android:name=".kotlin.activites.StartAppInitializationActivity"
+            android:name="com.gazilla.mihail.gazillaj.activites.StartAppInitializationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -29,49 +32,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.detail.present.DetailPresentActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.registration.RegAndAutorizActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.reserve.ReserveActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.account.AccountActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.main.stock.StockSmokerpass.SmokerpassActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.main.stock.StockHoax.StockHoaxActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.main.stock.StockNewFriend.StockNewFriendActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.main.stock.StockKitchen.StockKitchenActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.main.stock.StockPlayStation.StoakPlayStationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.main.stock.StockMusic.StockMusicActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.main.stock.StockMusic.NewMySongActivity" />
-        <activity android:name=".kotlin.activites.AccountActivity" />
-        <activity android:name=".kotlin.activites.ProductActivity" />
-        <activity android:name=".kotlin.activites.ReserveActivity" />
-        <activity android:name=".kotlin.activites.registrationAndAuthorization.RegAndAuthorizActivity" />
-        <activity android:name=".kotlin.activites.Proms.PromoNewFriendActivity" />
-        <activity android:name=".kotlin.activites.Proms.PromoHoaxActivity" />
-        <activity android:name=".kotlin.activites.Proms.PromoSmokerpassActivity" />
-        <activity android:name=".kotlin.activites.Proms.PromoKitchenActivity" />
-        <activity android:name=".kotlin.activites.Proms.PromoPlayStationActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.AccountActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.ProductActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.ReserveActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.registrationAndAuthorization.RegAndAuthorizActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoNewFriendActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoHoaxActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoSmokerpassActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoKitchenActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoPlayStationActivity" />
+        <activity android:name="com.gazilla.mihail.gazillaj.activites.Proms.PromoCocktailActivity" />
     </application>
 
 </manifest>
