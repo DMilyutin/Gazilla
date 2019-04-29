@@ -16,4 +16,6 @@ interface StartAppInitializationView: MvpView {
     fun dontUpdateApp()
 
     fun showMessageDialog(message: String)
+    fun showMessageToast(message: String)
+
 }

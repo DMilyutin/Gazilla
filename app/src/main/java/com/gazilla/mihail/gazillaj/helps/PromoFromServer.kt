@@ -8,6 +8,7 @@ import com.gazilla.mihail.gazillaj.helps.response.callback.StaticCallBack
 import com.gazilla.mihail.gazillaj.model.repository.RepositoryApi
 import com.gazilla.mihail.gazillaj.pojo.PromoItem
 import com.gazilla.mihail.gazillaj.pojo.PromoWithImg
+import com.gazilla.mihail.gazillaj.views.StartAppInitializationView
 import okhttp3.ResponseBody
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,12 +28,13 @@ class PromoFromServer {
         promoWithImg = ArrayList()
     }
 
-    fun donloadStocks(){
+    fun donloadStocks(startAppInitializationView: StartAppInitializationView){
+        startAppInitializationView.showMessageToast("Загрузка акций")
         repositoryApi.ollPromo(App.userWithKeys.publickey, signatur(App.userWithKeys.privatekey, ""),
                 object : PromoCallBack{
                     override fun myPromo(promoItem: List<PromoItem>?) {
                         Log.i("Loog", "кол-во акций на сервере - ${promoItem!!.size}")
-                        donloadImgForStoks(promoItem)
+                        donloadImgForStoks(promoItem,startAppInitializationView)
                     }
 
                     override fun errorCallBack(error: String) {
@@ -45,9 +47,9 @@ class PromoFromServer {
         })
     }
 
-    fun donloadImgForStoks(promoItem: List<PromoItem>){
+    fun donloadImgForStoks(promoItem: List<PromoItem>, startAppInitializationView: StartAppInitializationView){
         var listPromo : MutableList<PromoWithImg> = arrayListOf()
-
+        var i = 0
         promoItem.forEach {
             repositoryApi.getStaticFromServer("promo", it.id.toString(), object : StaticCallBack{
                 override fun myStatic(responseBody: ResponseBody?) {
@@ -56,6 +58,8 @@ class PromoFromServer {
                     promoWithImg = listPromo
                     Log.i("Loog", "кол-во акций c картинками Mutable- ${listPromo.size}")
                     Log.i("Loog", "кол-во акций c картинками - ${promoWithImg.size}")
+                    i++
+                    downloadImgForStoksComplite(i, promoItem.size,startAppInitializationView)
 
                 }
 
@@ -71,10 +75,20 @@ class PromoFromServer {
         }
 
         Log.i("Loog", "кол-во акций c картинками - ${promoWithImg.size}")
-        downloadCoctailPromo()
+
     }
 
-    fun downloadCoctailPromo(){
+    private fun downloadImgForStoksComplite(count : Int, max: Int, startAppInitializationView: StartAppInitializationView){
+        if (count == max){
+            Log.i("Loog", "downloadImgForStoksComplite равны ")
+            downloadCoctailPromo(startAppInitializationView)
+        }
+
+        else
+            return
+    }
+
+    fun downloadCoctailPromo(startAppInitializationView: StartAppInitializationView){
         repositoryApi.idPromsIntoPromo(App.userWithKeys.publickey, signatur(App.userWithKeys.privatekey, ""),
                 object : IntArrayCallBack{
                     override fun myArray(array: IntArray) {
@@ -89,6 +103,8 @@ class PromoFromServer {
                 Log.i("Loog", "Ошибка загрузки промо коктаил t - ${throwable.message}")
             }
         })
+
+        startAppInitializationView.startMainActivity()
     }
 
 

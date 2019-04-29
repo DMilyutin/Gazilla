@@ -64,6 +64,7 @@ class PromoFragment: MvpAppCompatFragment(), PromoFragmentView {
             7 -> Intent(mContext, PromoKitchenActivity::class.java)
             8 -> Intent(mContext, PromoEveryDayActivity::class.java)
             9 -> Intent(mContext, PromoCocktailActivity::class.java)
+            13 -> Intent(mContext, PromoTouchTimeActivity::class.java)
             else -> {
                 Intent(mContext, PromoBaseActivity::class.java)
             }

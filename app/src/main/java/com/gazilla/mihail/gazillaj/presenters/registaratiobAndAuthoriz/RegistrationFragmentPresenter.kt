@@ -63,6 +63,7 @@ class RegistrationFragmentPresenter(private val sharedPreferences: SharedPrefere
 
     fun showErrorMessage(message: String){
         viewState.showMessageDialog(message)
+        viewState.closeRegistration(false)
     }
 
     private fun test(userWithKeys: UserWithKeys){
@@ -72,45 +73,6 @@ class RegistrationFragmentPresenter(private val sharedPreferences: SharedPrefere
         saveUserInfoIntoSharedPreferences(sharedPreferences, userWithKeys)
         viewState.closeRegistration(true)
     }
-
-    /*@SuppressLint("CheckResult")
-    fun registrationNewUser(name: String, phone: String, email: String, pass: String,
-                            referer: String, promo: String, myDeviceId: String) {
-
-        val observable = repositoryApi.registration(name, phone, email, pass, referer, promo, myDeviceId, object : AuthorizCallB {
-            override fun userWithKeyCallBack(userWithKeys: UserWithKeys) {
-                if (userWithKeys.publickey!=""){
-                    //responseeRegistrationNewUser(userWithKeys)
-                    Log.i("Loog", "RegistrationFragmentProvider reg - ${userWithKeys!!.id}")
-                }
-                else
-                    Log.i("Loog", "RegistrationFragmentProvider reg - null")
-            }
-
-            override fun errorCallBack(error: String) {
-                showErrorMessage(error)
-            }
-        }, object : FailCallBack {
-            override fun throwableCallBack(throwable: Throwable) {
-                showErrorMessage(throwable.message!!)
-                BugReport().sendBugInfo(throwable.message.toString(), "RegistrationFragmentProvider.registrationNewUser.throwableCallBack")
-            }
-        })
-
-         observable.subscribe({if (it.isSuccessful) {
-             if (it.body()!=null){
-                 Log.i("Loog", "it - ${it.body()!!.id}")
-                 test(it.body()!!)
-             }
-
-        }
-        }, {
-            showErrorMessage(it.message.toString())
-            Log.i("Loog", "Throwable - ${it.message.toString()}")
-        })
-
-    }*/
-
 }
 
 

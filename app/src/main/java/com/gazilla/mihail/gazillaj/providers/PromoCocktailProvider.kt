@@ -43,7 +43,11 @@ class PromoCocktailProvider(private val promoCocktailPresenter: PromoCocktailPre
     }
 
     fun sendPromoCode(code: String, force: Boolean){
-        repositoryApi.sendPromoCodeCoctail(code, force, userWithKeys.publickey, signatur(userWithKeys.privatekey, "code=$code&force=$force"),
+        val data = "code=$code&force=$force"
+
+        val signature = signatur(App.userWithKeys.privatekey, data)
+
+        repositoryApi.sendPromoCodeCoctail(code, force, userWithKeys.publickey, signature,
                 object : SuccessCallBack{
                     override fun successResponse(success: Success?) {
                         promoCocktailPresenter.responseSendPromoCode(success!!)

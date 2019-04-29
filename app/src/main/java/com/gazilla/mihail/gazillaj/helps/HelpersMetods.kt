@@ -1,9 +1,11 @@
 package com.gazilla.mihail.gazillaj.helps
 
 import android.content.SharedPreferences
+import com.gazilla.mihail.gazillaj.helps.BugReport.BugReport
 import com.gazilla.mihail.gazillaj.pojo.PromoWithImg
 import com.gazilla.mihail.gazillaj.pojo.UserWithKeys
 import org.apache.commons.codec.binary.Hex
+import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
@@ -19,16 +21,24 @@ import javax.crypto.spec.SecretKeySpec
             return String(Hex.encodeHex(sha256_HMAC.doFinal(data.toByteArray(charset("UTF-8")))))
 
         } catch (e: NoSuchAlgorithmException) {
+            BugReport().sendBugInfo(e.message.toString(), "HelpersMetods.signatur.NoSuchAlgorithmException")
             e.printStackTrace()
             return ""
         } catch (e: InvalidKeyException) {
+            BugReport().sendBugInfo(e.message.toString(), "HelpersMetods.signatur.InvalidKeyException")
             e.printStackTrace()
             return ""
         } catch (e: IllegalStateException){
+            BugReport().sendBugInfo(e.message.toString(), "HelpersMetods.signatur.IllegalStateException")
+            e.printStackTrace()
+            return ""
+        }catch (e: IllegalArgumentException){
+            BugReport().sendBugInfo(e.message.toString(), "HelpersMetods.signatur.IllegalArgumentException")
             e.printStackTrace()
             return ""
         }
-    }
+
+     }
 
     fun checkFormatPhone(phone: String?): String {
         var s = phone

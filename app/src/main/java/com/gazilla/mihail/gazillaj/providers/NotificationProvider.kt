@@ -101,7 +101,9 @@ class NotificationProvider(private val notificationPresenter: NotificationPresen
     fun sendAnswerNotification(alertId: Int, commandId: Int){
         val dat = "alertId=$alertId&commandId=$commandId"
 
-        repositoryApi.sendAnswerUserAboutNotification(userWithKeys.publickey,alertId, commandId, signatur(userWithKeys.privatekey, dat),
+        val signature = signatur(App.userWithKeys.privatekey, dat)
+
+        repositoryApi.sendAnswerUserAboutNotification(userWithKeys.publickey,alertId, commandId, signature,
                 object : SuccessCallBack{
                     override fun successResponse(success: Success?) {
 

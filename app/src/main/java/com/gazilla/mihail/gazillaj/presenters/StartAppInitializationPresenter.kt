@@ -47,7 +47,7 @@ class StartAppInitializationPresenter(private val sharedPreferences: SharedPrefe
         App.userWithKeys.name = user.name
         App.userWithKeys.phone = user.phone
         App.userWithKeys.favorites = user.favorites
-        viewState.startMainActivity()
+
 
         initializationMenuFromServer()
         initilizationPromoFromServer()
@@ -60,7 +60,8 @@ class StartAppInitializationPresenter(private val sharedPreferences: SharedPrefe
 
     private fun initilizationPromoFromServer(){
         App.promoFromServer = PromoFromServer()
-        App.promoFromServer.donloadStocks()
+        App.promoFromServer.donloadStocks(viewState)
+        //viewState.startMainActivity()
     }
 
     fun showErrorMessage(error: String){

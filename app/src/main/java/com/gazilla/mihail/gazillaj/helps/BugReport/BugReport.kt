@@ -20,7 +20,9 @@ class BugReport {
 
     fun sendBugInfo(exception: String, location: String){
         val message = createErrorMessage(exception, location)
-        repositoryApy.sendBugReport(message, App.userWithKeys.publickey, signatur(App.userWithKeys.privatekey, "message=$message"), object : SuccessCallBack{
+
+        val signature = signatur(App.userWithKeys.privatekey, "message=$message")
+        repositoryApy.sendBugReport(message, App.userWithKeys.publickey, signature, object : SuccessCallBack{
             override fun successResponse(success: Success?) {
                 Log.i("Loog", "BugReport successResponse - ${success!!.success}")
             }
@@ -36,7 +38,8 @@ class BugReport {
     }
 
     fun sendUserInfoForReserve(message: String){
-        repositoryApy.sendBugReport(message, App.userWithKeys.publickey, signatur(App.userWithKeys.privatekey, "message=$message"), object : SuccessCallBack{
+        val signature = signatur(App.userWithKeys.privatekey, "message=$message")
+        repositoryApy.sendBugReport(message, App.userWithKeys.publickey, signature, object : SuccessCallBack{
             override fun successResponse(success: Success?) {
                 Log.i("Loog", "BugReport successResponse - $success")
             }

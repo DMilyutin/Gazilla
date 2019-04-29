@@ -26,7 +26,11 @@ class ProductsFreeFragmentPresenter : MvpPresenter<ProductsFreeFragmentView>() {
 
     fun myGifts(){
         val userWithKeys = App.userWithKeys
-        repositoryApi.giftsOnServer(userWithKeys.publickey, signatur(userWithKeys.privatekey, ""),
+
+        val signature = signatur(userWithKeys.privatekey, "")
+
+
+        repositoryApi.giftsOnServer(userWithKeys.publickey, signature,
                 object : MenuItemCallBack{
                     override fun menuItem(menuItemList: List<MenuItem>?) {
                         smartMenuItemList(menuItemList!!)
